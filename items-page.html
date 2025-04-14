@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #2c2f38;
+        color: white;
+        padding: 10px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .top-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+      .button-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 5px;
+        margin-bottom: 10px;
+      }
+      .button {
+        background-color: #ff7733;
+        color: white;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        flex: 1;
+      }
+      .back-button {
+        background-color: #ff7733;
+        color: white;
+        padding: 8px 0;
+        width: 60px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .back-button:hover {
+        background-color: #ff5e2f;
+      }
+      .button:hover {
+        background-color: #ff5e2f;
+      }
+      .toggle-buttons {
+        display: flex;
+        gap: 5px;
+      }
+      .toggle-button {
+        flex: 1;
+        padding: 8px;
+        background-color: #444;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .toggle-button.active {
+        background-color: #ff7733;
+      }
+      .search-box,
+      .filter-dropdown {
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        box-sizing: border-box;
+        border: none;
+      }
+      .item-card {
+        background-color: #3a3f47;
+        border-radius: 10px;
+        margin: 10px 0;
+        padding: 10px;
+      }
+      .item-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        margin: 0 auto 10px;
+        display: block;
+      }
+      .item-title {
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+      .item-field {
+        font-size: 12px;
+        margin-bottom: 5px;
+      }
+      .item-field strong {
+        color: #ff7733;
+      }
+    </style>
+    <script>
+      let allItems = [];
+      let currentTab = "Novice items";
+
+      function loadItems(tabName) {
+        currentTab = tabName;
+        document.getElementById("items").innerHTML = "Loading...";
+        google.script.run.withSuccessHandler(data => {
+          allItems = data;
+          document.querySelectorAll(".toggle-button").forEach(btn => btn.classList.remove("active"));
+          document.getElementById(tabName).classList.add("active");
+          renderItems();
+          populateFilterOptions();
+        }).getItemData(tabName);
+      }
+
+      function populateFilterOptions() {
+        const classSet = new Set(allItems.map(item => item.class));
+        const filterSelect = document.getElementById("classFilter");
+        filterSelect.innerHTML = `<option value="">All Classes</option>`;
+        classSet.forEach(cls => {
+          filterSelect.innerHTML += `<option value="${cls}">${cls}</option>`;
+        });
+      }
+
+      function renderItems() {
+        const search = document.getElementById("search").value.toLowerCase();
+        const filterClass = document.getElementById("classFilter").value;
+
+        const container = document.getElementById("items");
+        const filtered = allItems.filter(item => {
+          return (
+            item.item.toLowerCase().includes(search) &&
+            (filterClass === "" || item.class === filterClass)
+          );
+        });
+
+        container.innerHTML = filtered.map(item => `
+          <div class="item-card">
+            <img src="${item.image}" class="item-img" alt="${item.item}">
+            <div class="item-title">${item.item}</div>
+            <div class="item-field"><strong>Class:</strong> ${item.class}</div>
+            <div class="item-field"><strong>Stats:</strong> ${item.stats}</div>
+            <div class="item-field"><strong>Cost:</strong> ${item.cost}</div>
+            ${item.cooldown ? `<div class="item-field"><strong>Cooldown:</strong> ${item.cooldown}</div>` : ""}
+            <div class="item-field">
+              <strong>Effect:</strong><br>
+              <span>${item.effect}</span>
+            </div>
+            <div class="item-field">
+              <strong>Recipe:</strong><br>
+              <span>${item.recipe}</span>
+            </div>
+          </div>
+        `).join('');
+
+        if (filtered.length === 0) {
+          container.innerHTML = `<div>No matching items found.</div>`;
+        }
+      }
+
+      function goBack() {
+        window.location.href = "index.html"; // Navigate back to the homepage or desired page
+      }
+
+      window.onload = () => loadItems("Advanced Items");
+    </script>
+  </head>
+  <body>
+    <div class="button-group">
+      <button class="back-button" onclick="goBack()">⬅</button>
+      <div class="toggle-buttons">
+        <button id="Novice items" class="toggle-button active" onclick="loadItems('Novice items')">Novice</button>
+        <button id="Advanced Items" class="toggle-button" onclick="loadItems('Advanced Items')">Advanced</button>
+      </div>
+    </div>
+
+    <div class="top-controls">
+      <input id="search" class="search-box" placeholder="Search item name..." onkeyup="renderItems()">
+      <select id="classFilter" class="filter-dropdown" onchange="renderItems()">
+        <option value="">All Classes</option>
+      </select>
+    </div>
+
+    <div id="items">Loading...</div>
+  </body>
+</html>
