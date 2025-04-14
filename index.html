@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Hero Skills Viewer</title>
   <style>
     body {
@@ -98,7 +98,7 @@
   <h1>Hero Skills Viewer</h1>
 
   <div class="filters">
-    <input type="text" id="searchInput" placeholder="Search hero name...">
+    <input type="text" id="searchInput" placeholder="Search hero name..." />
     <select id="roleFilter">
       <option value="">All Roles</option>
       <option value="Marksman">Marksman</option>
@@ -127,17 +127,42 @@
       "Unknown": "https://i.imgur.com/EWaF3Ex.png"
     };
 
-    const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/refs/heads/main/data.json"; // replace this
+    const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/refs/heads/main/data.json";
 
     async function loadHeroData() {
       try {
         const res = await fetch(API_URL);
-        const heroes = await res.json();
+        const rawData = await res.json();
+
+        const heroes = rawData.map(hero => {
+          const skills = [];
+          for (let i = 1; i <= 5; i++) {
+            const name = hero[`SkillName${i}`];
+            const desc = hero[`SkillDesc${i}`];
+            const icon = hero[`SkillURL${i}`];
+            if (name) {
+              skills.push({
+                name,
+                description: desc || "",
+                icon: icon || ""
+              });
+            }
+          }
+
+          return {
+            name: hero["Hero"],
+            image: hero["Image URL"],
+            role: hero["Primary Role"],
+            lane: hero["Lane"] || "Unknown",
+            strategy: hero["Strategy"] || hero["Description"] || "",
+            counteredBy: hero["Countered by"] || "",
+            skills
+          };
+        });
+
         renderHeroes(heroes);
       } catch (err) {
         console.error("Failed to load heroes:", err);
-        const container = document.getElementById("heroContainer");
-        container.innerHTML = `<p style="color: red;">Error loading data. Check console for details.</p>`;
       }
     }
 
@@ -172,7 +197,7 @@
           <p><strong>Strategy:</strong> ${hero.strategy}</p>
           <p><strong>Countered By:</strong> ${hero.counteredBy}</p>
           <div class="skills">
-            ${hero.skills?.length > 0 
+            ${hero.skills.length > 0 
               ? hero.skills.map(s => `
                 <div class="skill tooltip">
                   <img src="${s.icon}" alt="${s.name}">
@@ -189,7 +214,6 @@
     document.getElementById('searchInput').addEventListener('input', loadHeroData);
     document.getElementById('roleFilter').addEventListener('change', loadHeroData);
     document.getElementById('laneFilter').addEventListener('change', loadHeroData);
-
     window.addEventListener('load', loadHeroData);
   </script>
 </body>
