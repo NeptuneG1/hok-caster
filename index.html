@@ -42,20 +42,27 @@
     .sidebar a:hover {
       background-color: #575757;
     }
-
     .sidebar-toggle {
       position: fixed;
       top: 20px;
       left: 20px;
       background-color: #1e1e1e;
       color: #f0f0f0;
-      padding: 10px;
+      padding: 15px; /* Increased padding */
+      font-size: 24px; /* Larger icon size */
       border: none;
       cursor: pointer;
-      border-radius: 50%;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      border-radius: 50%; /* Circular button */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7); /* More prominent shadow */
+      z-index: 10; /* Ensure the button stays above content */
     }
-
+    .sidebar-toggle:hover {
+      background-color: #333; /* Hover effect */
+    }
+    /* Sidebar adjustment when toggled */
+    .sidebar.open + .main-content {
+      margin-left: 250px; /* Move content when sidebar is open */
+    }
     /* Main content styles */
     .main-content {
       margin-left: 0;
