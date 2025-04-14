@@ -8,25 +8,57 @@
       font-family: Arial, sans-serif;
       background: #2c2f38;
       color: white;
-      padding: 10px;
+      margin: 0;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 200px;
+      background-color: #1e1f26;
+      padding: 20px 15px;
+      box-sizing: border-box;
+      height: 100vh;
+    }
+
+    .sidebar h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #ff7733;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin-bottom: 10px;
+      padding: 8px 10px;
+      border-radius: 5px;
+    }
+
+    .sidebar a:hover {
+      background-color: #333;
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
       box-sizing: border-box;
     }
+
     .top-controls {
       display: flex;
       flex-direction: column;
       gap: 10px;
       margin-bottom: 15px;
+      max-width: 600px;
     }
+
     .button-group {
       display: flex;
-      justify-content: space-between;
-      gap: 5px;
-      margin-bottom: 10px;
-    }
-    .toggle-buttons {
-      display: flex;
       gap: 5px;
     }
+
     .toggle-button {
       flex: 1;
       padding: 8px;
@@ -36,9 +68,11 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
     .toggle-button.active {
       background-color: #ff7733;
     }
+
     .search-box,
     .filter-dropdown {
       width: 100%;
@@ -48,53 +82,86 @@
       box-sizing: border-box;
       border: none;
     }
+
+    /* Grid layout for item cards */
+    .item-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
     .item-card {
       background-color: #3a3f47;
       border-radius: 10px;
-      margin: 10px 0;
       padding: 10px;
+      width: calc(33.33% - 10px);
+      box-sizing: border-box;
     }
+
     .item-img {
-      width: 100px;
+      width: 100%;
       height: 100px;
+      object-fit: contain;
       border-radius: 10px;
-      margin: 0 auto 10px;
-      display: block;
+      margin-bottom: 10px;
     }
+
     .item-title {
       text-align: center;
       font-size: 16px;
       font-weight: bold;
       margin-bottom: 8px;
     }
+
     .item-field {
       font-size: 12px;
       margin-bottom: 5px;
     }
+
     .item-field strong {
       color: #ff7733;
     }
+
     .item-line {
       margin-left: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .item-card {
+        width: calc(50% - 10px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .item-card {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="button-group">
-    <div class="toggle-buttons">
+  <div class="sidebar">
+    <h2>HOK Viewer</h2>
+    <a href="index.html">Heroes</a>
+    <a href="items.html">Items</a>
+    <!-- Add more links if needed -->
+  </div>
+
+  <div class="content">
+    <div class="button-group">
       <button id="Novice" class="toggle-button active" onclick="switchTab('Novice')">Novice</button>
       <button id="Advanced" class="toggle-button" onclick="switchTab('Advanced')">Advanced</button>
     </div>
-  </div>
 
-  <div class="top-controls">
-    <input id="search" class="search-box" placeholder="Search item name..." onkeyup="renderItems()">
-    <select id="classFilter" class="filter-dropdown" onchange="renderItems()">
-      <option value="">All Classes</option>
-    </select>
-  </div>
+    <div class="top-controls">
+      <input id="search" class="search-box" placeholder="Search item name..." onkeyup="renderItems()">
+      <select id="classFilter" class="filter-dropdown" onchange="renderItems()">
+        <option value="">All Classes</option>
+      </select>
+    </div>
 
-  <div id="items">Loading...</div>
+    <div id="items">Loading...</div>
+  </div>
 
   <script>
     let allItems = [];
@@ -138,22 +205,24 @@
         );
       });
 
-      container.innerHTML = filtered.map(item => `
-        <div class="item-card">
-          <img src="${item["Image URL"]}" class="item-img" alt="${item.Item}">
-          <div class="item-title">${item.Item}</div>
-          <div class="item-field"><strong>Class:</strong> ${item.Class}</div>
-          <div class="item-field"><strong>Stats:</strong>${formatMultiline(item.Stats)}</div>
-          <div class="item-field"><strong>Cost:</strong> ${item.Cost}</div>
-          ${item["Cool Down"] ? `<div class="item-field"><strong>Cooldown:</strong> ${item["Cool Down"]}</div>` : ""}
-          ${item.Passive ? `<div class="item-field"><strong>Effect:</strong>${formatMultiline(item.Passive)}</div>` : ""}
-          <div class="item-field"><strong>Build:</strong>${formatMultiline(item.Build)}</div>
-        </div>
-      `).join('');
-
       if (filtered.length === 0) {
         container.innerHTML = `<div>No matching items found.</div>`;
+        return;
       }
+
+      container.innerHTML = `<div class="item-grid">` +
+        filtered.map(item => `
+          <div class="item-card">
+            <img src="${item["Image URL"]}" class="item-img" alt="${item.Item}">
+            <div class="item-title">${item.Item}</div>
+            <div class="item-field"><strong>Class:</strong> ${item.Class}</div>
+            <div class="item-field"><strong>Stats:</strong>${formatMultiline(item.Stats)}</div>
+            <div class="item-field"><strong>Cost:</strong> ${item.Cost}</div>
+            ${item["Cool Down"] ? `<div class="item-field"><strong>Cooldown:</strong> ${item["Cool Down"]}</div>` : ""}
+            ${item.Passive ? `<div class="item-field"><strong>Effect:</strong>${formatMultiline(item.Passive)}</div>` : ""}
+            <div class="item-field"><strong>Build:</strong>${formatMultiline(item.Build)}</div>
+          </div>
+        `).join('') + `</div>`;
     }
 
     function switchTab(tabName) {
