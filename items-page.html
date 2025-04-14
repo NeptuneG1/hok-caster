@@ -99,7 +99,7 @@
 
     async function fetchItemData() {
       try {
-        const res = await fetch("https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/refs/heads/main/items.json");
+        const res = await fetch("https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/items.json");
         const data = await res.json();
         allItems = data;
         populateClassFilter();
