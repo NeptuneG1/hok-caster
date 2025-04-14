@@ -42,19 +42,21 @@
       transition: transform 0.2s;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      align-items: center; /* This aligns content horizontally in the center */
+      justify-content: flex-start; /* This aligns content to the top vertically */
       text-align: center;
+      height: auto; /* Allow card height to grow based on content */
+    }
+    
+    .hero-image {
+      width: 100%;
+      max-width: 250px; /* Adjust the maximum width of the image */
+      height: auto; /* Maintain aspect ratio */
+      border-radius: 1rem;
+      margin-bottom: 1rem; /* Space below the image */
     }
     .hero-card:hover {
       transform: scale(1.02);
-    }
-    .hero-image {
-      width: 100%;
-      max-width: 100px; /* Set the maximum width for the images */
-      height: auto; /* Maintain aspect ratio */
-      border-radius: 1rem;
-      margin-bottom: 1rem; /* Optional: space below the image */
     }
     .skills {
       margin-top: 1rem;
