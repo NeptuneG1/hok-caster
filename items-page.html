@@ -109,7 +109,7 @@
 
     function populateClassFilter() {
       const filter = document.getElementById("classFilter");
-      const uniqueClasses = [...new Set(allItems.map(item => item.class))];
+      const uniqueClasses = [...new Set(allItems.map(item => item.Class))];
       uniqueClasses.forEach(cls => {
         const option = document.createElement("option");
         option.value = cls;
@@ -124,8 +124,8 @@
       const classFilter = document.getElementById("classFilter").value;
 
       const filtered = allItems.filter(item => {
-        return item.item.toLowerCase().includes(searchTerm) &&
-               (classFilter === "" || item.class === classFilter);
+        return item.Item.toLowerCase().includes(searchTerm) &&
+               (classFilter === "" || item.Class === classFilter);
       });
 
       if (filtered.length === 0) {
@@ -135,20 +135,20 @@
 
       container.innerHTML = filtered.map(item => `
         <div class="item-card">
-          <img src="${item.image}" alt="${item.item}" class="item-img">
-          <div class="item-title">${item.item}</div>
-          <div class="item-field"><strong>Class:</strong> ${item.class}</div>
-          <div class="item-field"><strong>Stats:</strong> ${item.stats}</div>
-          <div class="item-field"><strong>Cost:</strong> ${item.cost}</div>
-          ${item.cooldown ? `<div class="item-field"><strong>Cooldown:</strong> ${item.cooldown}</div>` : ""}
-          <div class="item-field"><strong>Effect:</strong><br>${item.effect}</div>
-          <div class="item-field"><strong>Recipe:</strong><br>${item.recipe}</div>
+          <img src="${item["Image URL"]}" alt="${item.Item}" class="item-img">
+          <div class="item-title">${item.Item}</div>
+          <div class="item-field"><strong>Class:</strong> ${item.Class}</div>
+          <div class="item-field"><strong>Stats:</strong> ${item.Stats}</div>
+          <div class="item-field"><strong>Cost:</strong> ${item.Cost}</div>
+          ${item["Cool Down"] ? `<div class="item-field"><strong>Cooldown:</strong> ${item["Cool Down"]}</div>` : ""}
+          ${item.Passive ? `<div class="item-field"><strong>Passive:</strong> ${item.Passive}</div>` : ""}
+          <div class="item-field"><strong>Build:</strong> ${item.Build}</div>
         </div>
       `).join('');
     }
 
     function goBack() {
-      window.location.href = "index.html"; // or wherever your homepage is
+      window.location.href = "index.html";
     }
 
     window.onload = fetchItems;
