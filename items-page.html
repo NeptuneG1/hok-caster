@@ -1,257 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Items Page</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #2c2f38;
-        color: white;
-        margin: 0;
-        padding: 0;
-        display: flex;
-      }
-      /* Sidebar styles */
-      .sidebar {
-        width: 250px;
-        height: 100vh;
-        background-color: #333;
-        position: fixed;
-        top: 0;
-        left: 0;
-        padding: 20px;
-        transition: width 0.3s;
-      }
-      .sidebar a {
-        display: block;
-        color: white;
-        padding: 10px;
-        text-decoration: none;
-        margin: 5px 0;
-      }
-      .sidebar a:hover {
-        background-color: #ff7733;
-      }
-      .sidebar .close-btn {
-        display: none;
-      }
-      /* Content section styles */
-      .content {
-        margin-left: 250px;
-        padding: 20px;
-        flex-grow: 1;
-        box-sizing: border-box;
-      }
-      .header {
-        background-color: #444;
-        padding: 10px;
-        text-align: center;
-        color: white;
-      }
-      .top-controls {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 15px;
-        justify-content: space-between;
-      }
-      .search-box,
-      .filter-dropdown {
-        width: 100%;
-        padding: 8px 10px;
-        border-radius: 5px;
-        font-size: 14px;
-        border: none;
-      }
-      .button-group {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-      }
-      .button {
-        background-color: #ff7733;
-        color: white;
-        padding: 8px 12px;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-      }
-      .button:hover {
-        background-color: #ff5e2f;
-      }
-      .toggle-button {
-        flex: 1;
-        padding: 8px;
-        background-color: #444;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-      .toggle-button.active {
-        background-color: #ff7733;
-      }
-      .item-card {
-        background-color: #3a3f47;
-        border-radius: 10px;
-        margin: 10px 0;
-        padding: 10px;
-      }
-      .item-img {
-        width: 100px;
-        height: 100px;
-        border-radius: 10px;
-        margin: 0 auto 10px;
-        display: block;
-      }
-      .item-title {
-        text-align: center;
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 8px;
-      }
-      .item-field {
-        font-size: 12px;
-        margin-bottom: 5px;
-      }
-      .item-field strong {
-        color: #ff7733;
-      }
-      /* Collapsible sidebar styles */
-      .sidebar.collapsed {
-        width: 50px;
-      }
-      .sidebar.collapsed .close-btn {
-        display: block;
-      }
-      .sidebar.collapsed a {
-        text-align: center;
-        font-size: 18px;
-      }
-      .close-btn {
-        cursor: pointer;
-        color: white;
-        font-size: 24px;
-        position: absolute;
-        top: 20px;
-        right: 20px;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-      <a href="index.html">Home</a>
-      <a href="items-page.html">Items</a>
-      <!-- Add more links here -->
-      <div class="close-btn" onclick="toggleSidebar()">☰</div>
-    </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Honor of Kings Items</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #2c2f38;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
 
-    <!-- Content Section -->
-    <div class="content">
-      <!-- Header -->
-      <div class="header">
-        <h1>Items Page</h1>
-      </div>
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-      <!-- Main Content -->
-      <div class="top-controls">
-        <div class="button-group">
-          <button class="button" onclick="loadItems('Novice items')">Novice Items</button>
-          <button class="button" onclick="loadItems('Advanced Items')">Advanced Items</button>
-        </div>
-        <div>
-          <input id="search" class="search-box" placeholder="Search item name..." onkeyup="renderItems()">
-          <select id="classFilter" class="filter-dropdown" onchange="renderItems()">
-            <option value="">All Classes</option>
-          </select>
-        </div>
-      </div>
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
 
-      <!-- Items Display -->
-      <div id="items">Loading...</div>
-    </div>
+    input, select {
+      padding: 8px 12px;
+      border-radius: 5px;
+      border: none;
+      font-size: 14px;
+      width: 200px;
+    }
 
-    <!-- JavaScript -->
-    <script>
-      let allItems = [];
-      let currentTab = "Novice items";
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
 
-      // Fetch items data from the URL
-      function fetchItemsData() {
-        console.log("Fetching items data...");
-        fetch('https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/refs/heads/main/items.json')
-          .then(response => response.json())
-          .then(data => {
-            console.log("Data loaded successfully:", data); // Debugging line
-            allItems = data;
-            loadItems(currentTab);
-          })
-          .catch(error => {
-            console.error("Error fetching items data:", error);
-            document.getElementById("items").innerHTML = "Failed to load items.";
-          });
-      }
+    .item-card {
+      background: #3a3f47;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
 
-      function loadItems(tabName) {
-        currentTab = tabName;
-        document.getElementById("items").innerHTML = "Loading...";
+    .item-img {
+      width: 100%;
+      height: auto;
+      max-height: 180px;
+      object-fit: contain;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      background: #222;
+    }
+
+    .item-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      text-align: center;
+      color: #ff7733;
+    }
+
+    .item-field {
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .item-field strong {
+      color: #ffa066;
+    }
+
+    .no-results {
+      text-align: center;
+      font-size: 16px;
+      margin-top: 30px;
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+  <h1>Honor of Kings Items</h1>
+
+  <div class="controls">
+    <input type="text" id="searchBox" placeholder="Search items..." oninput="renderItems()" />
+    <select id="classFilter" onchange="renderItems()">
+      <option value="">All Classes</option>
+    </select>
+  </div>
+
+  <div id="itemsContainer" class="items-grid"></div>
+
+  <script>
+    let allItems = [];
+
+    async function fetchItemData() {
+      try {
+        const res = await fetch("https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/refs/heads/main/items.json");
+        const data = await res.json();
+        allItems = data;
+        populateClassFilter();
         renderItems();
-        populateFilterOptions();
+      } catch (err) {
+        document.getElementById('itemsContainer').innerHTML = '<div class="no-results">Failed to load items data.</div>';
+        console.error(err);
+      }
+    }
+
+    function populateClassFilter() {
+      const select = document.getElementById("classFilter");
+      const classes = [...new Set(allItems.map(item => item.class))].filter(Boolean);
+      for (const cls of classes) {
+        const opt = document.createElement("option");
+        opt.value = cls;
+        opt.textContent = cls;
+        select.appendChild(opt);
+      }
+    }
+
+    function renderItems() {
+      const container = document.getElementById("itemsContainer");
+      const searchTerm = document.getElementById("searchBox").value.toLowerCase();
+      const selectedClass = document.getElementById("classFilter").value;
+
+      const filtered = allItems.filter(item =>
+        item.item.toLowerCase().includes(searchTerm) &&
+        (selectedClass === "" || item.class === selectedClass)
+      );
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="no-results">No items found.</div>`;
+        return;
       }
 
-      function populateFilterOptions() {
-        const classSet = new Set(allItems.map(item => item.class));
-        const filterSelect = document.getElementById("classFilter");
-        filterSelect.innerHTML = `<option value="">All Classes</option>`;
-        classSet.forEach(cls => {
-          filterSelect.innerHTML += `<option value="${cls}">${cls}</option>`;
-        });
-      }
+      container.innerHTML = filtered.map(item => `
+        <div class="item-card">
+          <img src="${item.image}" class="item-img" alt="${item.item}" />
+          <div class="item-title">${item.item}</div>
+          <div class="item-field"><strong>Class:</strong> ${item.class}</div>
+          <div class="item-field"><strong>Stats:</strong> ${item.stats}</div>
+          <div class="item-field"><strong>Cost:</strong> ${item.cost}</div>
+          ${item.cooldown ? `<div class="item-field"><strong>Cooldown:</strong> ${item.cooldown}</div>` : ""}
+          <div class="item-field"><strong>Effect:</strong> ${item.effect}</div>
+          <div class="item-field"><strong>Recipe:</strong> ${item.recipe}</div>
+        </div>
+      `).join('');
+    }
 
-      function renderItems() {
-        const search = document.getElementById("search").value.toLowerCase();
-        const filterClass = document.getElementById("classFilter").value;
-
-        const container = document.getElementById("items");
-        const filtered = allItems.filter(item => {
-          return (
-            item.item.toLowerCase().includes(search) &&
-            (filterClass === "" || item.class === filterClass)
-          );
-        });
-
-        container.innerHTML = filtered.map(item => `
-          <div class="item-card">
-            <img src="${item.image}" class="item-img" alt="${item.item}">
-            <div class="item-title">${item.item}</div>
-            <div class="item-field"><strong>Class:</strong> ${item.class}</div>
-            <div class="item-field"><strong>Stats:</strong> ${item.stats}</div>
-            <div class="item-field"><strong>Cost:</strong> ${item.cost}</div>
-            ${item.cooldown ? `<div class="item-field"><strong>Cooldown:</strong> ${item.cooldown}</div>` : ""}
-            <div class="item-field">
-              <strong>Effect:</strong><br>
-              <span>${item.effect}</span>
-            </div>
-            <div class="item-field">
-              <strong>Recipe:</strong><br>
-              <span>${item.recipe}</span>
-            </div>
-          </div>
-        `).join('');
-
-        if (filtered.length === 0) {
-          container.innerHTML = `<div>No matching items found.</div>`;
-        }
-      }
-
-      function toggleSidebar() {
-        const sidebar = document.getElementById("sidebar");
-        sidebar.classList.toggle("collapsed");
-      }
-
-      window.onload = () => fetchItemsData();
-    </script>
-  </body>
+    window.onload = fetchItemData;
+  </script>
+</body>
 </html>
