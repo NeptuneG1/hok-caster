@@ -127,7 +127,7 @@
       "Unknown": "https://i.imgur.com/EWaF3Ex.png"
     };
 
-    const API_URL = "data.json"; // local file in the same folder
+    const API_URL = "https://raw.githubusercontent.com/your-username/your-repo/main/data.json"; // replace this
 
     async function loadHeroData() {
       try {
@@ -136,6 +136,8 @@
         renderHeroes(heroes);
       } catch (err) {
         console.error("Failed to load heroes:", err);
+        const container = document.getElementById("heroContainer");
+        container.innerHTML = `<p style="color: red;">Error loading data. Check console for details.</p>`;
       }
     }
 
@@ -170,7 +172,7 @@
           <p><strong>Strategy:</strong> ${hero.strategy}</p>
           <p><strong>Countered By:</strong> ${hero.counteredBy}</p>
           <div class="skills">
-            ${hero.skills.length > 0 
+            ${hero.skills?.length > 0 
               ? hero.skills.map(s => `
                 <div class="skill tooltip">
                   <img src="${s.icon}" alt="${s.name}">
