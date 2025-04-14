@@ -120,101 +120,88 @@
 
   <script>
     const laneIcons = {
-      "Clash Lane": "https://i.imgur.com/0GnwbMx.png",
-      "Mid Lane": "https://i.imgur.com/tUxuA3u.png",
-      "Farm Lane": "https://i.imgur.com/zE2Oj94.png",
-      "Jungling": "https://i.imgur.com/1NU7vWI.png",
-      "Unknown": "https://i.imgur.com/EWaF3Ex.png"
-    };
+  "Clash Lane": "https://i.imgur.com/0GnwbMx.png",
+  "Mid Lane": "https://i.imgur.com/tUxuA3u.png",
+  "Farm Lane": "https://i.imgur.com/zE2Oj94.png",
+  "Jungling": "https://i.imgur.com/1NU7vWI.png",
+  "Unknown": "https://i.imgur.com/EWaF3Ex.png"
+};
 
-    const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/refs/heads/main/data.json";
-
-    async function loadHeroData() {
-      try {
-        const res = await fetch(API_URL);
-        const rawData = await res.json();
-
-        const heroes = rawData.map(hero => {
-          const skills = [];
-          for (let i = 1; i <= 5; i++) {
-            const name = hero[`SkillName${i}`];
-            const desc = hero[`SkillDesc${i}`];
-            const icon = hero[`SkillURL${i}`];
-            if (name) {
-              skills.push({
-                name,
-                description: desc || "",
-                icon: icon || ""
-              });
-            }
-          }
-
-          return {
-            name: hero["Hero"],
-            image: hero["Image URL"],
-            role: hero["Primary Role"],
-            lane: hero["Lane"] || "Unknown",
-            strategy: hero["Strategy"] || hero["Description"] || "",
-            counteredBy: hero["Countered by"] || "",
-            skills
-          };
-        });
-
-        renderHeroes(heroes);
-      } catch (err) {
-        console.error("Failed to load heroes:", err);
-      }
+  const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json"; // Update with your raw GitHub URL
+  
+  async function loadHeroData() {
+    try {
+      const res = await fetch(API_URL);
+      const heroes = await res.json();
+      renderHeroes(heroes);
+    } catch (err) {
+      console.error("Failed to load heroes:", err);
     }
-
-    function renderHeroes(heroes) {
-      const container = document.getElementById('heroContainer');
-      container.innerHTML = '';
-
-      const search = document.getElementById('searchInput').value.toLowerCase();
-      const role = document.getElementById('roleFilter').value;
-      const lane = document.getElementById('laneFilter').value;
-
-      const filtered = heroes.filter(hero => {
-        return (!search || hero.name.toLowerCase().includes(search)) &&
-               (!role || hero.role.includes(role)) &&
-               (!lane || hero.lane.includes(lane));
-      });
-
-      filtered.forEach(hero => {
-        const laneIcon = laneIcons[hero.lane] || laneIcons["Unknown"];
-        const card = document.createElement('div');
-        card.className = 'hero-card';
-        card.innerHTML = `
-          <img class="hero-image" src="${hero.image}" alt="${hero.name}">
-          <h2>${hero.name}</h2>
-          <p><strong>Role:</strong> ${hero.role}</p>
-          <p><strong>Lane:</strong> 
-            <span class="tooltip">
-              <img src="${laneIcon}" alt="${hero.lane}" class="lane-icon">
-              <span class="tooltiptext">${hero.lane}</span>
-            </span>
-          </p>
-          <p><strong>Strategy:</strong> ${hero.strategy}</p>
-          <p><strong>Countered By:</strong> ${hero.counteredBy}</p>
-          <div class="skills">
-            ${hero.skills.length > 0 
-              ? hero.skills.map(s => `
-                <div class="skill tooltip">
-                  <img src="${s.icon}" alt="${s.name}">
-                  <span>${s.name}</span>
-                  <span class="tooltiptext">${s.description}</span>
-                </div>`).join('')
-              : '<p>No skills available</p>'}
+  }
+  
+  function renderHeroes(heroes) {
+    const container = document.getElementById('heroContainer');
+    container.innerHTML = '';
+  
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const role = document.getElementById('roleFilter').value;
+    const lane = document.getElementById('laneFilter').value;
+  
+    const filtered = heroes.filter(hero => {
+      return (!search || hero.Hero.toLowerCase().includes(search)) &&
+             (!role || hero["Primary Role"]?.includes(role)) &&
+             (!lane || hero.Lane?.includes(lane));
+    });
+  
+    filtered.forEach(hero => {
+      const laneIcon = laneIcons[hero.Lane] || laneIcons["Unknown"];
+      const card = document.createElement('div');
+      card.className = 'hero-card';
+      card.innerHTML = `
+        <img class="hero-image" src="${hero['Image URL'] || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero.Hero || 'Hero'}">
+        <h2>${hero.Hero || 'Unknown Hero'}</h2>
+        <p><strong>Role:</strong> ${hero["Primary Role"] || 'Unknown Role'}</p>
+        <p><strong>Lane:</strong> 
+          <span class="tooltip">
+            <img src="${laneIcon}" alt="${hero.Lane}" class="lane-icon">
+            <span class="tooltiptext">${hero.Lane || 'Unknown Lane'}</span>
+          </span>
+        </p>
+        <p><strong>Strategy:</strong> ${hero.Strategy || 'No strategy available'}</p>
+        <p><strong>Countered By:</strong> ${hero["Countered by"] || 'No counters available'}</p>
+        <div class="skills">
+          ${renderSkills(hero)}
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+  
+  function renderSkills(hero) {
+    let skillHTML = '';
+    for (let i = 1; i <= 5; i++) {
+      const skillName = hero[`SkillName${i}`];
+      const skillDesc = hero[`SkillDesc${i}`];
+      const skillURL = hero[`SkillURL${i}`];
+      if (skillName) {
+        skillHTML += `
+          <div class="skill tooltip">
+            <img src="${skillURL || 'https://i.imgur.com/default-skill.png'}" alt="${skillName}">
+            <span>${skillName || `Skill ${i}`}</span>
+            <span class="tooltiptext">${skillDesc || 'No description available'}</span>
           </div>
         `;
-        container.appendChild(card);
-      });
+      }
     }
+    return skillHTML || '<p>No skills available</p>';
+  }
+  
+  document.getElementById('searchInput').addEventListener('input', loadHeroData);
+  document.getElementById('roleFilter').addEventListener('change', loadHeroData);
+  document.getElementById('laneFilter').addEventListener('change', loadHeroData);
+  
+  window.addEventListener('load', loadHeroData);
 
-    document.getElementById('searchInput').addEventListener('input', loadHeroData);
-    document.getElementById('roleFilter').addEventListener('change', loadHeroData);
-    document.getElementById('laneFilter').addEventListener('change', loadHeroData);
-    window.addEventListener('load', loadHeroData);
   </script>
 </body>
 </html>
