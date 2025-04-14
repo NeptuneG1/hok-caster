@@ -180,9 +180,11 @@
 
       // Fetch items data from the URL
       function fetchItemsData() {
+        console.log("Fetching items data...");
         fetch('https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/refs/heads/main/items.json')
           .then(response => response.json())
           .then(data => {
+            console.log("Data loaded successfully:", data); // Debugging line
             allItems = data;
             loadItems(currentTab);
           })
