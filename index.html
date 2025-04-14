@@ -131,89 +131,94 @@
 
   <script>
     const laneIcons = {
-  "Clash Lane": "https://i.imgur.com/gS9vNF1.png",
-  "Mid Lane": "https://i.imgur.com/DOKOd28.png",
-  "Farm Lane": "https://i.imgur.com/DyNgBdZ.png",
-  "Jungling": "https://i.imgur.com/oS2xiM5.png",
-  "Roaming": "https://i.imgur.com/sTO6sEO.png",
-  "Unknown": "https://i.imgur.com/kkUX3a3.jpeg"
-};
+      "Clash Lane": "https://i.imgur.com/gS9vNF1.png",
+      "Mid Lane": "https://i.imgur.com/DOKOd28.png",
+      "Farm Lane": "https://i.imgur.com/DyNgBdZ.png",
+      "Jungling": "https://i.imgur.com/oS2xiM5.png",
+      "Roaming": "https://i.imgur.com/sTO6sEO.png",
+      "Unknown": "https://i.imgur.com/kkUX3a3.jpeg"
+    };
 
-  const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json"; // Update with your raw GitHub URL
-  
-  async function loadHeroData() {
-    try {
-      const res = await fetch(API_URL);
-      const heroes = await res.json();
-      renderHeroes(heroes);
-    } catch (err) {
-      console.error("Failed to load heroes:", err);
-    }
-  }
-  
-  function renderHeroes(heroes) {
-    const container = document.getElementById('heroContainer');
-    container.innerHTML = '';
-  
-    const search = document.getElementById('searchInput').value.toLowerCase();
-    const role = document.getElementById('roleFilter').value;
-    const lane = document.getElementById('laneFilter').value;
-  
-    const filtered = heroes.filter(hero => {
-      return (!search || hero.Hero.toLowerCase().includes(search)) &&
-             (!role || hero["Primary Role"]?.includes(role)) &&
-             (!lane || hero.Lane?.includes(lane));
-    });
-  
-    filtered.forEach(hero => {
-      const laneIcon = laneIcons[hero.Lane] || laneIcons["Unknown"];
-      const card = document.createElement('div');
-      card.className = 'hero-card';
-      card.innerHTML = `
-        <img class="hero-image" src="${hero['Image URL'] || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero.Hero || 'Hero'}">
-        <h2>${hero.Hero || 'Unknown Hero'}</h2>
-        <p><strong>Role:</strong> ${hero["Primary Role"] || 'Unknown Role'}</p>
-        <p><strong>Lane:</strong> 
-          <span class="tooltip">
-            <img src="${laneIcon}" alt="${hero.Lane}" class="lane-icon">
-            <span class="tooltiptext">${hero.Lane || 'Unknown Lane'}</span>
-          </span>
-        </p>
-        <p><strong>Strategy:</strong> ${hero.Strategy || 'No strategy available'}</p>
-        <p><strong>Countered By:</strong> ${hero["Countered by"] || 'No counters available'}</p>
-        <div class="skills">
-          ${renderSkills(hero)}
-        </div>
-      `;
-      container.appendChild(card);
-    });
-  }
-  
-  function renderSkills(hero) {
-    let skillHTML = '';
-    for (let i = 1; i <= 5; i++) {
-      const skillName = hero[`SkillName${i}`];
-      const skillDesc = hero[`SkillDesc${i}`];
-      const skillURL = hero[`SkillURL${i}`];
-      if (skillName) {
-        skillHTML += `
-          <div class="skill tooltip">
-            <img src="${skillURL || 'https://i.imgur.com/default-skill.png'}" alt="${skillName}">
-            <span>${skillName || `Skill ${i}`}</span>
-            <span class="tooltiptext">${skillDesc || 'No description available'}</span>
-          </div>
-        `;
+    const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json"; // Update with your raw GitHub URL
+    
+    async function loadHeroData() {
+      try {
+        const res = await fetch(API_URL);
+        const heroes = await res.json();
+        renderHeroes(heroes);
+      } catch (err) {
+        console.error("Failed to load heroes:", err);
       }
     }
-    return skillHTML || '<p>No skills available</p>';
-  }
-  
-  document.getElementById('searchInput').addEventListener('input', loadHeroData);
-  document.getElementById('roleFilter').addEventListener('change', loadHeroData);
-  document.getElementById('laneFilter').addEventListener('change', loadHeroData);
-  
-  window.addEventListener('load', loadHeroData);
-
+    
+    function renderHeroes(heroes) {
+      const container = document.getElementById('heroContainer');
+      container.innerHTML = '';
+    
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const role = document.getElementById('roleFilter').value;
+      const lane = document.getElementById('laneFilter').value;
+    
+      const filtered = heroes.filter(hero => {
+        return (!search || hero.Hero.toLowerCase().includes(search)) &&
+               (!role || hero["Primary Role"]?.includes(role)) &&
+               (!lane || hero.Lane?.includes(lane));
+      });
+    
+      filtered.forEach(hero => {
+        const lanes = hero.Lane ? hero.Lane.split(",") : [];  // Split lanes by comma if multiple
+        const card = document.createElement('div');
+        card.className = 'hero-card';
+        
+        // Render hero card content
+        card.innerHTML = `
+          <img class="hero-image" src="${hero['Image URL'] || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero.Hero || 'Hero'}">
+          <h2>${hero.Hero || 'Unknown Hero'}</h2>
+          <p><strong>Role:</strong> ${hero["Primary Role"] || 'Unknown Role'}</p>
+          <p><strong>Lane:</strong>
+            <div>
+              ${lanes.map(lane => `
+                <span class="tooltip">
+                  <img src="${laneIcons[lane.trim()] || laneIcons["Unknown"]}" alt="${lane}" class="lane-icon">
+                  <span class="tooltiptext">${lane || 'Unknown Lane'}</span>
+                </span>
+              `).join('')}
+            </div>
+          </p>
+          <p><strong>Strategy:</strong> ${hero.Strategy || 'No strategy available'}</p>
+          <p><strong>Countered By:</strong> ${hero["Countered by"] || 'No counters available'}</p>
+          <div class="skills">
+            ${renderSkills(hero)}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+    
+    function renderSkills(hero) {
+      let skillHTML = '';
+      for (let i = 1; i <= 5; i++) {
+        const skillName = hero[`SkillName${i}`];
+        const skillDesc = hero[`SkillDesc${i}`];
+        const skillURL = hero[`SkillURL${i}`];
+        if (skillName) {
+          skillHTML += `
+            <div class="skill tooltip">
+              <img src="${skillURL || 'https://i.imgur.com/default-skill.png'}" alt="${skillName}">
+              <span>${skillName || `Skill ${i}`}</span>
+              <span class="tooltiptext">${skillDesc || 'No description available'}</span>
+            </div>
+          `;
+        }
+      }
+      return skillHTML || '<p>No skills available</p>';
+    }
+    
+    document.getElementById('searchInput').addEventListener('input', loadHeroData);
+    document.getElementById('roleFilter').addEventListener('change', loadHeroData);
+    document.getElementById('laneFilter').addEventListener('change', loadHeroData);
+    
+    window.addEventListener('load', loadHeroData);
   </script>
 </body>
 </html>
