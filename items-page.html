@@ -1,26 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Items Page</title>
     <style>
       body {
         font-family: Arial, sans-serif;
-        background: #2c2f38;
+        background-color: #2c2f38;
+        color: white;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+      /* Sidebar styles */
+      .sidebar {
+        width: 250px;
+        height: 100vh;
+        background-color: #333;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 20px;
+        transition: width 0.3s;
+      }
+      .sidebar a {
+        display: block;
         color: white;
         padding: 10px;
-        width: 100%;
+        text-decoration: none;
+        margin: 5px 0;
+      }
+      .sidebar a:hover {
+        background-color: #ff7733;
+      }
+      .sidebar .close-btn {
+        display: none;
+      }
+      /* Content section styles */
+      .content {
+        margin-left: 250px;
+        padding: 20px;
+        flex-grow: 1;
         box-sizing: border-box;
+      }
+      .header {
+        background-color: #444;
+        padding: 10px;
+        text-align: center;
+        color: white;
       }
       .top-controls {
         display: flex;
-        flex-direction: column;
         gap: 10px;
         margin-bottom: 15px;
+        justify-content: space-between;
+      }
+      .search-box,
+      .filter-dropdown {
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        border: none;
       }
       .button-group {
         display: flex;
         justify-content: space-between;
-        gap: 5px;
-        margin-bottom: 10px;
+        gap: 10px;
       }
       .button {
         background-color: #ff7733;
@@ -29,27 +76,9 @@
         border: none;
         border-radius: 3px;
         cursor: pointer;
-        flex: 1;
-      }
-      .back-button {
-        background-color: #ff7733;
-        color: white;
-        padding: 8px 0;
-        width: 60px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        flex-shrink: 0;
-      }
-      .back-button:hover {
-        background-color: #ff5e2f;
       }
       .button:hover {
         background-color: #ff5e2f;
-      }
-      .toggle-buttons {
-        display: flex;
-        gap: 5px;
       }
       .toggle-button {
         flex: 1;
@@ -62,15 +91,6 @@
       }
       .toggle-button.active {
         background-color: #ff7733;
-      }
-      .search-box,
-      .filter-dropdown {
-        width: 100%;
-        padding: 8px 10px;
-        border-radius: 5px;
-        font-size: 14px;
-        box-sizing: border-box;
-        border: none;
       }
       .item-card {
         background-color: #3a3f47;
@@ -98,11 +118,66 @@
       .item-field strong {
         color: #ff7733;
       }
+      /* Collapsible sidebar styles */
+      .sidebar.collapsed {
+        width: 50px;
+      }
+      .sidebar.collapsed .close-btn {
+        display: block;
+      }
+      .sidebar.collapsed a {
+        text-align: center;
+        font-size: 18px;
+      }
+      .close-btn {
+        cursor: pointer;
+        color: white;
+        font-size: 24px;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
     </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <a href="index.html">Home</a>
+      <a href="items-page.html">Items</a>
+      <!-- Add more links here -->
+      <div class="close-btn" onclick="toggleSidebar()">☰</div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content">
+      <!-- Header -->
+      <div class="header">
+        <h1>Items Page</h1>
+      </div>
+
+      <!-- Main Content -->
+      <div class="top-controls">
+        <div class="button-group">
+          <button class="button" onclick="loadItems('Novice items')">Novice Items</button>
+          <button class="button" onclick="loadItems('Advanced Items')">Advanced Items</button>
+        </div>
+        <div>
+          <input id="search" class="search-box" placeholder="Search item name..." onkeyup="renderItems()">
+          <select id="classFilter" class="filter-dropdown" onchange="renderItems()">
+            <option value="">All Classes</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Items Display -->
+      <div id="items">Loading...</div>
+    </div>
+
+    <!-- JavaScript -->
     <script>
       let allItems = [];
       let currentTab = "Novice items";
-      
+
       // Fetch items data from the URL
       function fetchItemsData() {
         fetch('https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/refs/heads/main/items.json')
@@ -120,8 +195,6 @@
       function loadItems(tabName) {
         currentTab = tabName;
         document.getElementById("items").innerHTML = "Loading...";
-        document.querySelectorAll(".toggle-button").forEach(btn => btn.classList.remove("active"));
-        document.getElementById(tabName).classList.add("active");
         renderItems();
         populateFilterOptions();
       }
@@ -171,29 +244,12 @@
         }
       }
 
-      function goBack() {
-        window.location.href = "index.html"; // Navigate back to the homepage or desired page
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("collapsed");
       }
 
       window.onload = () => fetchItemsData();
     </script>
-  </head>
-  <body>
-    <div class="button-group">
-      <button class="back-button" onclick="goBack()">⬅</button>
-      <div class="toggle-buttons">
-        <button id="Novice items" class="toggle-button active" onclick="loadItems('Novice items')">Novice</button>
-        <button id="Advanced Items" class="toggle-button" onclick="loadItems('Advanced Items')">Advanced</button>
-      </div>
-    </div>
-
-    <div class="top-controls">
-      <input id="search" class="search-box" placeholder="Search item name..." onkeyup="renderItems()">
-      <select id="classFilter" class="filter-dropdown" onchange="renderItems()">
-        <option value="">All Classes</option>
-      </select>
-    </div>
-
-    <div id="items">Loading...</div>
   </body>
 </html>
