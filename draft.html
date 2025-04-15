@@ -2,50 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Honor of Kings Draft</title>
+  <title>Hero Draft UI</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 20px;
-      background-color: #f0f2f5;
+      background: #f9f9f9;
+      padding: 20px;
     }
-    .team-section {
+    .draft-container {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 40px;
+      gap: 20px;
     }
-    .team {
-      width: 48%;
+    .team-section {
+      flex: 1;
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    .team h2 {
+    .team-section h2 {
       text-align: center;
+      margin-bottom: 10px;
     }
     .bans, .picks {
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
       gap: 10px;
-      margin-top: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
     .hero-card {
-      width: 120px;
-      background: white;
+      background: #f0f0f0;
       border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       padding: 10px;
+      width: 120px;
       text-align: center;
+      position: relative;
     }
-    .hero-image, .ban-image {
+    .hero-card img {
       width: 100%;
       border-radius: 8px;
     }
     .skills {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
       gap: 5px;
-      margin-top: 5px;
+      justify-content: center;
+      margin-top: 8px;
     }
     .tooltip {
       position: relative;
@@ -53,17 +57,17 @@
     }
     .tooltip .tooltiptext {
       visibility: hidden;
-      width: 220px;
+      width: 200px;
       background-color: #555;
       color: #fff;
       text-align: left;
       border-radius: 6px;
-      padding: 8px;
+      padding: 5px;
       position: absolute;
       z-index: 1;
       bottom: 125%;
       left: 50%;
-      margin-left: -110px;
+      margin-left: -100px;
       opacity: 0;
       transition: opacity 0.3s;
     }
@@ -71,90 +75,79 @@
       visibility: visible;
       opacity: 1;
     }
+    .skill-icon {
+      width: 24px;
+      height: 24px;
+    }
   </style>
 </head>
 <body>
-  <div class="team-section">
-    <div class="team" id="team-left">
+  <div class="draft-container">
+    <div class="team-section" id="team-left">
       <h2>Team Left</h2>
-      <div class="bans" id="left-bans"></div>
-      <div class="picks" id="left-picks"></div>
+      <div class="bans" id="bans-left"></div>
+      <div class="picks" id="picks-left"></div>
     </div>
-    <div class="team" id="team-right">
+    <div class="team-section" id="team-right">
       <h2>Team Right</h2>
-      <div class="bans" id="right-bans"></div>
-      <div class="picks" id="right-picks"></div>
+      <div class="bans" id="bans-right"></div>
+      <div class="picks" id="picks-right"></div>
     </div>
   </div>
-
   <script>
-    const DATA_URL = 'https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json';
+    fetch("https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json")
+      .then(res => res.json())
+      .then(data => {
+        const leftBans = [data[0], data[1], data[2]];
+        const rightBans = [data[3], data[4], data[5]];
+        const leftPicks = [data[6], data[7], data[8], data[9], data[10]];
+        const rightPicks = [data[11], data[12], data[13], data[14], data[15]];
 
-    async function loadHeroes() {
-      const res = await fetch(DATA_URL);
-      const heroes = await res.json();
-      return heroes;
-    }
+        renderTeam("bans-left", leftBans, true);
+        renderTeam("bans-right", rightBans, true);
+        renderTeam("picks-left", leftPicks);
+        renderTeam("picks-right", rightPicks);
 
-    function createHeroCard(hero) {
-      const card = document.createElement('div');
-      card.className = 'hero-card';
-      card.innerHTML = `
-        <img class="hero-image" src="${hero['Image URL'] || ''}" alt="${hero.Hero}">
-        <h4>${hero.Hero}</h4>
-        <div class="skills">
-          ${[1,2,3,4,5].map(i => {
-            const name = hero[`Skill ${i} Name`];
-            const desc = hero[`Skill ${i} Description`];
-            const type = hero[`Skill ${i} Type`];
-            const icon = hero[`Skill ${i} Icon`];
-            if (!name || !desc) return '';
-            return `
-              <span class="tooltip">
-                <img src="${icon}" alt="${name}" style="width:24px;height:24px;">
-                <span class="tooltiptext">
-                  <strong>${type}</strong><br>
-                  <strong>${name}</strong><br>${desc}
-                </span>
-              </span>
+        function renderTeam(containerId, heroes, isBan = false) {
+          const container = document.getElementById(containerId);
+          heroes.forEach(hero => {
+            const card = document.createElement("div");
+            card.className = "hero-card";
+            card.innerHTML = `
+              <img src="${hero["Image URL"] || "https://i.imgur.com/kkUX3a3.jpeg"}" alt="${hero.Hero}">
+              <h4>${hero.Hero}</h4>
+              ${!isBan ? `<p><strong>Role:</strong> ${hero["Primary Role"]}</p>` : ""}
+              ${!isBan ? `<p><strong>Countered By:</strong> ${hero["Countered by"] || "N/A"}</p>` : ""}
+              <div class="skills">
+                ${!isBan ? renderSkills(hero) : ""}
+              </div>
             `;
-          }).join('')}
-        </div>
-      `;
-      return card;
-    }
+            container.appendChild(card);
+          });
+        }
 
-    function createBanImage(hero) {
-      const img = document.createElement('img');
-      img.className = 'ban-image';
-      img.src = hero['Image URL'] || '';
-      img.alt = hero.Hero;
-      img.title = hero.Hero;
-      img.style.width = '60px';
-      img.style.borderRadius = '8px';
-      return img;
-    }
-
-    async function init() {
-      const heroes = await loadHeroes();
-
-      const leftBans = [heroes[1], heroes[2], heroes[3]];
-      const rightBans = [heroes[4], heroes[5], heroes[6]];
-      const leftPicks = [heroes[7], heroes[8], heroes[9], heroes[10], heroes[11]];
-      const rightPicks = [heroes[12], heroes[13], heroes[14], heroes[15], heroes[16]];
-
-      const leftBansContainer = document.getElementById('left-bans');
-      const rightBansContainer = document.getElementById('right-bans');
-      const leftPicksContainer = document.getElementById('left-picks');
-      const rightPicksContainer = document.getElementById('right-picks');
-
-      leftBans.forEach(hero => leftBansContainer.appendChild(createBanImage(hero)));
-      rightBans.forEach(hero => rightBansContainer.appendChild(createBanImage(hero)));
-      leftPicks.forEach(hero => leftPicksContainer.appendChild(createHeroCard(hero)));
-      rightPicks.forEach(hero => rightPicksContainer.appendChild(createHeroCard(hero)));
-    }
-
-    init();
+        function renderSkills(hero) {
+          let result = "";
+          for (let i = 1; i <= 5; i++) {
+            const name = hero[`Skill${i} Name`];
+            const desc = hero[`Skill${i} Description`];
+            const type = hero[`Skill${i} Type`];
+            const icon = hero[`Skill${i} Icon`];
+            if (name && desc) {
+              result += `
+                <span class="tooltip">
+                  <img class="skill-icon" src="${icon || "https://i.imgur.com/kkUX3a3.jpeg"}" alt="${name}"/>
+                  <span class="tooltiptext">
+                    <strong>${type || "Skill"}:</strong> ${name}<br>
+                    ${desc}
+                  </span>
+                </span>
+              `;
+            }
+          }
+          return result;
+        }
+      });
   </script>
 </body>
 </html>
