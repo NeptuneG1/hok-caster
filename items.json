@@ -530,7 +530,7 @@
   {
     "Item": "Augur's Word",
     "Class": "Magical",
-    "Stats": "+140 Magical Attack.\n+500 Max Mana.\n+1,100 Max Health.",
+    "Stats": "+140 Magical Attack.\n+500 Max Mana.\n+1100 Max Health.",
     "Cost": 2150,
     "Cool Down": "",
     "Passive": "Passive: Valor's Gift: Leveling up restores 20% Health and Mana within 3 seconds.\n\nPassive: Augury: Increases Physical and Magical Defense by 40% Magical Attack, up to 230.",
@@ -552,7 +552,7 @@
   {
     "Item": "Blazing Cape",
     "Class": "Defense",
-    "Stats": "+240 Physical Defense.\n+1,000 Max Health.",
+    "Stats": "+240 Physical Defense.\n+1000 Max Health.",
     "Cost": 1950,
     "Cool Down": "",
     "Passive": "Passive - Conflagration:  Burns enemies within a range of 400 every second, dealing (1.5% health) magical damage. Deals double damage to minions and monsters.\nPassive - Imperil: When an enemy is inflicted with a burning effect, it reduces their Health recovery and Lifesteal by 35%. Lasts 2.5s.",
@@ -651,7 +651,7 @@
   {
     "Item": "Breakthrough Robe",
     "Class": "Magical",
-    "Stats": "+120 Magical Attack.\n+1,000 Max Health.",
+    "Stats": "+120 Magical Attack.\n+1000 Max Health.",
     "Cost": 2160,
     "Cool Down": "",
     "Passive": "Passive: Breakthrough: Grants Extra 4% Health and Magical attack, up to 100.\n\nPassive: Purge: Grants Extra 7% Health and Magical Pierce, up to 175.",
@@ -838,7 +838,7 @@
   {
     "Item": "Eye of the Phoenix",
     "Class": "Defense",
-    "Stats": "+240 Magical Defense.\n+1,200 Max Health.\n+100 Health / 5 seconds.",
+    "Stats": "+240 Magical Defense.\n+1200 Max Health.\n+100 Health / 5 seconds.",
     "Cost": 2100,
     "Cool Down": "",
     "Passive": "Passive - Bloodline: Increases Health recovery effects by 6% for every 10% Health depleted.",
@@ -937,7 +937,7 @@
   {
     "Item": "Insatiable Tome",
     "Class": "Magical",
-    "Stats": "+180 Magical Attack.\n+10% Cooldown Reduction.\n+1,000 Max Health.",
+    "Stats": "+180 Magical Attack.\n+10% Cooldown Reduction.\n+1000 Max Health.",
     "Cost": 2090,
     "Cool Down": "",
     "Passive": "Passive: Bloodthirst: Magical Lifesteal +25%.",
@@ -948,7 +948,7 @@
   {
     "Item": "Longnight Guardian",
     "Class": "Defense",
-    "Stats": "+360 Magical Defense.\n+1,000 Max Health.",
+    "Stats": "+360 Magical Defense.\n+1000 Max Health.",
     "Cost": 2110,
     "Cool Down": 7,
     "Passive": "Passive - Protect: When taking damage exceeding 30% Max Health within 3 seconds, recovers a total of (320 + 8% Health over 3 seconds).",
@@ -1003,7 +1003,7 @@
   {
     "Item": "Ominous Premonition",
     "Class": "Defense",
-    "Stats": "+270 Physical Defense.\n+1,200 Max Health.",
+    "Stats": "+270 Physical Defense.\n+1200 Max Health.",
     "Cost": 2150,
     "Cool Down": "",
     "Passive": "Passive - Cold Steel: When taking damage, reduces the attacker's Attack Speed by 40% and Movement Speed by 7.5%-15% for 3 seconds.",
@@ -1267,7 +1267,7 @@
   {
     "Item": "Winter",
     "Class": "Defense",
-    "Stats": "+240 Physical Defense.\n+1,000 Max Health.",
+    "Stats": "+240 Physical Defense.\n+1000 Max Health.",
     "Cost": 3350,
     "Cool Down": "15/90",
     "Passive": "Passive - Ice Armor: When affected by hard crowd control effects other than suppression, grants a shield that negates (12% Health) damage for 5 seconds.\n\nActive - Impact: Freezes enemies within a range of 600 for 0.5 seconds, deals 100-200 magical damage to them , followed by immense slow for 1 seconds. If the target's Movement Speed or Attack Speed was already reduced, it is frozen for an extra 0.5 seconds.",
