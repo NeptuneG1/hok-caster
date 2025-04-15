@@ -180,10 +180,6 @@
       heroData = await res.json();
       renderDraftUI();
     }
-    function formatMultiline(text) {
-      if (!text) return "";
-      return text.split(/[,•\n]+/).map(line => `<div class="item-line">${line.trim()}</div>`).join('');
-      }
     function createHeroCard(teamId, slotIndex) {
       const card = document.createElement('div');
       card.className = 'hero-card';
@@ -217,7 +213,7 @@
               tooltip.innerHTML += `<strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}<br><br>`;
             }
           }
-          document.getElementById('counterInfo').innerHTML = `<strong>${selected.Hero}</strong> strategy: ${formatMultiline(selected["Strategy")] || 'None'}`;
+          document.getElementById('counterInfo').innerHTML = `<strong>${selected.Hero}</strong> strategy: ${selected["Strategy"] || 'None'}`;
         }
       });
 
