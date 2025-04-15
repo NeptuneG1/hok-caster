@@ -2,159 +2,156 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Hero Picker UI</title>
+  <title>Hero Draft</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
       background-color: #2e2e38;
-      color: #fff;
+      color: white;
       margin: 0;
       padding: 20px;
     }
     .team-container {
       display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .team-column {
+      width: 48%;
+    }
+    .team-header {
+      font-size: 1.4em;
+      margin-bottom: 10px;
     }
     .hero-slot {
-      background: #3e3e4a;
-      padding: 15px;
-      border-radius: 8px;
-      width: 260px;
-    }
-    .hero-select {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 5px;
-      font-size: 1em;
-    }
-    .hero-details {
-      background-color: #444452;
+      background: #3a3a48;
       padding: 10px;
-      border-radius: 5px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    select {
+      width: 100%;
+      padding: 6px;
+      border-radius: 4px;
+      border: none;
+      margin-bottom: 10px;
+    }
+    .hero-card {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
     }
     .hero-image {
-      width: 100%;
-      border-radius: 5px;
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #777;
     }
-    .hero-name {
-      font-size: 1.2em;
-      font-weight: bold;
-      margin-top: 10px;
+    .hero-details {
+      flex: 1;
     }
-    .hero-roles, .hero-lane {
-      font-style: italic;
-      margin-top: 5px;
-    }
-    .hero-skills {
-      margin-top: 10px;
-    }
-    .skill {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-bottom: 5px;
-    }
-    .skill img {
-      width: 24px;
-      height: 24px;
-      border-radius: 4px;
-    }
-    .tag {
-      background: #ffc107;
-      color: #000;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.85em;
+    .skills span {
       display: inline-block;
-      margin-right: 4px;
+      background: #555;
+      border-radius: 4px;
+      padding: 2px 6px;
+      margin: 2px;
+      position: relative;
+      font-size: 12px;
+    }
+    .skills span:hover::after {
+      content: attr(data-type);
+      position: absolute;
+      background: black;
+      padding: 4px 8px;
+      border-radius: 4px;
+      top: -28px;
+      left: 0;
+      white-space: nowrap;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
-  <h1>Hero Picker</h1>
+
+  <h1>Hero Draft</h1>
+
   <div class="team-container">
-    <div class="hero-slot">
-      <select class="hero-select" onchange="updateHeroUI(this.value, 'left', 0)"></select>
-      <div class="hero-details">
-        <img id="left-hero-img-0" class="hero-image" src="https://i.imgur.com/kkUX3a3.jpeg" alt="Hero Image">
-        <div id="left-hero-details-0"></div>
-      </div>
+    <div class="team-column" id="left-team">
+      <div class="team-header">Left Team</div>
     </div>
-    <div class="hero-slot">
-      <select class="hero-select" onchange="updateHeroUI(this.value, 'left', 0)"></select>
-      <div class="hero-details">
-        <img id="left-hero-img-0" class="hero-image" src="https://i.imgur.com/kkUX3a3.jpeg" alt="Hero Image">
-        <div id="left-hero-details-0"></div>
-      </div>
+    <div class="team-column" id="right-team">
+      <div class="team-header">Right Team</div>
     </div>
-    <!-- Add more .hero-slot as needed -->
   </div>
 
   <script>
-    let heroData = [];
+    const heroDataUrl = 'https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json';
+    const NUM_SLOTS = 5;
 
-    fetch('https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json')
-      .then(response => response.json())
-      .then(data => {
-        heroData = data;
-        populateHeroDropdowns();
-      })
-      .catch(error => console.error('Error fetching hero data:', error));
+    async function init() {
+      const res = await fetch(heroDataUrl);
+      const heroes = await res.json();
 
-    function populateHeroDropdowns() {
-      const dropdowns = document.querySelectorAll('.hero-select');
-      dropdowns.forEach(dropdown => {
-        dropdown.innerHTML = '<option value="">Select Hero</option>';
-        heroData.forEach(hero => {
-          const option = document.createElement('option');
-          option.value = hero.Hero;
-          option.textContent = hero.Hero;
-          dropdown.appendChild(option);
-        });
+      const heroMap = {};
+      heroes.forEach(h => heroMap[h.Hero] = h);
+
+      const left = document.getElementById("left-team");
+      const right = document.getElementById("right-team");
+
+      for (let i = 0; i < NUM_SLOTS; i++) {
+        addHeroSlot(left, `left-${i}`, heroes, heroMap);
+        addHeroSlot(right, `right-${i}`, heroes, heroMap);
+      }
+    }
+
+    function addHeroSlot(container, id, heroList, heroMap) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "hero-slot";
+      wrapper.innerHTML = `
+        <select id="select-${id}">
+          <option value="">Select Hero...</option>
+          ${heroList.map(h => `<option value="${h.Hero}">${h.Hero}</option>`).join('')}
+        </select>
+        <div id="card-${id}"></div>
+      `;
+      container.appendChild(wrapper);
+
+      document.getElementById(`select-${id}`).addEventListener("change", e => {
+        const heroName = e.target.value;
+        const hero = heroMap[heroName];
+        const card = document.getElementById(`card-${id}`);
+        if (hero) {
+          card.innerHTML = renderHeroCard(hero);
+        } else {
+          card.innerHTML = "";
+        }
       });
     }
 
-    function updateHeroUI(heroName, side, index) {
-      const hero = heroData.find(h => h.Hero === heroName);
-      if (!hero) return;
+    function renderHeroCard(hero) {
+      const skillTags = ['Passive', 'Skill1', 'Skill2', 'ULT'];
+      const skillHtml = skillTags.map(type => {
+        const skillName = hero[type] || '—';
+        return `<span data-type="${type}">${skillName}</span>`;
+      }).join('');
 
-      document.getElementById(`${side}-hero-img-${index}`).src = hero['Image URL'] || 'https://i.imgur.com/kkUX3a3.jpeg';
-
-      const detailsEl = document.getElementById(`${side}-hero-details-${index}`);
-      detailsEl.innerHTML = `
-        <div class="hero-name">${hero.Hero}</div>
-        <div class="hero-roles">${hero["Primary Role"] || ''}${hero["Secondary Role"] ? ' | ' + hero["Secondary Role"] : ''}</div>
-        <div class="hero-lane">${hero.Lane || 'Unknown Lane'}</div>
-        <div class="hero-tags">${renderTags(hero.Specialty)}</div>
-        <div class="hero-skills">${renderSkills(hero)}</div>
+      return `
+        <div class="hero-card">
+          <img class="hero-image" src="${hero['Image URL']}" alt="${hero.Hero}">
+          <div class="hero-details">
+            <strong>${hero.Hero}</strong><br>
+            <div><strong>Role:</strong> ${hero["Primary Role"]}</div>
+            <div><strong>Lane:</strong> ${hero.Lane}</div>
+            <div><strong>Specialty:</strong> ${hero.Specialty}</div>
+            <div class="skills">${skillHtml}</div>
+          </div>
+        </div>
       `;
     }
 
-    function renderTags(specialty) {
-      if (!specialty) return '';
-      return specialty.split('|').map(tag => `<span class="tag">${tag.trim()}</span>`).join('');
-    }
-
-    function renderSkills(hero) {
-      let skillsHTML = '';
-      for (let i = 1; i <= 5; i++) {
-        const name = hero[`SkillName${i}`];
-        const desc = hero[`SkillDesc${i}`];
-        const type = hero[`SkillType${i}`];
-        const url = hero[`SkillURL${i}`];
-
-        if (name) {
-          skillsHTML += `
-            <div class="skill">
-              <img src="${url || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${name}" title="${type || 'Skill'}: ${desc || 'No description'}">
-              <span>${name}</span>
-            </div>
-          `;
-        }
-      }
-      return skillsHTML || '<p>No skills available</p>';
-    }
+    init();
   </script>
+
 </body>
 </html>
