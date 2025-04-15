@@ -137,6 +137,14 @@
       transform: translateX(5px);
       color: #ff7733;
     }
+    /* Main content */
+    .main-content {
+      overflow-y: auto;
+      flex: 1;
+      padding: 25px;
+      box-sizing: border-box;
+      background: #262a33;
+    }
   </style>
 </head>
 <body>
@@ -146,21 +154,22 @@
     <a href="items-page.html">Items</a>
     <a href="picks-bans.html">Draft</a>
   </div>
-  <h1>Honor of Kings Draft</h1>
-  <div class="draft-wrapper">
-    <div class="team-column">
-      <div class="team-title">Team Left</div>
-      <div class="ban-section" id="team1Bans"></div>
-      <div class="hero-section" id="team1"></div>
+  <!-- Main content -->
+  <div class="main-content">
+    <h1>Honor of Kings Draft</h1>
+    <div class="draft-wrapper">
+      <div class="team-column">
+        <div class="team-title">Team Left</div>
+        <div class="ban-section" id="team1Bans"></div>
+        <div class="hero-section" id="team1"></div>
+      </div>
+      <div class="team-column">
+        <div class="team-title">Team Right</div>
+        <div class="ban-section" id="team2Bans"></div>
+        <div class="hero-section" id="team2"></div>
+      </div>
     </div>
-    <div class="team-column">
-      <div class="team-title">Team Right</div>
-      <div class="ban-section" id="team2Bans"></div>
-      <div class="hero-section" id="team2"></div>
-    </div>
-  </div>
-  <div class="counter-info" id="counterInfo">Select a hero to view counter information.</div>
-
+    <div class="counter-info" id="counterInfo">Select a hero to view counter information.</div>
   <script>
     const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json";
     let heroData = [];
