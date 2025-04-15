@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hero Picker UI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #2e2e38;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+    .team-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .hero-slot {
+      background: #3e3e4a;
+      padding: 15px;
+      border-radius: 8px;
+      width: 260px;
+    }
+    .hero-select {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 5px;
+      font-size: 1em;
+    }
+    .hero-details {
+      background-color: #444452;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .hero-image {
+      width: 100%;
+      border-radius: 5px;
+    }
+    .hero-name {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .hero-roles, .hero-lane {
+      font-style: italic;
+      margin-top: 5px;
+    }
+    .hero-skills {
+      margin-top: 10px;
+    }
+    .skill {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 5px;
+    }
+    .skill img {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+    }
+    .tag {
+      background: #ffc107;
+      color: #000;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      display: inline-block;
+      margin-right: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hero Picker</h1>
+  <div class="team-container">
+    <div class="hero-slot">
+      <select class="hero-select" onchange="updateHeroUI(this.value, 'left', 0)"></select>
+      <div class="hero-details">
+        <img id="left-hero-img-0" class="hero-image" src="https://i.imgur.com/kkUX3a3.jpeg" alt="Hero Image">
+        <div id="left-hero-details-0"></div>
+      </div>
+    </div>
+    <div class="hero-slot">
+      <select class="hero-select" onchange="updateHeroUI(this.value, 'left', 0)"></select>
+      <div class="hero-details">
+        <img id="left-hero-img-0" class="hero-image" src="https://i.imgur.com/kkUX3a3.jpeg" alt="Hero Image">
+        <div id="left-hero-details-0"></div>
+      </div>
+    </div>
+    <!-- Add more .hero-slot as needed -->
+  </div>
+
+  <script>
+    let heroData = [];
+
+    fetch('https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json')
+      .then(response => response.json())
+      .then(data => {
+        heroData = data;
+        populateHeroDropdowns();
+      })
+      .catch(error => console.error('Error fetching hero data:', error));
+
+    function populateHeroDropdowns() {
+      const dropdowns = document.querySelectorAll('.hero-select');
+      dropdowns.forEach(dropdown => {
+        dropdown.innerHTML = '<option value="">Select Hero</option>';
+        heroData.forEach(hero => {
+          const option = document.createElement('option');
+          option.value = hero.Hero;
+          option.textContent = hero.Hero;
+          dropdown.appendChild(option);
+        });
+      });
+    }
+
+    function updateHeroUI(heroName, side, index) {
+      const hero = heroData.find(h => h.Hero === heroName);
+      if (!hero) return;
+
+      document.getElementById(`${side}-hero-img-${index}`).src = hero['Image URL'] || 'https://i.imgur.com/kkUX3a3.jpeg';
+
+      const detailsEl = document.getElementById(`${side}-hero-details-${index}`);
+      detailsEl.innerHTML = `
+        <div class="hero-name">${hero.Hero}</div>
+        <div class="hero-roles">${hero["Primary Role"] || ''}${hero["Secondary Role"] ? ' | ' + hero["Secondary Role"] : ''}</div>
+        <div class="hero-lane">${hero.Lane || 'Unknown Lane'}</div>
+        <div class="hero-tags">${renderTags(hero.Specialty)}</div>
+        <div class="hero-skills">${renderSkills(hero)}</div>
+      `;
+    }
+
+    function renderTags(specialty) {
+      if (!specialty) return '';
+      return specialty.split('|').map(tag => `<span class="tag">${tag.trim()}</span>`).join('');
+    }
+
+    function renderSkills(hero) {
+      let skillsHTML = '';
+      for (let i = 1; i <= 5; i++) {
+        const name = hero[`SkillName${i}`];
+        const desc = hero[`SkillDesc${i}`];
+        const type = hero[`SkillType${i}`];
+        const url = hero[`SkillURL${i}`];
+
+        if (name) {
+          skillsHTML += `
+            <div class="skill">
+              <img src="${url || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${name}" title="${type || 'Skill'}: ${desc || 'No description'}">
+              <span>${name}</span>
+            </div>
+          `;
+        }
+      }
+      return skillsHTML || '<p>No skills available</p>';
+    }
+  </script>
+</body>
+</html>
