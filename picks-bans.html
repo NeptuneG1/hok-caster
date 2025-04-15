@@ -1,157 +1,217 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Hero Draft</title>
+  <title>Honor of Kings Draft</title>
   <style>
     body {
-      font-family: sans-serif;
-      background-color: #2e2e38;
-      color: white;
       margin: 0;
-      padding: 20px;
-    }
-    .team-container {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
     }
-    .team-column {
-      width: 48%;
+
+    h1 {
+      color: #fff;
+      margin-bottom: 1rem;
     }
-    .team-header {
-      font-size: 1.4em;
-      margin-bottom: 10px;
+
+    .draft-container {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
     }
+
+    .team {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .ban-section {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+
+    .ban-slot {
+      width: 80px;
+      height: 80px;
+      background-color: #1e1e1e;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      border: 1px solid #333;
+    }
+
     .hero-slot {
-      background: #3a3a48;
-      padding: 10px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-    }
-    select {
-      width: 100%;
-      padding: 6px;
-      border-radius: 4px;
-      border: none;
-      margin-bottom: 10px;
-    }
-    .hero-card {
+      width: 120px;
+      height: 140px;
+      background-color: #1e1e1e;
+      border-radius: 1rem;
       display: flex;
-      gap: 12px;
-      align-items: flex-start;
-    }
-    .hero-image {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 6px;
-      border: 1px solid #777;
-    }
-    .hero-details {
-      flex: 1;
-    }
-    .skills span {
-      display: inline-block;
-      background: #555;
-      border-radius: 4px;
-      padding: 2px 6px;
-      margin: 2px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #333;
       position: relative;
-      font-size: 12px;
     }
-    .skills span:hover::after {
-      content: attr(data-type);
+
+    .hero-slot select {
+      margin-top: 0.5rem;
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 0.3rem;
+      width: 100px;
+      font-size: 0.8rem;
+      border-radius: 0.3rem;
+    }
+
+    .tooltip {
+      position: relative;
+      cursor: help;
+      text-align: center;
+      margin-top: 0.3rem;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      background-color: #333;
+      color: #fff;
+      text-align: left;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
       position: absolute;
-      background: black;
-      padding: 4px 8px;
-      border-radius: 4px;
-      top: -28px;
-      left: 0;
-      white-space: nowrap;
-      z-index: 10;
+      z-index: 1;
+      top: -10px;
+      left: 130%;
+      opacity: 0;
+      transition: opacity 0.3s;
+      width: 250px;
+      font-size: 0.8rem;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .counter-info {
+      margin-top: 2rem;
+      background-color: #1e1e1e;
+      padding: 1rem;
+      border-radius: 1rem;
+      width: 80%;
+      max-width: 800px;
+    }
+
+    select {
+      font-family: inherit;
     }
   </style>
 </head>
 <body>
+  <h1>Honor of Kings Draft</h1>
 
-  <h1>Hero Draft</h1>
-
-  <div class="team-container">
-    <div class="team-column" id="left-team">
-      <div class="team-header">Left Team</div>
-    </div>
-    <div class="team-column" id="right-team">
-      <div class="team-header">Right Team</div>
-    </div>
+  <div class="ban-section" id="team1Bans"></div>
+  <div class="draft-container">
+    <div class="team" id="team1"></div>
+    <div class="team" id="team2"></div>
   </div>
+  <div class="ban-section" id="team2Bans"></div>
+
+  <div class="counter-info" id="counterInfo">Select a hero to view counter information.</div>
 
   <script>
-    const heroDataUrl = 'https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json';
-    const NUM_SLOTS = 5;
+    const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json";
+    let heroData = [];
 
-    async function init() {
-      const res = await fetch(heroDataUrl);
-      const heroes = await res.json();
+    async function loadHeroes() {
+      const res = await fetch(API_URL);
+      heroData = await res.json();
+      renderDraftUI();
+    }
 
-      const heroMap = {};
-      heroes.forEach(h => heroMap[h.Hero] = h);
+    function createHeroSlot(teamId, slotIndex) {
+      const slot = document.createElement('div');
+      slot.className = 'hero-slot';
 
-      const left = document.getElementById("left-team");
-      const right = document.getElementById("right-team");
+      const select = document.createElement('select');
+      const defaultOption = document.createElement('option');
+      defaultOption.value = "";
+      defaultOption.textContent = "Select Hero";
+      select.appendChild(defaultOption);
 
-      for (let i = 0; i < NUM_SLOTS; i++) {
-        addHeroSlot(left, `left-${i}`, heroes, heroMap);
-        addHeroSlot(right, `right-${i}`, heroes, heroMap);
+      heroData.forEach(hero => {
+        const option = document.createElement('option');
+        option.value = hero.Hero;
+        option.textContent = hero.Hero;
+        select.appendChild(option);
+      });
+
+      const skillInfo = document.createElement('div');
+      skillInfo.className = 'tooltip';
+      skillInfo.textContent = "Hover for Skills";
+      const tooltip = document.createElement('div');
+      tooltip.className = 'tooltiptext';
+      skillInfo.appendChild(tooltip);
+      slot.appendChild(skillInfo);
+
+      select.addEventListener('change', () => {
+        const selected = heroData.find(h => h.Hero === select.value);
+        tooltip.innerHTML = '';
+        if (selected) {
+          for (let i = 1; i <= 5; i++) {
+            const name = selected[`SkillName${i}`];
+            const desc = selected[`SkillDesc${i}`];
+            const type = selected[`SkillType${i}`];
+            if (name) {
+              tooltip.innerHTML += `<strong>${type || 'Skill'} - ${name}</strong><br>${desc || 'No description'}<br><br>`;
+            }
+          }
+          document.getElementById('counterInfo').innerHTML = `
+            <strong>${selected.Hero}</strong> is countered by: ${selected["Countered by"] || 'N/A'}
+          `;
+        }
+      });
+
+      slot.appendChild(select);
+      return slot;
+    }
+
+    function createBanSlots(containerId) {
+      const container = document.getElementById(containerId);
+      for (let i = 0; i < 3; i++) {
+        const slot = document.createElement('div');
+        slot.className = 'ban-slot';
+        const select = document.createElement('select');
+        select.innerHTML = `<option value="">Ban</option>` +
+          heroData.map(h => `<option value="${h.Hero}">${h.Hero}</option>`).join('');
+        slot.appendChild(select);
+        container.appendChild(slot);
       }
     }
 
-    function addHeroSlot(container, id, heroList, heroMap) {
-      const wrapper = document.createElement("div");
-      wrapper.className = "hero-slot";
-      wrapper.innerHTML = `
-        <select id="select-${id}">
-          <option value="">Select Hero...</option>
-          ${heroList.map(h => `<option value="${h.Hero}">${h.Hero}</option>`).join('')}
-        </select>
-        <div id="card-${id}"></div>
-      `;
-      container.appendChild(wrapper);
+    function renderDraftUI() {
+      for (let i = 0; i < 5; i++) {
+        document.getElementById('team1').appendChild(createHeroSlot('team1', i));
+        document.getElementById('team2').appendChild(createHeroSlot('team2', i));
+      }
 
-      document.getElementById(`select-${id}`).addEventListener("change", e => {
-        const heroName = e.target.value;
-        const hero = heroMap[heroName];
-        const card = document.getElementById(`card-${id}`);
-        if (hero) {
-          card.innerHTML = renderHeroCard(hero);
-        } else {
-          card.innerHTML = "";
-        }
-      });
+      createBanSlots('team1Bans');
+      createBanSlots('team2Bans');
     }
 
-    function renderHeroCard(hero) {
-      const skillTags = ['Passive', 'Skill1', 'Skill2', 'ULT'];
-      const skillHtml = skillTags.map(type => {
-        const skillName = hero[type] || '—';
-        return `<span data-type="${type}">${skillName}</span>`;
-      }).join('');
-
-      return `
-        <div class="hero-card">
-          <img class="hero-image" src="${hero['Image URL']}" alt="${hero.Hero}">
-          <div class="hero-details">
-            <strong>${hero.Hero}</strong><br>
-            <div><strong>Role:</strong> ${hero["Primary Role"]}</div>
-            <div><strong>Lane:</strong> ${hero.Lane}</div>
-            <div><strong>Specialty:</strong> ${hero.Specialty}</div>
-            <div class="skills">${skillHtml}</div>
-          </div>
-        </div>
-      `;
-    }
-
-    init();
+    loadHeroes();
   </script>
-
 </body>
 </html>
