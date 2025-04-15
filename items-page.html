@@ -162,7 +162,9 @@
     .item-line {
       margin-left: 10px;
     }
-
+    .spacer {
+          margin-bottom: 30px; /* Extra space */
+        }
     /* Responsive adjustments for smaller screens */
     @media (max-width: 1200px) {
       .item-card {
@@ -202,7 +204,7 @@
       <button id="Advanced" class="toggle-button active" onclick="switchTab('Advanced')">Advanced</button>
       <button id="Novice" class="toggle-button" onclick="switchTab('Novice')">Novice</button>
     </div>
-
+    <div class="spacer"></div> 
     <div class="top-controls">
       <input id="search" class="search-box" placeholder="Search item name..." onkeyup="renderItems()">
       <select id="classFilter" class="filter-dropdown" onchange="renderItems()">
