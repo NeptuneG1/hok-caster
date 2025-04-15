@@ -297,11 +297,14 @@
         const skillURL = hero[`SkillURL${i}`];
         const skillType = hero[`SkillType${i}`];
         if (skillName) {
-          skillHTML += `
-            <div class="skill tooltip">
-              <img src="${skillURL || 'https://i.imgur.com/default-skill.png'}" alt="${skillName}">
-              <span>${skillName || `Skill ${i}`}</span>
-              <span class="tooltiptext">${skillType || skillDesc || 'No description available'}</span>
+        skillHTML += `
+          <div class="skill tooltip">
+            <img src="${skillURL || 'https://i.imgur.com/default-skill.png'}" alt="${skillName}">
+            <span>${skillName}</span>
+            <span class="tooltiptext">
+              <strong>${skillType || 'Unknown Type'}</strong><br>
+              ${skillDesc || 'No description available'}
+            </span>
             </div>
           `;
         }
