@@ -214,7 +214,7 @@
               tooltip.innerHTML += `<strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}<br><br>`;
             }
           }
-          document.getElementById('counterInfo').innerHTML = `<strong>${selected.Hero}</strong> is countered by: ${selected["Countered by"] || 'None'}`;
+          document.getElementById('counterInfo').innerHTML = `<strong>${selected.Hero}</strong> strategy: ${selected["Strategy"] || 'None'}`;
         }
       });
 
