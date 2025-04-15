@@ -267,8 +267,7 @@
           <img class="hero-image" src="${hero['Image URL'] || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero.Hero}">
           <h2>${hero.Hero || 'Unknown Hero'}</h2>
           <p><strong>Role:</strong> ${hero["Primary Role"] || 'Unknown Role'}</p>
-          <p><strong>Lane:</strong>
-            <div>
+          <p><strong>Lane:</strong><div>
               ${lanes.map(lane => `
                 <span class="tooltip">
                   <img src="${laneIcons[lane.trim()] || laneIcons["Unknown"]}" alt="${lane}" class="lane-icon">
