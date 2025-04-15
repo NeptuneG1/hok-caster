@@ -224,17 +224,29 @@
     }
 
     function createBanSlot(containerId) {
-      const container = document.getElementById(containerId);
-      for (let i = 0; i < 3; i++) {
-        const slot = document.createElement('div');
-        slot.className = 'ban-slot';
-        const select = document.createElement('select');
-        select.innerHTML = '<option value="">Ban</option>' +
-          heroData.map(hero => `<option value="${hero.Hero}">${hero.Hero}</option>`).join('');
-        slot.appendChild(select);
-        container.appendChild(slot);
-      }
+    const container = document.getElementById(containerId);
+    for (let i = 0; i < 3; i++) {
+      const slot = document.createElement('div');
+      slot.className = 'ban-slot';
+
+      const img = document.createElement('img');
+      img.className = 'hero-image';
+      img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
+      slot.appendChild(img);
+
+      const select = document.createElement('select');
+      select.innerHTML = '<option value="">Ban</option>' +
+        heroData.map(hero => `<option value="${hero.Hero}">${hero.Hero}</option>`).join('');
+
+      select.addEventListener('change', () => {
+        const selected = heroData.find(h => h.Hero === select.value);
+        img.src = selected?.["Image URL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
+      });
+
+      slot.appendChild(select);
+      container.appendChild(slot);
     }
+  }
 
     function renderDraftUI() {
       for (let i = 0; i < 5; i++) {
