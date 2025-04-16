@@ -120,7 +120,7 @@
       return `
         <div class="hero">
           <img src="${hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero.Hero}">
-          <div><span><strong>${heroName}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</span></div>
+          <div><strong>${heroName}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</div>
         </div>
       `;
     }
@@ -173,10 +173,10 @@
                   ${createHeroCard(match.team2_hero5, match.team2_player5, match.team2_kda5, match.team2_MVP === 5)}
                 </div>
                 <div class="bans">
-                  ${createBanCard(match.team2_ban1)}
-                  ${createBanCard(match.team2_ban2)}
-                  ${createBanCard(match.team2_ban3)}
                   ${createBanCard(match.team2_ban4)}
+                  ${createBanCard(match.team2_ban3)}
+                  ${createBanCard(match.team2_ban2)}
+                  ${createBanCard(match.team2_ban1)}
                 </div>
               </div>
             </div>
