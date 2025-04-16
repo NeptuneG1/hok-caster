@@ -2,121 +2,195 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>O2 Esports vs DTE Gaming - Match Detail</title>
+  <title>Fixed Hero Draft</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
-    h1, h2, h3 { margin: 0.5em 0; }
-    .header { background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-    .game-block { background: #fff; padding: 15px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.05); }
-    .teams { display: flex; justify-content: space-between; gap: 20px; }
-    ul { list-style: none; padding: 0; }
-    li { padding: 4px 0; }
-    .bans { background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.05); }
-    .toggle-btn { background: none; border: none; color: blue; cursor: pointer; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1c1f26;
+      color: #f0f0f0;
+      margin: 0;
+      display: flex;
+    }
+    .sidebar {
+      width: 220px;
+      background: linear-gradient(to bottom, #0f0f14, #1a1b23);
+      padding: 20px 15px;
+      box-sizing: border-box;
+      height: 100vh;
+      border-right: 2px solid #ff7733;
+      box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
+    }
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 25px;
+      color: #ff7733;
+      text-shadow: 0 0 6px #ff7733aa;
+    }
+    .sidebar a {
+      display: block;
+      color: #ddd;
+      text-decoration: none;
+      margin-bottom: 15px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .sidebar a:hover {
+      background-color: #33384a;
+      transform: translateX(5px);
+      color: #ff7733;
+    }
+    .main-content {
+      overflow-y: auto;
+      flex: 1;
+      padding: 25px;
+      box-sizing: border-box;
+      background: #262a33;
+    }
+    h1 {
+      text-align: center;
+      color: #ffffff;
+      font-size: 2rem;
+    }
+    .draft-wrapper {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .team-column {
+      width: 48%;
+    }
+    .team-title {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .hero-section {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .hero-card {
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 0.75rem;
+      padding: 0.5rem;
+      width: 120px;
+      text-align: center;
+    }
+    .hero-image {
+      width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .hero-name {
+      font-size: 0.9rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .tooltip {
+      position: relative;
+      cursor: help;
+    }
+    .tooltiptext {
+      visibility: hidden;
+      background-color: #333;
+      color: #fff;
+      text-align: left;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      position: absolute;
+      z-index: 1;
+      top: -10px;
+      left: 120%;
+      opacity: 0;
+      transition: opacity 0.3s;
+      width: 250px;
+      font-size: 0.75rem;
+    }
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>O2 Esports vs DTE Gaming</h1>
-    <h2>Score: 3 - 1</h2>
-    <p>March 22, 2025 – 17:15 PHT</p>
+  <div class="sidebar">
+    <h2>HOK Viewer</h2>
+    <a href="#">Heroes</a>
+    <a href="#">Items</a>
+    <a href="#">Draft</a>
   </div>
-
-  <div class="game-block">
-    <h3>Game 1 – 13:07</h3>
-    <div class="teams">
-      <ul>
-        <li>Biron</li>
-        <li>Augran</li>
-        <li>Mai Shiranui</li>
-        <li>Arli</li>
-        <li>Sakeer</li>
-      </ul>
-      <ul>
-        <li>Sun Ce</li>
-        <li>Dun</li>
-        <li>Xiao Qiao</li>
-        <li>Shouyue</li>
-        <li>Cai Yan</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="game-block">
-    <h3>Game 2 – 9:44</h3>
-    <div class="teams">
-      <ul>
-        <li>Sun Ce</li>
-        <li>Musashi</li>
-        <li>Yixing</li>
-        <li>Lady Sun</li>
-        <li>Dolia</li>
-      </ul>
-      <ul>
-        <li>Guan Yu</li>
-        <li>Feyd</li>
-        <li>Yuhuan</li>
-        <li>Loong</li>
-        <li>Zhang Fei</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="game-block">
-    <h3>Game 3 – 14:01</h3>
-    <div class="teams">
-      <ul>
-        <li>Mayene</li>
-        <li>Ata</li>
-        <li>Shi</li>
-        <li>Consort Yu</li>
-        <li>Lian Po</li>
-      </ul>
-      <ul>
-        <li>Guan Yu</li>
-        <li>Kaizer</li>
-        <li>Princess Frost</li>
-        <li>Di Renjie</li>
-        <li>Liang</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="game-block">
-    <h3>Game 4 – 15:55</h3>
-    <div class="teams">
-      <ul>
-        <li>Charlotte</li>
-        <li>Menki</li>
-        <li>Yixing</li>
-        <li>Marco Polo</li>
-        <li>Dyadia</li>
-      </ul>
-      <ul>
-        <li>Dun</li>
-        <li>Mayene</li>
-        <li>Luna</li>
-        <li>Allain</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="bans">
-    <h3>Bans <button class="toggle-btn" onclick="toggleBans()">[hide]</button></h3>
-    <div id="banList">
-      <p><strong>Game 1:</strong> Yuhuan, Lady Zhen, Guan Yu, Mozi, Dun, Dharma, Luna, Menki</p>
-      <p><strong>Game 2:</strong> Mai Shiranui, Augran, Biron, Mayene, Augran, Mai Shiranui, Di Renjie, Arli</p>
-      <p><strong>Game 3:</strong> Dyadia, Dun, Zhang Fei, Mozi, Mai Shiranui, Augran, Lady Sun, Arli</p>
-      <p><strong>Game 4:</strong> Dun, Mayene, Luna, Allain</p>
+  <div class="main-content">
+    <h1>Fixed Hero Draft</h1>
+    <div class="draft-wrapper">
+      <div class="team-column">
+        <div class="team-title">Team A</div>
+        <div class="hero-section" id="team1"></div>
+      </div>
+      <div class="team-column">
+        <div class="team-title">Team B</div>
+        <div class="hero-section" id="team2"></div>
+      </div>
     </div>
   </div>
 
   <script>
-    function toggleBans() {
-      const bans = document.getElementById('banList');
-      bans.style.display = bans.style.display === 'none' ? 'block' : 'none';
+    const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json";
+    let heroData = [];
+    const team1Heroes = ["Mai Shiranui", "Arli", "Sakeer", "Sun Ce", "Dun"];
+    const team2Heroes = ["Xiao Qiao", "Shouyue", "Cai Yan", "Musashi", "Yixing"];
+
+    async function loadHeroes() {
+      const res = await fetch(API_URL);
+      heroData = await res.json();
+      renderTeam('team1', team1Heroes);
+      renderTeam('team2', team2Heroes);
     }
+
+    function renderTeam(containerId, teamHeroes) {
+      const container = document.getElementById(containerId);
+      teamHeroes.forEach(heroName => {
+        const hero = heroData.find(h => h.Hero === heroName);
+        const card = document.createElement('div');
+        card.className = 'hero-card';
+
+        const img = document.createElement('img');
+        img.className = 'hero-image';
+        img.src = hero?.["Image URL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
+        card.appendChild(img);
+
+        const name = document.createElement('div');
+        name.className = 'hero-name';
+        name.textContent = heroName;
+        card.appendChild(name);
+
+        const skillInfo = document.createElement('div');
+        skillInfo.className = 'tooltip';
+        skillInfo.textContent = "Skills";
+
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltiptext';
+        if (hero) {
+          for (let i = 1; i <= 5; i++) {
+            const type = hero[`SkillType${i}`];
+            const skillName = hero[`SkillName${i}`];
+            const desc = hero[`SkillDesc${i}`];
+            if (skillName) {
+              tooltip.innerHTML += `<strong>${type || 'Skill'}: ${skillName}</strong><br>${desc || 'No description'}<br><br>`;
+            }
+          }
+        }
+        skillInfo.appendChild(tooltip);
+        card.appendChild(skillInfo);
+
+        container.appendChild(card);
+      });
+    }
+
+    loadHeroes();
   </script>
 </body>
 </html>
