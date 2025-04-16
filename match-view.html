@@ -106,22 +106,17 @@
 
     .heroes {
       display: flex;
-      justify-content: space-between;
       flex-wrap: wrap;
       gap: 8px;
       margin-bottom: 0.5rem;
       flex-direction: row;
+      justify-content: flex-start;
     }
     
-    .heroes:first-child {
-      align-items: flex-start; /* Team 1: align left */
-      text-align: left;
+    .team:last-child .heroes {
+      justify-content: flex-end;
     }
-    
-    .heroes:last-child {
-      align-items: flex-end; /* Team 2: align right */
-      text-align: right;
-    }
+
 
     .hero {
       background: #2a2d38;
