@@ -261,7 +261,7 @@
 
       const filtered = heroes.filter(hero => {
         return (!search || hero.Hero.toLowerCase().includes(search)) &&
-               (!role || hero["Primary Role"]?.includes(role)) &&
+               (!role || hero["PrimaryRole"]?.includes(role)) &&
                (!lane || hero.Lane?.includes(lane));
       });
 
@@ -271,9 +271,9 @@
         card.className = 'hero-card';
 
         card.innerHTML = `
-          <img class="hero-image" src="${hero['Image URL'] || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero.Hero}">
+          <img class="hero-image" src="${hero['ImageURL'] || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero.Hero}">
           <h2>${hero.Hero || 'Unknown Hero'}</h2>
-          <p><strong>Role:</strong> ${hero["Primary Role"] || 'Unknown Role'}</p>
+          <p><strong>Role:</strong> ${hero["PrimaryRole"] || 'Unknown Role'}</p>
           <p><strong>Lane:</strong><div>
               ${lanes.map(lane => `
                 <span class="tooltip">
