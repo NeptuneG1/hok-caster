@@ -1,150 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>All Matches Viewer</title>
+  <meta charset="UTF-8" />
+  <title>Match Viewer</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       background: #1c1f26;
       color: #f0f0f0;
+      margin: 0;
       padding: 20px;
     }
-    h1 {
+
+    h1, h2 {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 1rem;
     }
+
     .match {
-      border: 1px solid #333;
+      margin-bottom: 3rem;
+      background: #262a33;
+      padding: 1rem;
       border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 40px;
-      background: #252933;
     }
-    .match-header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .team-section {
+
+    .team-row {
       display: flex;
       justify-content: space-between;
-      gap: 20px;
+      margin-bottom: 1rem;
     }
+
     .team {
       width: 48%;
     }
-    .team h2 {
-      text-align: center;
-      margin-bottom: 10px;
+
+    .team h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      color: #ffcc88;
     }
+
+    .heroes {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
     .hero {
       background: #2a2d38;
       padding: 6px 8px;
-      margin-bottom: 6px;
       border-radius: 8px;
       display: flex;
       align-items: center;
       gap: 8px;
       font-size: 0.85rem;
-      line-height: 1.2;
     }
+
     .hero img {
       width: 48px;
       height: 48px;
       border-radius: 6px;
       object-fit: cover;
     }
-    .hero span {
-      display: inline-block;
-    }
-    .ban-list {
+
+    .bans {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      justify-content: center;
-      margin-bottom: 15px;
+      margin-top: 0.5rem;
     }
+
     .ban {
-      background: #912323;
-      padding: 5px 10px;
-      border-radius: 8px;
-      font-size: 0.9rem;
+      text-align: center;
+      font-size: 0.75rem;
+    }
+
+    .ban img {
+      width: 48px;
+      height: 48px;
+      border-radius: 6px;
     }
   </style>
 </head>
 <body>
-  <h1>Honor of Kings Match Viewer</h1>
-  <div id="matchesContainer"></div>
+  <h1>Match Viewer</h1>
+  <div id="matches"></div>
 
   <script>
-    const matchURL = "https://neptuneg1.github.io/hero-skills-viewer/matchdata.json";
-    const heroURL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json";
+    const heroAPI = "https://neptuneg1.github.io/hero-skills-viewer/data.json";
+    const matchAPI = "https://neptuneg1.github.io/hero-skills-viewer/matchdata.json";
 
-    async function loadData() {
-      const [matchRes, heroRes] = await Promise.all([
-        fetch(matchURL),
-        fetch(heroURL)
+    let heroList = [];
+
+    async function fetchData() {
+      const [heroRes, matchRes] = await Promise.all([
+        fetch(heroAPI),
+        fetch(matchAPI)
       ]);
+
+      heroList = await heroRes.json();
       const matchData = await matchRes.json();
-      const heroData = await heroRes.json();
-      renderAllMatches(matchData, heroData);
+
+      renderMatches(matchData);
     }
 
-    function createHeroCard(hero, player, kda, isMVP) {
+    function getHeroData(heroName) {
+      return heroList.find(h => h.Hero === heroName) || {};
+    }
+
+    function createHeroCard(heroName, player, kda, isMVP) {
+      const hero = getHeroData(heroName);
       return `
         <div class="hero">
-          <img src="${hero?.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero?.Hero || 'Unknown'}">
-          <span><strong>${hero?.Hero || 'Unknown'}</strong><br>${player}<br>KDA: ${kda}${isMVP ? ' 🌟 MVP' : ''}</span>
+          <img src="${hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero.Hero}">
+          <span><strong>${heroName}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</span>
         </div>
       `;
     }
 
-    function renderAllMatches(matches, heroData) {
-      const container = document.getElementById("matchesContainer");
-      matches.forEach((match, idx) => {
-        const matchDiv = document.createElement("div");
-        matchDiv.className = "match";
-        matchDiv.innerHTML = `
-          <div class="match-header">
-            <h2>Game ${match.game}: ${match.matchup}</h2>
-            <p>${match.tournament} | ${match.stage} | ${match.date}</p>
-            <p><strong>${match.team1_name} ${match.team1_score} - ${match.team2_score} ${match.team2_name}</strong> | Winner: ${match.winner}</p>
-          </div>
-          <div class="team-section">
-            <div class="team">
-              <h2>${match.team1_name}</h2>
-              <div class="ban-list">${renderBans(match, 'team1')}</div>
-              <div>${renderHeroes(match, heroData, 'team1')}</div>
+    function createBanCard(heroName) {
+      const hero = getHeroData(heroName);
+      return `
+        <div class="ban">
+          <img src="${hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${heroName}">
+          <div>${heroName}</div>
+        </div>
+      `;
+    }
+
+    function renderMatches(data) {
+      const container = document.getElementById('matches');
+      container.innerHTML = '';
+
+      data.forEach(match => {
+        const matchHTML = `
+          <div class="match">
+            <h2>${match.matchup} – Game ${match.game} (${match.format})</h2>
+            <h3>${match.stage} – ${match.date}</h3>
+
+            <div class="team-row">
+              <div class="team">
+                <h3>${match.team1_name} – ${match.team1_score}</h3>
+                <div class="heroes">
+                  ${createHeroCard(match.team1_hero1, match.team1_player1, match.team1_kda1, match.team1_MVP === 1)}
+                  ${createHeroCard(match.team1_hero2, match.team1_player2, match.team1_kda2, match.team1_MVP === 2)}
+                  ${createHeroCard(match.team1_hero3, match.team1_player3, match.team1_kda3, match.team1_MVP === 3)}
+                  ${createHeroCard(match.team1_hero4, match.team1_player4, match.team1_kda4, match.team1_MVP === 4)}
+                  ${createHeroCard(match.team1_hero5, match.team1_player5, match.team1_kda5, match.team1_MVP === 5)}
+                </div>
+                <div class="bans">
+                  ${createBanCard(match.team1_ban1)}
+                  ${createBanCard(match.team1_ban2)}
+                  ${createBanCard(match.team1_ban3)}
+                  ${createBanCard(match.team1_ban4)}
+                </div>
+              </div>
+
+              <div class="team">
+                <h3>${match.team2_name} – ${match.team2_score}</h3>
+                <div class="heroes">
+                  ${createHeroCard(match.team2_hero1, match.team2_player1, match.team2_kda1, match.team2_MVP === 1)}
+                  ${createHeroCard(match.team2_hero2, match.team2_player2, match.team2_kda2, match.team2_MVP === 2)}
+                  ${createHeroCard(match.team2_hero3, match.team2_player3, match.team2_kda3, match.team2_MVP === 3)}
+                  ${createHeroCard(match.team2_hero4, match.team2_player4, match.team2_kda4, match.team2_MVP === 4)}
+                  ${createHeroCard(match.team2_hero5, match.team2_player5, match.team2_kda5, match.team2_MVP === 5)}
+                </div>
+                <div class="bans">
+                  ${createBanCard(match.team2_ban1)}
+                  ${createBanCard(match.team2_ban2)}
+                  ${createBanCard(match.team2_ban3)}
+                  ${createBanCard(match.team2_ban4)}
+                </div>
+              </div>
             </div>
-            <div class="team">
-              <h2>${match.team2_name}</h2>
-              <div class="ban-list">${renderBans(match, 'team2')}</div>
-              <div>${renderHeroes(match, heroData, 'team2')}</div>
-            </div>
+
+            <p style="text-align:center;"><strong>Winner:</strong> ${match.winner}</p>
           </div>
         `;
-        container.appendChild(matchDiv);
+        container.innerHTML += matchHTML;
       });
     }
 
-    function renderBans(match, team) {
-      return [1, 2, 3, 4].map(i => `<div class="ban">${match[`${team}_ban${i}`]}</div>`).join('');
-    }
-
-    function renderHeroes(match, heroData, team) {
-      let output = "";
-      for (let i = 1; i <= 5; i++) {
-        const heroName = match[`${team}_hero${i}`];
-        const hero = heroData.find(h => h.Hero === heroName);
-        const player = match[`${team}_player${i}`];
-        const kda = match[`${team}_kda${i}`];
-        const isMVP = match[`${team}_MVP`] === i;
-        output += createHeroCard(hero, player, kda, isMVP);
-      }
-      return output;
-    }
-
-    loadData();
+    fetchData();
   </script>
 </body>
 </html>
