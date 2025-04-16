@@ -186,6 +186,7 @@
 
     <script>
       const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json";
+      const MATCH_DATA_URL = "https://neptuneg1.github.io/hero-skills-viewer/matchdata.json";
       let heroData = [];
 
       const team1Bans = ["Dolia", "Liang", "Di Renjie", "Lady Sun"];
@@ -291,23 +292,48 @@
           container.appendChild(slot);
         });
       }
-    
-        function renderDraftUI() {
-        const team1 = document.getElementById('team1');
-        const team2 = document.getElementById('team2');
-        team1.innerHTML = '';
-        team2.innerHTML = '';
+
+          async function loadMatchData() {
+          const res = await fetch(MATCH_DATA_URL);
+          const matchData = await res.json();
       
-        for (let i = 0; i < 5; i++) {
-          team1.appendChild(setFixedHeroCard(team1Heroes[i], team1Players[i], team1KDAs[i], 'team1', i));
-          team2.appendChild(setFixedHeroCard(team2Heroes[i], team2Players[i], team2KDAs[i], 'team2', i));
+          // Select the first match (index 0)
+          const match = matchData[0];
+      
+          const team1 = document.getElementById('team1');
+          const team2 = document.getElementById('team2');
+          team1.innerHTML = '';
+          team2.innerHTML = '';
+      
+          for (let i = 0; i < 5; i++) {
+            team1.appendChild(setFixedHeroCard(
+              match.team1.heroes[i],
+              match.team1.players[i],
+              match.team1.kda[i],
+              'team1',
+              i,
+              match.team1.mvp
+            ));
+            team2.appendChild(setFixedHeroCard(
+              match.team2.heroes[i],
+              match.team2.players[i],
+              match.team2.kda[i],
+              'team2',
+              i,
+              match.team2.mvp
+            ));
+          }
+      
+          setFixedBanSlot(match.team1.bans, 'team1Bans');
+          setFixedBanSlot(match.team2.bans, 'team2Bans');
         }
       
-        setFixedBanSlot(team1Bans, 'team1Bans');
-        setFixedBanSlot(team2Bans, 'team2Bans');
-      }
-    
-      loadHeroes();
+        async function initialize() {
+          await loadHeroes();
+          await loadMatchData();
+        }
+      
+        initialize();
     </script>
   </div>
 </body>
