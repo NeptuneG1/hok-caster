@@ -105,6 +105,15 @@
 </head>
 <body>
   <h1>Match Viewer</h1>
+
+  <!-- Dropdown for tournament filtering -->
+  <div style="text-align: center; margin-bottom: 1rem;">
+    <label for="tournamentSelect">Filter by Tournament: </label>
+    <select id="tournamentSelect">
+      <option value="all">All</option>
+    </select>
+  </div>
+
   <div id="matches"></div>
 
   <script>
@@ -112,6 +121,7 @@
     const matchAPI = "https://neptuneg1.github.io/hero-skills-viewer/matchdata.json";
 
     let heroList = [];
+    let matchList = [];
 
     async function fetchData() {
       const [heroRes, matchRes] = await Promise.all([
@@ -120,9 +130,30 @@
       ]);
 
       heroList = await heroRes.json();
-      const matchData = await matchRes.json();
+      matchList = await matchRes.json();
 
-      renderMatches(matchData);
+      populateTournamentDropdown(matchList);
+      renderMatches(matchList);
+    }
+
+    function populateTournamentDropdown(matches) {
+      const tournamentSet = new Set(matches.map(m => m.tournament));
+      const select = document.getElementById("tournamentSelect");
+
+      tournamentSet.forEach(t => {
+        const option = document.createElement("option");
+        option.value = t;
+        option.textContent = t;
+        select.appendChild(option);
+      });
+
+      select.addEventListener("change", () => {
+        const selected = select.value;
+        const filtered = selected === "all"
+          ? matchList
+          : matchList.filter(m => m.tournament === selected);
+        renderMatches(filtered);
+      });
     }
 
     function getHeroData(heroName) {
@@ -195,7 +226,7 @@
               </div>
             </div>
 
-            <p style="text-align:center;"><strong>Winner:</strong> ${match.winner}</p>
+            <p><strong>Winner:</strong> ${match.winner}</p>
           </div>
         `;
         container.innerHTML += matchHTML;
