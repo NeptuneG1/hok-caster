@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HOK Map Details</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1c1f26;
+      color: #f0f0f0;
+      margin: 0;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: linear-gradient(to bottom, #0f0f14, #1a1b23);
+      padding: 20px 15px;
+      box-sizing: border-box;
+      height: 100vh;
+      border-right: 2px solid #ff7733;
+      box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 25px;
+      color: #ff7733;
+      text-shadow: 0 0 6px #ff7733aa;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #ddd;
+      text-decoration: none;
+      margin-bottom: 15px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .sidebar a:hover {
+      background-color: #33384a;
+      transform: translateX(5px);
+      color: #ff7733;
+    }
+
+    .main-content {
+      margin-left: 220px;
+      padding: 30px;
+      flex: 1;
+      box-sizing: border-box;
+      background: #262a33;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #ff7733;
+    }
+
+    .map-container {
+      width: 100%;
+      max-width: 800px;
+      margin-bottom: 2rem;
+    }
+
+    .map-container img {
+      width: 100%;
+      border: 2px solid #ff7733;
+      border-radius: 12px;
+      box-shadow: 0 0 12px #ff773366;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .legend-item {
+      background: #2e3340;
+      padding: 1rem;
+      border-radius: 10px;
+      border: 1px solid #3c3f4f;
+      flex: 1 1 250px;
+    }
+
+    .legend-item h3 {
+      margin-top: 0;
+      color: #ffffff;
+      font-size: 1.2rem;
+    }
+
+    .legend-item p {
+      margin: 0.5rem 0 0;
+      font-size: 0.95rem;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>HOK Viewer</h2>
+    <a href="index.html">Heroes</a>
+    <a href="items-page.html">Items</a>
+    <a href="picks-bans.html">Draft</a>
+    <a href="map-details.html">Map Details</a>
+  </div>
+
+  <div class="main-content">
+    <h1>Map Overview & Objectives</h1>
+
+    <div class="map-container">
+      <img src="https://i.imgur.com/pXvB9dB.jpg" alt="HOK Map" />
+    </div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <h3>Outer Turrets</h3>
+        <p>Protect the outer edges of each lane. Destroying them opens the map for aggression.</p>
+      </div>
+      <div class="legend-item">
+        <h3>Jungle Buffs</h3>
+        <p>Blue Buff: Mana regen & cooldown. Red Buff: Slow effect on attacks.</p>
+      </div>
+      <div class="legend-item">
+        <h3>Dark Slayer</h3>
+        <p>Major objective that grants team-wide buffs. Appears later in the game.</p>
+      </div>
+      <div class="legend-item">
+        <h3>River Vision</h3>
+        <p>Crucial for controlling rotations and ambushes. Place vision for better control.</p>
+      </div>
+      <div class="legend-item">
+        <h3>Mini Camps</h3>
+        <p>Smaller neutral camps for gold/XP. Clear regularly to level up efficiently.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
