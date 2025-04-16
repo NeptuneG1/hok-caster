@@ -193,24 +193,24 @@
 
       for (let i = 0; i < 5; i++) {
         team1.appendChild(setFixedHeroCard(
-          match.team1.heroes[i],
-          match.team1.players[i],
-          match.team1.kda[i],
+          match.team1_hero[i],
+          match.team1_player[i],
+          match.team1_kda[i],
           'team1',
           i,
           match.team1.mvp
         ));
         team2.appendChild(setFixedHeroCard(
-          match.team2.heroes[i],
-          match.team2.players[i],
-          match.team2.kda[i],
+          match.team2_heroe[i],
+          match.team2_player[i],
+          match.team2_kda[i],
           'team2',
           i,
           match.team2.mvp
         ));
       }
-
-      setFixedBanSlot(match.team1.bans, 'team1Bans');
+      
+      setFixedBanSlot(match.team1_bans, 'team1Bans');
       setFixedBanSlot(match.team2.bans, 'team2Bans');
     }
 
