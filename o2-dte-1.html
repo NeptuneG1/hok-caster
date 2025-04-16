@@ -185,90 +185,82 @@
     </div>
 
     <script>
-      const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json";
+      const HERO_DATA_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json";
       const MATCH_DATA_URL = "https://neptuneg1.github.io/hero-skills-viewer/matchdata.json";
+    
       let heroData = [];
-
-      const team1Bans = ["Dolia", "Liang", "Di Renjie", "Lady Sun"];
-      const team2Bans = ["Mozi", "Guan Yu", "Lady Zhen", "Yuhuan"];
+      let matchData = [];
     
-      const team1Heroes = ["Biron", "Augran", "Mai Shiranui", "Arli", "Sakeer"];
-      const team2Heroes = ["Sun Ce", "Dun", "Xiao Qiao", "Shouyue", "Cai Yan"];
-
-      const team1Players = ["O2.K1", "O2.Kongling", "O2.Care", "O2.X1", "O2.White"];
-      const team2Players = ["Dte.cm", "DTE.qx", "Dte.bb", "Dte.cece", "Dte.hao"];
-
-      const team1KDAs = ["2/2/4", "8/1/5", "1/1/6", "2/0/7", "0/2/12"];
-      const team2KDAs = ["2/1/3", "1/4/4", "1/3/3", "2/2/1", "0/3/2"];
-
-      const team1MVP = 1; // third player
-      const team2MVP = 3; // first player
+      async function loadData() {
+        const [heroRes, matchRes] = await Promise.all([
+          fetch(HERO_DATA_URL),
+          fetch(MATCH_DATA_URL)
+        ]);
+        heroData = await heroRes.json();
+        matchData = await matchRes.json();
     
-      async function loadHeroes() {
-        const res = await fetch(API_URL);
-        heroData = await res.json();
-        renderDraftUI();
+        const currentMatch = matchData.find(m => m.Match === "O2 vs DTE 1of3");
+        if (!currentMatch) return alert("Match data not found!");
+    
+        renderDraftUI(currentMatch);
       }
-      
+    
       function getKDAColor(kda) {
-      const [kills, deaths, assists] = kda.split('/').map(Number);
-      const ratio = deaths === 0 ? kills + assists : (kills + assists) / deaths;
+        const [kills, deaths, assists] = kda.split('/').map(Number);
+        const ratio = deaths === 0 ? kills + assists : (kills + assists) / deaths;
+        if (ratio >= 4) return '#8aff8a';   // green
+        if (ratio >= 2) return '#ffdd55';   // yellow
+        return '#ff6b6b';                   // red
+      }
     
-      if (ratio >= 4) return '#8aff8a';      // green
-      if (ratio >= 2) return '#ffdd55';      // yellow
-      return '#ff6b6b';                      // red
-    }
-
-      function setFixedHeroCard(heroName, playerName, kda, teamId, i) {
-      const hero = heroData.find(h => h.Hero === heroName);
-      const card = document.createElement('div');
-      card.className = 'hero-card';
+      function setFixedHeroCard(heroName, playerName, kda, teamId, i, MVPindex) {
+        const hero = heroData.find(h => h.Hero === heroName);
+        const card = document.createElement('div');
+        card.className = 'hero-card';
     
-      const img = document.createElement('img');
-      img.className = 'hero-image';
-      img.src = hero?.["ImageURL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
+        const img = document.createElement('img');
+        img.className = 'hero-image';
+        img.src = hero?.["ImageURL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
     
-      const nameLabel = document.createElement('div');
-      nameLabel.textContent = heroName;
-      nameLabel.style.marginTop = "0.4rem";
-      nameLabel.style.fontWeight = "bold";
-      nameLabel.style.fontSize = "0.9rem";
-
-
-      const kdaColor = getKDAColor(kda);
-      const isMVP = (teamId === 'team1' && i === team1MVP) || (teamId === 'team2' && i === team2MVP);
-      
-      const playerLabel = document.createElement('div');
-      playerLabel.innerHTML = `${playerName}<br>
-        <span style="color:${kdaColor}; font-size:0.75rem;">KDA: ${kda}</span>
-        ${isMVP ? '<br><span style="color:#ffd700;">🌟 MVP</span>' : ''}`;
+        const nameLabel = document.createElement('div');
+        nameLabel.textContent = heroName;
+        nameLabel.style.marginTop = "0.4rem";
+        nameLabel.style.fontWeight = "bold";
+        nameLabel.style.fontSize = "0.9rem";
     
-      const skillInfo = document.createElement('div');
-      skillInfo.className = 'tooltip';
-      skillInfo.textContent = "Skills";
+        const kdaColor = getKDAColor(kda);
+        const isMVP = i === MVPindex;
     
-      const tooltip = document.createElement('div');
-      tooltip.className = 'tooltiptext';
-      skillInfo.appendChild(tooltip);
+        const playerLabel = document.createElement('div');
+        playerLabel.innerHTML = `${playerName}<br>
+          <span style="color:${kdaColor}; font-size:0.75rem;">KDA: ${kda}</span>
+          ${isMVP ? '<br><span style="color:#ffd700;">🌟 MVP</span>' : ''}`;
     
-      if (hero) {
-        tooltip.innerHTML = '';
-        for (let i = 1; i <= 5; i++) {
-          const type = hero[`SkillType${i}`];
-          const name = hero[`SkillName${i}`];
-          const desc = hero[`SkillDesc${i}`];
-          if (name) {
-            tooltip.innerHTML += `<strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}<br><br>`;
+        const skillInfo = document.createElement('div');
+        skillInfo.className = 'tooltip';
+        skillInfo.textContent = "Skills";
+    
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltiptext';
+        skillInfo.appendChild(tooltip);
+    
+        if (hero) {
+          for (let i = 1; i <= 5; i++) {
+            const type = hero[`SkillType${i}`];
+            const name = hero[`SkillName${i}`];
+            const desc = hero[`SkillDesc${i}`];
+            if (name) {
+              tooltip.innerHTML += `<strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}<br><br>`;
+            }
           }
         }
-      }
     
-      card.appendChild(img);
-      card.appendChild(nameLabel);
-      card.appendChild(playerLabel);
-      card.appendChild(skillInfo);
-      return card;
-    }
+        card.appendChild(img);
+        card.appendChild(nameLabel);
+        card.appendChild(playerLabel);
+        card.appendChild(skillInfo);
+        return card;
+      }
     
       function setFixedBanSlot(heroNames, containerId) {
         const container = document.getElementById(containerId);
@@ -292,48 +284,23 @@
           container.appendChild(slot);
         });
       }
-
-          async function loadMatchData() {
-          const res = await fetch(MATCH_DATA_URL);
-          const matchData = await res.json();
-      
-          // Select the first match (index 0)
-          const match = matchData[0];
-      
-          const team1 = document.getElementById('team1');
-          const team2 = document.getElementById('team2');
-          team1.innerHTML = '';
-          team2.innerHTML = '';
-      
-          for (let i = 0; i < 5; i++) {
-            team1.appendChild(setFixedHeroCard(
-              match.team1.heroes[i],
-              match.team1.players[i],
-              match.team1.kda[i],
-              'team1',
-              i,
-              match.team1.mvp
-            ));
-            team2.appendChild(setFixedHeroCard(
-              match.team2.heroes[i],
-              match.team2.players[i],
-              match.team2.kda[i],
-              'team2',
-              i,
-              match.team2.mvp
-            ));
-          }
-      
-          setFixedBanSlot(match.team1.bans, 'team1Bans');
-          setFixedBanSlot(match.team2.bans, 'team2Bans');
+    
+      function renderDraftUI(match) {
+        const team1 = document.getElementById('team1');
+        const team2 = document.getElementById('team2');
+        team1.innerHTML = '';
+        team2.innerHTML = '';
+    
+        for (let i = 0; i < 5; i++) {
+          team1.appendChild(setFixedHeroCard(match.Team1Heroes[i], match.Team1Players[i], match.Team1KDA[i], 'team1', i, match.Team1MVP));
+          team2.appendChild(setFixedHeroCard(match.Team2Heroes[i], match.Team2Players[i], match.Team2KDA[i], 'team2', i, match.Team2MVP));
         }
-      
-        async function initialize() {
-          await loadHeroes();
-          await loadMatchData();
-        }
-      
-        initialize();
+    
+        setFixedBanSlot(match.Team1Bans, 'team1Bans');
+        setFixedBanSlot(match.Team2Bans, 'team2Bans');
+      }
+    
+      loadData();
     </script>
   </div>
 </body>
