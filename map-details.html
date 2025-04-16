@@ -108,42 +108,6 @@
     .hotspot:hover + .tooltip {
       opacity: 1;
     }
-
-    .legend-toggle {
-      background-color: #33384a;
-      color: #ff7733;
-      padding: 10px 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: inline-block;
-      margin-bottom: 1rem;
-    }
-
-    .legend {
-      display: none;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .legend-item {
-      background: #2e3340;
-      padding: 1rem;
-      border-radius: 10px;
-      border: 1px solid #3c3f4f;
-      flex: 1 1 250px;
-    }
-
-    .legend-item h3 {
-      margin-top: 0;
-      color: #ffffff;
-      font-size: 1.2rem;
-    }
-
-    .legend-item p {
-      margin: 0.5rem 0 0;
-      font-size: 0.95rem;
-      color: #ccc;
-    }
     
   </style>
 </head>
@@ -178,31 +142,6 @@
       <div class="hotspot" style="top: 70%; left: 30%;"></div>
       <div class="tooltip" style="top: 68%; left: 32%;">Blue Buff</div>
     </div>
-
-    <div class="legend-toggle" onclick="toggleLegend()">📖 Show Legend</div>
-
-    <div class="legend" id="legend">
-      <div class="legend-item">
-        <h3>Red Buff</h3>
-        <p>Slows enemies and deals bonus damage over time. Great for ADCs or Assassins.</p>
-      </div>
-      <div class="legend-item">
-        <h3>Blue Buff</h3>
-        <p>Reduces cooldowns and regenerates mana. Ideal for Mages and Junglers.</p>
-      </div>
-      <div class="legend-item">
-        <h3>Dark Slayer</h3>
-        <p>Massive team objective. Grants significant buff when slain.</p>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function toggleLegend() {
-      const legend = document.getElementById("legend");
-      legend.style.display = legend.style.display === "flex" ? "none" : "flex";
-    }
-  </script>
 </body>
 </html>
 
