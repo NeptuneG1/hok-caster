@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Honor of Kings Draft</title>
+  <title>O2 vs DTE</title>
   <style>
      body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -166,15 +166,15 @@
     <a href="picks-bans.html">Draft</a>
   </div>
   <div class="main-content">
-    <h1>Honor of Kings Draft</h1>
+    <h1>O2 vs DTE Qualifiers</h1>
     <div class="draft-wrapper">
       <div class="team-column">
-        <div class="team-title">Team Left</div>
+        <div class="team-title">O2 (Win)</div>
         <div class="ban-section" id="team1Bans"></div>
         <div class="hero-section" id="team1"></div>
       </div>
       <div class="team-column">
-        <div class="team-title">Team Right</div>
+        <div class="team-title">DTE</div>
         <div class="ban-section" id="team2Bans"></div>
         <div class="hero-section" id="team2"></div>
       </div>
@@ -185,11 +185,11 @@
       const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json";
       let heroData = [];
     
-      const team1Heroes = ["Mulan", "Li Bai", "Zhang Fei", "Diaochan", "Luban No.7"];
-      const team2Heroes = ["Ying Zheng", "Yao", "Baili Shouyue", "Daji", "Han Xin"];
+      const team1Heroes = ["Mai Shiranui", "Augran", "Arli", "Biron", "Sakeer"];
+      const team2Heroes = ["Sun Ce", "Dun", "Xiao Qiao", "Shoyue", "Cai Yan"];
     
-      const team1Bans = ["Gongsun Li", "Mozi", "Wukong", "Zhao Yun"];
-      const team2Bans = ["Lian Po", "Angela", "Marco Polo", "Ying Zheng"];
+      const team1Bans = ["Dolia", "Liang", "Di Renji", "Lady Zhen"];
+      const team2Bans = ["Mozi", "Angela", "Guan Yu", "Yuhuan"];
     
       async function loadHeroes() {
         const res = await fetch(API_URL);
