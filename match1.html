@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O2 Esports vs DTE Gaming - Match Detail</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
+    h1, h2, h3 { margin: 0.5em 0; }
+    .header { background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+    .game-block { background: #fff; padding: 15px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.05); }
+    .teams { display: flex; justify-content: space-between; gap: 20px; }
+    ul { list-style: none; padding: 0; }
+    li { padding: 4px 0; }
+    .bans { background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.05); }
+    .toggle-btn { background: none; border: none; color: blue; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>O2 Esports vs DTE Gaming</h1>
+    <h2>Score: 3 - 1</h2>
+    <p>March 22, 2025 – 17:15 PHT</p>
+  </div>
+
+  <div class="game-block">
+    <h3>Game 1 – 13:07</h3>
+    <div class="teams">
+      <ul>
+        <li>Biron</li>
+        <li>Augran</li>
+        <li>Mai Shiranui</li>
+        <li>Arli</li>
+        <li>Sakeer</li>
+      </ul>
+      <ul>
+        <li>Sun Ce</li>
+        <li>Dun</li>
+        <li>Xiao Qiao</li>
+        <li>Shouyue</li>
+        <li>Cai Yan</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="game-block">
+    <h3>Game 2 – 9:44</h3>
+    <div class="teams">
+      <ul>
+        <li>Sun Ce</li>
+        <li>Musashi</li>
+        <li>Yixing</li>
+        <li>Lady Sun</li>
+        <li>Dolia</li>
+      </ul>
+      <ul>
+        <li>Guan Yu</li>
+        <li>Feyd</li>
+        <li>Yuhuan</li>
+        <li>Loong</li>
+        <li>Zhang Fei</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="game-block">
+    <h3>Game 3 – 14:01</h3>
+    <div class="teams">
+      <ul>
+        <li>Mayene</li>
+        <li>Ata</li>
+        <li>Shi</li>
+        <li>Consort Yu</li>
+        <li>Lian Po</li>
+      </ul>
+      <ul>
+        <li>Guan Yu</li>
+        <li>Kaizer</li>
+        <li>Princess Frost</li>
+        <li>Di Renjie</li>
+        <li>Liang</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="game-block">
+    <h3>Game 4 – 15:55</h3>
+    <div class="teams">
+      <ul>
+        <li>Charlotte</li>
+        <li>Menki</li>
+        <li>Yixing</li>
+        <li>Marco Polo</li>
+        <li>Dyadia</li>
+      </ul>
+      <ul>
+        <li>Dun</li>
+        <li>Mayene</li>
+        <li>Luna</li>
+        <li>Allain</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bans">
+    <h3>Bans <button class="toggle-btn" onclick="toggleBans()">[hide]</button></h3>
+    <div id="banList">
+      <p><strong>Game 1:</strong> Yuhuan, Lady Zhen, Guan Yu, Mozi, Dun, Dharma, Luna, Menki</p>
+      <p><strong>Game 2:</strong> Mai Shiranui, Augran, Biron, Mayene, Augran, Mai Shiranui, Di Renjie, Arli</p>
+      <p><strong>Game 3:</strong> Dyadia, Dun, Zhang Fei, Mozi, Mai Shiranui, Augran, Lady Sun, Arli</p>
+      <p><strong>Game 4:</strong> Dun, Mayene, Luna, Allain</p>
+    </div>
+  </div>
+
+  <script>
+    function toggleBans() {
+      const bans = document.getElementById('banList');
+      bans.style.display = bans.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>
