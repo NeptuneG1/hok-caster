@@ -252,7 +252,7 @@
       }
 
       function renderDraftUI() {
-        const game = matchData[0]; // ← you can change index for other games
+        const game = matchData[1]; // ← you can change index for other games
 
         document.getElementById('team1Title').textContent = `${game.team1Name} - ${game.team1Score} ${game.winner === 1 ? '(Win)' : ''}`;
         document.getElementById('team2Title').textContent = `${game.team2Name} - ${game.team2Score} ${game.winner === 2 ? '(Win)' : ''}`;
