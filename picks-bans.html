@@ -216,7 +216,7 @@
       select.addEventListener('change', () => {
         const selected = heroData.find(h => h.Hero === select.value);
         if (selected) {
-          img.src = selected["Image URL"] || img.src;
+          img.src = selected["ImageURL"] || img.src;
           tooltip.innerHTML = '';
           for (let i = 1; i <= 5; i++) {
             const type = selected[`SkillType${i}`];
@@ -253,7 +253,7 @@
 
       select.addEventListener('change', () => {
         const selected = heroData.find(h => h.Hero === select.value);
-        img.src = selected?.["Image URL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
+        img.src = selected?.["ImageURL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
       });
 
       slot.appendChild(select);
