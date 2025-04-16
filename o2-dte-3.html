@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>O2 vs DTE 3of3</title>
+  <style>
+     body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1c1f26;
+      color: #f0f0f0;
+      margin: 0;
+      display: flex;
+    }
+    h1 {
+      text-align: center;
+      color: #ffffff;
+      font-size: 2.5rem;
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+
+    .draft-wrapper {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .team-column {
+      width: 48%;
+    }
+
+    .team-title {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .ban-section, .hero-section {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .ban-slot{
+      background-color: #e64216;
+      border: 1px solid #333;
+      border-radius: 0.75rem;
+      padding: 0.25rem;
+      width: 80px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .hero-card {
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 0.75rem;
+      padding: 0.5rem;
+      width: 120px;
+      text-align: center;
+      position: relative;
+    }
+
+    .ban-slot select, .hero-card select {
+      width: 100%;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 0.3rem;
+      padding: 0.25rem;
+      font-size: 0.8rem;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .tooltip {
+      position: relative;
+      cursor: help;
+      margin-top: 0.3rem;
+    }
+
+    .tooltiptext {
+      visibility: hidden;
+      background-color: #333;
+      color: #fff;
+      text-align: left;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      position: absolute;
+      z-index: 1;
+      top: -10px;
+      left: 120%;
+      opacity: 0;
+      transition: opacity 0.3s;
+      width: 250px;
+      font-size: 0.75rem;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .counter-info {
+      margin-top: 2rem;
+      text-align: center;
+      background-color: #1e1e1e;
+      padding: 1rem;
+      border-radius: 1rem;
+    }
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: linear-gradient(to bottom, #0f0f14, #1a1b23);
+      padding: 20px 15px;
+      box-sizing: border-box;
+      height: 100vh;
+      border-right: 2px solid #ff7733;
+      box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
+    }
+    
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 25px;
+      color: #ff7733;
+      text-shadow: 0 0 6px #ff7733aa;
+    }
+    
+    .sidebar a {
+      display: block;
+      color: #ddd;
+      text-decoration: none;
+      margin-bottom: 15px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    
+    .sidebar a:hover {
+      background-color: #33384a;
+      transform: translateX(5px);
+      color: #ff7733;
+    }
+    /* Main content */
+    .main-content {
+      overflow-y: auto;
+      flex: 1;
+      padding: 25px;
+      box-sizing: border-box;
+      background: #262a33;
+    }
+</style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>HOK Viewer</h2>
+    <a href="index.html">Heroes</a>
+    <a href="items-page.html">Items</a>
+    <a href="picks-bans.html">Draft</a>
+    <h2>Qualifier Draft</h2>
+    <a href="o2-dte-1.html">O2 vs DTE Game 1</a>
+    <a href="o2-dte-2.html">O2 vs DTE Game 2</a>
+    <a href="o2-dte-3.html">O2 vs DTE Game 3</a>
+  </div>
+  <div class="main-content">
+    <h1>O2 vs DTE Game 3 Qualifiers</h1>
+    <div class="draft-wrapper">
+      <div class="team-column">
+        <div class="team-title">O2</div>
+        <div class="ban-section" id="team1Bans"></div>
+        <div class="hero-section" id="team1"></div>
+      </div>
+      <div class="team-column">
+        <div class="team-title">DTE</div>
+        <div class="ban-section" id="team2Bans"></div>
+        <div class="hero-section" id="team2"></div>
+      </div>
+    </div>
+
+    <script>
+      const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json";
+      let heroData = [];
+    
+      const team1Heroes = ["Dharma", "Agudo", "Yuhuan", "Heino", "Cai Yan"];
+      const team2Heroes = ["Mulan", "Ata", "Yixing", "Consort Yu", "Lian Po"];
+
+      const team1Players = ["O2.K1", "O2.KongLing", "O2.Care", "O2.X1", "O2.White"];
+      const team2Players = ["Dte.cm", "DTE.qx", "Dte.bb", "Dte.cece", "Dte.hao"];
+    
+      const team1Bans = ["Augran", "Mai Shiranui", "Di Renjie", "Arli"];
+      const team2Bans = ["Mozi", "Zhang Fei", "Dun", "Dyadia"];
+    
+      async function loadHeroes() {
+        const res = await fetch(API_URL);
+        heroData = await res.json();
+        renderDraftUI();
+      }
+    
+      function setFixedHeroCard(heroName, playerName) {
+      const hero = heroData.find(h => h.Hero === heroName);
+      const card = document.createElement('div');
+      card.className = 'hero-card';
+    
+      const img = document.createElement('img');
+      img.className = 'hero-image';
+      img.src = hero?.["Image URL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
+    
+      const nameLabel = document.createElement('div');
+      nameLabel.textContent = heroName;
+      nameLabel.style.marginTop = "0.4rem";
+      nameLabel.style.fontWeight = "bold";
+      nameLabel.style.fontSize = "0.9rem";
+    
+      const playerLabel = document.createElement('div');
+      playerLabel.textContent = playerName;
+      playerLabel.style.color = "#aaa";
+      playerLabel.style.fontSize = "0.75rem";
+      playerLabel.style.marginTop = "0.2rem";
+    
+      const skillInfo = document.createElement('div');
+      skillInfo.className = 'tooltip';
+      skillInfo.textContent = "Skills";
+    
+      const tooltip = document.createElement('div');
+      tooltip.className = 'tooltiptext';
+      skillInfo.appendChild(tooltip);
+    
+      if (hero) {
+        tooltip.innerHTML = '';
+        for (let i = 1; i <= 5; i++) {
+          const type = hero[`SkillType${i}`];
+          const name = hero[`SkillName${i}`];
+          const desc = hero[`SkillDesc${i}`];
+          if (name) {
+            tooltip.innerHTML += `<strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}<br><br>`;
+          }
+        }
+      }
+    
+      card.appendChild(img);
+      card.appendChild(nameLabel);
+      card.appendChild(playerLabel);
+      card.appendChild(skillInfo);
+      return card;
+    }
+    
+      function setFixedBanSlot(heroNames, containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        heroNames.forEach(heroName => {
+          const hero = heroData.find(h => h.Hero === heroName);
+          const slot = document.createElement('div');
+          slot.className = 'ban-slot';
+    
+          const img = document.createElement('img');
+          img.className = 'hero-image';
+          img.src = hero?.["Image URL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
+          slot.appendChild(img);
+    
+          const name = document.createElement('div');
+          name.textContent = heroName;
+          name.style.fontSize = "0.8rem";
+          name.style.marginTop = "0.3rem";
+          slot.appendChild(name);
+    
+          container.appendChild(slot);
+        });
+      }
+    
+        function renderDraftUI() {
+        const team1 = document.getElementById('team1');
+        const team2 = document.getElementById('team2');
+        team1.innerHTML = '';
+        team2.innerHTML = '';
+      
+        for (let i = 0; i < 5; i++) {
+          team1.appendChild(setFixedHeroCard(team1Heroes[i], team1Players[i]));
+          team2.appendChild(setFixedHeroCard(team2Heroes[i], team2Players[i]));
+        }
+      
+        setFixedBanSlot(team1Bans, 'team1Bans');
+        setFixedBanSlot(team2Bans, 'team2Bans');
+      }
+    
+      loadHeroes();
+    </script>
+  </div>
+</body>
+</html>
