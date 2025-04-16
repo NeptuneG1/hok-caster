@@ -287,7 +287,7 @@
             </div>
           </p>
           <p><strong>Countered By:</strong> ${hero["Countered by"] || 'No counters available'}</p>
-         <p><strong>Strategy:</strong> ${(hero.Description || 'No strategy available').replace(/\n/g, '<br>')}</p>
+         <p><strong>Strategy:</strong><br>${(hero.Description || 'No strategy available').replace(/\n/g, '<br>')}</p>
         `;
         container.appendChild(card);
       });
