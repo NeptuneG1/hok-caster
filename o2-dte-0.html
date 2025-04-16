@@ -2,136 +2,130 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>HOK Match Viewer</title>
+  <title>Match Viewer</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #121212;
+      background: #1c1f26;
       color: #f0f0f0;
-      margin: 0;
       padding: 20px;
     }
     h1 {
       text-align: center;
-      color: #ff7733;
     }
-    .match {
-      background: #1e1e1e;
-      margin-bottom: 20px;
-      padding: 20px;
-      border-radius: 10px;
-      border-left: 5px solid #ff7733;
-    }
-    .teams {
+    .team-section {
       display: flex;
       justify-content: space-between;
+      margin-top: 30px;
     }
     .team {
       width: 48%;
     }
     .team h2 {
-      color: #ffd700;
+      text-align: center;
+      margin-bottom: 10px;
     }
-    .bans, .heroes {
+    .hero {
+      background: #2a2d38;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero img {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .ban-list {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
     }
-    .ban, .hero {
-      background: #2a2a2a;
-      padding: 10px;
-      border-radius: 5px;
-      text-align: center;
-    }
-    .ban img, .hero img {
-      width: 60px;
-      height: auto;
-      border-radius: 5px;
-    }
-    .hero span {
-      display: block;
-      font-size: 0.8rem;
-      margin-top: 5px;
+    .ban {
+      background: #912323;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-  <h1>Honor of Kings Match Viewer</h1>
-  <div id="matchContainer"></div>
+  <h1>Match Viewer</h1>
+  <div id="matchInfo"></div>
+  <div class="team-section">
+    <div class="team">
+      <h2 id="team1Name"></h2>
+      <div class="ban-list" id="team1Bans"></div>
+      <div id="team1"></div>
+    </div>
+    <div class="team">
+      <h2 id="team2Name"></h2>
+      <div class="ban-list" id="team2Bans"></div>
+      <div id="team2"></div>
+    </div>
+  </div>
 
   <script>
-    const matchDataUrl = 'https://neptuneg1.github.io/hero-skills-viewer/matchdata.json';
+    const matchURL = "https://neptuneg1.github.io/hero-skills-viewer/matchdata.json";
+    const heroURL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json";
 
-    async function fetchMatchData() {
-      const res = await fetch(matchDataUrl);
-      const matches = await res.json();
-      renderMatches(matches);
+    async function loadData() {
+      const [matchRes, heroRes] = await Promise.all([
+        fetch(matchURL),
+        fetch(heroURL)
+      ]);
+      const matchData = await matchRes.json();
+      const heroData = await heroRes.json();
+      renderMatch(matchData[0], heroData); // first match only
     }
 
     function createHeroCard(hero, player, kda, isMVP) {
       return `
         <div class="hero">
-          <img src="${hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero.Hero}">
-          <span><strong>${hero.Hero}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</span>
+          <img src="${hero?.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero?.Hero || 'Unknown'}">
+          <span><strong>${hero?.Hero || 'Unknown'}</strong><br>${player}<br>KDA: ${kda}${isMVP ? ' 🌟 MVP' : ''}</span>
         </div>
       `;
     }
 
-    function createBanCard(heroName, heroData) {
-      const hero = heroData.find(h => h.Hero === heroName);
-      return `
-        <div class="ban">
-          <img src="${hero?.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${heroName}">
-          <div>${heroName}</div>
-        </div>
-      `;
+    function renderMatch(match, heroData) {
+      document.getElementById("team1Name").textContent = `${match.team1_name} - ${match.team1_score}`;
+      document.getElementById("team2Name").textContent = `${match.team2_name} - ${match.team2_score}`;
+      document.getElementById("matchInfo").innerHTML = `
+        <p style="text-align:center;">
+          ${match.matchup} | ${match.tournament} | Game ${match.game} | ${match.date} | ${match.stage}
+        </p>`;
+
+      for (let i = 1; i <= 5; i++) {
+        const hero1 = heroData.find(h => h.Hero === match[`team1_hero${i}`]);
+        const hero2 = heroData.find(h => h.Hero === match[`team2_hero${i}`]);
+
+        const player1 = match[`team1_player${i}`];
+        const kda1 = match[`team1_kda${i}`];
+        const isMVP1 = match.team1_MVP === i;
+
+        const player2 = match[`team2_player${i}`];
+        const kda2 = match[`team2_kda${i}`];
+        const isMVP2 = match.team2_MVP === i;
+
+        document.getElementById("team1").innerHTML += createHeroCard(hero1, player1, kda1, isMVP1);
+        document.getElementById("team2").innerHTML += createHeroCard(hero2, player2, kda2, isMVP2);
+      }
+
+      const team1BanList = [match.team1_ban1, match.team1_ban2, match.team1_ban3, match.team1_ban4];
+      const team2BanList = [match.team2_ban1, match.team2_ban2, match.team2_ban3, match.team2_ban4];
+
+      document.getElementById("team1Bans").innerHTML = team1BanList.map(b => `<div class="ban">${b}</div>`).join('');
+      document.getElementById("team2Bans").innerHTML = team2BanList.map(b => `<div class="ban">${b}</div>`).join('');
     }
 
-    async function renderMatches(matches) {
-      const res = await fetch('https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json');
-      const heroData = await res.json();
-      const container = document.getElementById('matchContainer');
-      container.innerHTML = '';
-
-      matches.forEach(match => {
-        const matchDiv = document.createElement('div');
-        matchDiv.className = 'match';
-
-        matchDiv.innerHTML = `
-          <h2>${match.Team1Name} (${match.Team1Score}) vs ${match.Team2Name} (${match.Team2Score})</h2>
-          <div class="teams">
-            <div class="team">
-              <h2>${match.Team1Name}</h2>
-              <div class="bans">${match.Team1Bans.map(ban => createBanCard(ban, heroData)).join('')}</div>
-              <div class="heroes">
-                ${match.Team1Heroes.map((hero, i) => createHeroCard(
-                  heroData.find(h => h.Hero === hero),
-                  match.Team1Players[i],
-                  match.Team1KDA[i],
-                  i === match.Team1MVP
-                )).join('')}
-              </div>
-            </div>
-            <div class="team">
-              <h2>${match.Team2Name}</h2>
-              <div class="bans">${match.Team2Bans.map(ban => createBanCard(ban, heroData)).join('')}</div>
-              <div class="heroes">
-                ${match.Team2Heroes.map((hero, i) => createHeroCard(
-                  heroData.find(h => h.Hero === hero),
-                  match.Team2Players[i],
-                  match.Team2KDA[i],
-                  i === match.Team2MVP
-                )).join('')}
-              </div>
-            </div>
-          </div>
-        `;
-
-        container.appendChild(matchDiv);
-      });
-    }
-
-    fetchMatchData();
+    loadData();
   </script>
 </body>
 </html>
