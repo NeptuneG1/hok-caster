@@ -21,6 +21,9 @@
 
    /* Sidebar */
     .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 220px;
       background: linear-gradient(to bottom, #0f0f14, #1a1b23);
       padding: 20px 15px;
@@ -28,6 +31,8 @@
       height: 100vh;
       border-right: 2px solid #ff7733;
       box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
+      overflow-y: auto; /* optional, adds scroll if content exceeds height */
+      z-index: 1000; /* stays above other elements */
     }
 
     .sidebar h2 {
@@ -60,6 +65,7 @@
       padding: 25px;
       box-sizing: border-box;
       background: #262a33;
+      margin-left: 220px;
     }
 
     /* Filters */
