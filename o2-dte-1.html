@@ -190,6 +190,9 @@
     
       const team1Heroes = ["Mai Shiranui", "Augran", "Arli", "Biron", "Sakeer"];
       const team2Heroes = ["Sun Ce", "Dun", "Xiao Qiao", "Shouyue", "Cai Yan"];
+
+      const team1Players = ["Alice", "Bob", "Charlie", "Diana", "Eli"];
+      const team2Players = ["Fang", "Grace", "Henry", "Ivy", "Jack"];
     
       const team1Bans = ["Dolia", "Liang", "Di Renjie", "Lady Zhen"];
       const team2Bans = ["Mozi", "Angela", "Guan Yu", "Yuhuan"];
@@ -200,45 +203,53 @@
         renderDraftUI();
       }
     
-      function setFixedHeroCard(heroName) {
-        const hero = heroData.find(h => h.Hero === heroName);
-        const card = document.createElement('div');
-        card.className = 'hero-card';
+      function setFixedHeroCard(heroName, playerName) {
+      const hero = heroData.find(h => h.Hero === heroName);
+      const card = document.createElement('div');
+      card.className = 'hero-card';
     
-        const img = document.createElement('img');
-        img.className = 'hero-image';
-        img.src = hero?.["Image URL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
+      const img = document.createElement('img');
+      img.className = 'hero-image';
+      img.src = hero?.["Image URL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
     
-        const nameLabel = document.createElement('div');
-        nameLabel.textContent = heroName;
-        nameLabel.style.marginTop = "0.5rem";
-        nameLabel.style.fontWeight = "bold";
+      const nameLabel = document.createElement('div');
+      nameLabel.textContent = heroName;
+      nameLabel.style.marginTop = "0.4rem";
+      nameLabel.style.fontWeight = "bold";
+      nameLabel.style.fontSize = "0.9rem";
     
-        const skillInfo = document.createElement('div');
-        skillInfo.className = 'tooltip';
-        skillInfo.textContent = "Skills";
+      const playerLabel = document.createElement('div');
+      playerLabel.textContent = playerName;
+      playerLabel.style.color = "#aaa";
+      playerLabel.style.fontSize = "0.75rem";
+      playerLabel.style.marginTop = "0.2rem";
     
-        const tooltip = document.createElement('div');
-        tooltip.className = 'tooltiptext';
-        skillInfo.appendChild(tooltip);
+      const skillInfo = document.createElement('div');
+      skillInfo.className = 'tooltip';
+      skillInfo.textContent = "Skills";
     
-        if (hero) {
-          tooltip.innerHTML = '';
-          for (let i = 1; i <= 5; i++) {
-            const type = hero[`SkillType${i}`];
-            const name = hero[`SkillName${i}`];
-            const desc = hero[`SkillDesc${i}`];
-            if (name) {
-              tooltip.innerHTML += `<strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}<br><br>`;
-            }
+      const tooltip = document.createElement('div');
+      tooltip.className = 'tooltiptext';
+      skillInfo.appendChild(tooltip);
+    
+      if (hero) {
+        tooltip.innerHTML = '';
+        for (let i = 1; i <= 5; i++) {
+          const type = hero[`SkillType${i}`];
+          const name = hero[`SkillName${i}`];
+          const desc = hero[`SkillDesc${i}`];
+          if (name) {
+            tooltip.innerHTML += `<strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}<br><br>`;
           }
         }
-    
-        card.appendChild(img);
-        card.appendChild(nameLabel);
-        card.appendChild(skillInfo);
-        return card;
       }
+    
+      card.appendChild(img);
+      card.appendChild(nameLabel);
+      card.appendChild(playerLabel);
+      card.appendChild(skillInfo);
+      return card;
+    }
     
       function setFixedBanSlot(heroNames, containerId) {
         const container = document.getElementById(containerId);
@@ -263,20 +274,17 @@
         });
       }
     
-      function renderDraftUI() {
+        function renderDraftUI() {
         const team1 = document.getElementById('team1');
         const team2 = document.getElementById('team2');
         team1.innerHTML = '';
         team2.innerHTML = '';
-    
-        team1Heroes.forEach(hero => {
-          team1.appendChild(setFixedHeroCard(hero));
-        });
-    
-        team2Heroes.forEach(hero => {
-          team2.appendChild(setFixedHeroCard(hero));
-        });
-    
+      
+        for (let i = 0; i < 5; i++) {
+          team1.appendChild(setFixedHeroCard(team1Heroes[i], team1Players[i]));
+          team2.appendChild(setFixedHeroCard(team2Heroes[i], team2Players[i]));
+        }
+      
         setFixedBanSlot(team1Bans, 'team1Bans');
         setFixedBanSlot(team2Bans, 'team2Bans');
       }
