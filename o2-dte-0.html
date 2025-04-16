@@ -28,6 +28,7 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 1rem;
+      gap: 1rem;
     }
 
     .team {
@@ -42,8 +43,11 @@
 
     .heroes {
       display: flex;
-      flex-direction: column;
-      gap: 6px;
+      flex-direction: row;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 0.5rem;
     }
 
     .hero {
@@ -53,7 +57,9 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
+      flex: 1 1 48%;
+      min-width: 180px;
     }
 
     .hero img {
