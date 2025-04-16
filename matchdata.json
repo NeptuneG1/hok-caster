@@ -50,8 +50,8 @@
     "team2_kda3": "1/3/3",
     "team2_kda4": "2/2/1",
     "team2_kda5": "0/3/2",
-    "team1_MVP": 1,
-    "team2_MVP": 3
+    "team1_MVP": 2,
+    "team2_MVP": 4
   },
   {
     "refnum": 2,
@@ -104,8 +104,8 @@
     "team2_kda3": "0/3/2",
     "team2_kda4": "1/3/3",
     "team2_kda5": "0/3/2",
-    "team1_MVP": 0,
-    "team2_MVP": 3
+    "team1_MVP": 1,
+    "team2_MVP": 4
   },
   {
     "refnum": 3,
@@ -158,8 +158,8 @@
     "team2_kda3": "2/2/4",
     "team2_kda4": "5/0/4",
     "team2_kda5": "1/2/8",
-    "team1_MVP": 3,
-    "team2_MVP": 3
+    "team1_MVP": 4,
+    "team2_MVP": 4
   },
   {
     "refnum": 4,
