@@ -1,153 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Hero Draft UI</title>
+  <meta charset="UTF-8" />
+  <title>Honor of Kings Draft</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      padding: 20px;
+     body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1c1f26;
+      color: #f0f0f0;
+      margin: 0;
+      display: flex;
     }
-    .draft-container {
+    h1 {
+      text-align: center;
+      color: #ffffff;
+      font-size: 2.5rem;
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+
+    .draft-wrapper {
       display: flex;
       justify-content: space-between;
-      gap: 20px;
+      gap: 2rem;
     }
-    .team-section {
-      flex: 1;
-      background: white;
-      border-radius: 12px;
-      padding: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+    .team-column {
+      width: 48%;
     }
-    .team-section h2 {
+
+    .team-title {
       text-align: center;
-      margin-bottom: 10px;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
     }
-    .bans, .picks {
+
+    .ban-section, .hero-section {
       display: flex;
       justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 1rem;
+      margin-bottom: 1rem;
       flex-wrap: wrap;
     }
+
+    .ban-slot{
+      background-color: #e64216;
+      border: 1px solid #333;
+      border-radius: 0.75rem;
+      padding: 0.25rem;
+      width: 80px;
+      text-align: center;
+      position: relative;
+    }
+    
     .hero-card {
-      background: #f0f0f0;
-      border-radius: 10px;
-      padding: 10px;
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 0.75rem;
+      padding: 0.5rem;
       width: 120px;
       text-align: center;
       position: relative;
     }
-    .hero-card img {
+
+    .ban-slot select, .hero-card select {
       width: 100%;
-      border-radius: 8px;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 0.3rem;
+      padding: 0.25rem;
+      font-size: 0.8rem;
     }
-    .skills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      justify-content: center;
-      margin-top: 8px;
+
+    .hero-image {
+      width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
     }
+
     .tooltip {
       position: relative;
-      display: inline-block;
+      cursor: help;
+      margin-top: 0.3rem;
     }
-    .tooltip .tooltiptext {
+
+    .tooltiptext {
       visibility: hidden;
-      width: 200px;
-      background-color: #555;
+      background-color: #333;
       color: #fff;
       text-align: left;
-      border-radius: 6px;
-      padding: 5px;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
       position: absolute;
       z-index: 1;
-      bottom: 125%;
-      left: 50%;
-      margin-left: -100px;
+      top: -10px;
+      left: 120%;
       opacity: 0;
       transition: opacity 0.3s;
+      width: 250px;
+      font-size: 0.75rem;
     }
+
     .tooltip:hover .tooltiptext {
       visibility: visible;
       opacity: 1;
     }
-    .skill-icon {
-      width: 24px;
-      height: 24px;
+
+    .counter-info {
+      margin-top: 2rem;
+      text-align: center;
+      background-color: #1e1e1e;
+      padding: 1rem;
+      border-radius: 1rem;
     }
-  </style>
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: linear-gradient(to bottom, #0f0f14, #1a1b23);
+      padding: 20px 15px;
+      box-sizing: border-box;
+      height: 100vh;
+      border-right: 2px solid #ff7733;
+      box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
+    }
+    
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 25px;
+      color: #ff7733;
+      text-shadow: 0 0 6px #ff7733aa;
+    }
+    
+    .sidebar a {
+      display: block;
+      color: #ddd;
+      text-decoration: none;
+      margin-bottom: 15px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    
+    .sidebar a:hover {
+      background-color: #33384a;
+      transform: translateX(5px);
+      color: #ff7733;
+    }
+    /* Main content */
+    .main-content {
+      overflow-y: auto;
+      flex: 1;
+      padding: 25px;
+      box-sizing: border-box;
+      background: #262a33;
+    }  </style>
 </head>
 <body>
-  <div class="draft-container">
-    <div class="team-section" id="team-left">
-      <h2>Team Left</h2>
-      <div class="bans" id="bans-left"></div>
-      <div class="picks" id="picks-left"></div>
-    </div>
-    <div class="team-section" id="team-right">
-      <h2>Team Right</h2>
-      <div class="bans" id="bans-right"></div>
-      <div class="picks" id="picks-right"></div>
-    </div>
+  <div class="sidebar">
+    <h2>HOK Viewer</h2>
+    <a href="index.html">Heroes</a>
+    <a href="items-page.html">Items</a>
+    <a href="picks-bans.html">Draft</a>
   </div>
-  <script>
-    fetch("https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json")
-      .then(res => res.json())
-      .then(data => {
-        const leftBans = [data[0], data[1], data[2]];
-        const rightBans = [data[3], data[4], data[5]];
-        const leftPicks = [data[6], data[7], data[8], data[9], data[10]];
-        const rightPicks = [data[11], data[12], data[13], data[14], data[15]];
+  <div class="main-content">
+    <h1>Honor of Kings Draft</h1>
+    <div class="draft-wrapper">
+      <div class="team-column">
+        <div class="team-title">Team Left</div>
+        <div class="ban-section" id="team1Bans"></div>
+        <div class="hero-section" id="team1"></div>
+      </div>
+      <div class="team-column">
+        <div class="team-title">Team Right</div>
+        <div class="ban-section" id="team2Bans"></div>
+        <div class="hero-section" id="team2"></div>
+      </div>
+    </div>
+    <div class="counter-info" id="counterInfo">Select a hero to view strategy information.</div>
 
-        renderTeam("bans-left", leftBans, true);
-        renderTeam("bans-right", rightBans, true);
-        renderTeam("picks-left", leftPicks);
-        renderTeam("picks-right", rightPicks);
-
-        function renderTeam(containerId, heroes, isBan = false) {
-          const container = document.getElementById(containerId);
-          heroes.forEach(hero => {
-            const card = document.createElement("div");
-            card.className = "hero-card";
-            card.innerHTML = `
-              <img src="${hero["Image URL"] || "https://i.imgur.com/kkUX3a3.jpeg"}" alt="${hero.Hero}">
-              <h4>${hero.Hero}</h4>
-              ${!isBan ? `<p><strong>Role:</strong> ${hero["Primary Role"]}</p>` : ""}
-              ${!isBan ? `<p><strong>Countered By:</strong> ${hero["Countered by"] || "N/A"}</p>` : ""}
-              <div class="skills">
-                ${!isBan ? renderSkills(hero) : ""}
-              </div>
-            `;
-            container.appendChild(card);
-          });
+    <script>
+      const heroData = [
+        {
+          Hero: "Lu Bu",
+          "Image URL": "https://i.imgur.com/xD7Gc9X.png",
+          Strategy: "Engage during cooldown gaps and sustain using his lifesteal.",
+          SkillType1: "Passive",
+          SkillName1: "Conqueror",
+          SkillDesc1: "Increases lifesteal while in combat.",
+          SkillType2: "Active",
+          SkillName2: "Red Blade",
+          SkillDesc2: "Deals damage and slows enemies.",
+          SkillType3: "Active",
+          SkillName3: "War Cry",
+          SkillDesc3: "Grants a shield and enhances attack.",
+          SkillType4: "Ultimate",
+          SkillName4: "Heaven's Trial",
+          SkillDesc4: "Leaps and deals AoE damage while buffing himself."
+        },
+        {
+          Hero: "Mulan",
+          "Image URL": "https://i.imgur.com/dljFzyl.png",
+          Strategy: "Switch stances strategically to burst and escape.",
+          SkillType1: "Passive",
+          SkillName1: "Dual Wield",
+          SkillDesc1: "Switches between light and heavy stance.",
+          SkillType2: "Active",
+          SkillName2: "Shadow Dance",
+          SkillDesc2: "Quick dash to reposition.",
+          SkillType3: "Active",
+          SkillName3: "Piercing Slash",
+          SkillDesc3: "Deals damage based on stance.",
+          SkillType4: "Ultimate",
+          SkillName4: "Blade Flurry",
+          SkillDesc4: "Unleashes a combo attack."
+        },
+        {
+          Hero: "Angela",
+          "Image URL": "https://i.imgur.com/7A74xqY.png",
+          Strategy: "Stay at range, poke often, combo ult with crowd control.",
+          SkillType1: "Passive",
+          SkillName1: "Arcane Aura",
+          SkillDesc1: "Boosts damage over time.",
+          SkillType2: "Active",
+          SkillName2: "Magic Bolt",
+          SkillDesc2: "Single target damage spell.",
+          SkillType3: "Active",
+          SkillName3: "Frost Ray",
+          SkillDesc3: "Slows enemies in a line.",
+          SkillType4: "Ultimate",
+          SkillName4: "Meteor Shower",
+          SkillDesc4: "Calls meteors to rain down in area."
         }
+      ];
 
-        function renderSkills(hero) {
-          let result = "";
-          for (let i = 1; i <= 5; i++) {
-            const name = hero[`Skill${i} Name`];
-            const desc = hero[`Skill${i} Description`];
-            const type = hero[`Skill${i} Type`];
-            const icon = hero[`Skill${i} Icon`];
-            if (name && desc) {
-              result += `
-                <span class="tooltip">
-                  <img class="skill-icon" src="${icon || "https://i.imgur.com/kkUX3a3.jpeg"}" alt="${name}"/>
-                  <span class="tooltiptext">
-                    <strong>${type || "Skill"}:</strong> ${name}<br>
-                    ${desc}
-                  </span>
-                </span>
-              `;
+      function createHeroCard(teamId, slotIndex) {
+        const card = document.createElement('div');
+        card.className = 'hero-card';
+
+        const select = document.createElement('select');
+        select.innerHTML = '<option value="">Select Hero</option>' +
+          heroData.map(hero => `<option value="${hero.Hero}">${hero.Hero}</option>`).join('');
+
+        const img = document.createElement('img');
+        img.className = 'hero-image';
+        img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
+
+        const skillInfo = document.createElement('div');
+        skillInfo.className = 'tooltip';
+        skillInfo.textContent = "Skills";
+
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltiptext';
+        skillInfo.appendChild(tooltip);
+
+        select.addEventListener('change', () => {
+          const selected = heroData.find(h => h.Hero === select.value);
+          if (selected) {
+            img.src = selected["Image URL"] || img.src;
+            tooltip.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+              const type = selected[`SkillType${i}`];
+              const name = selected[`SkillName${i}`];
+              const desc = selected[`SkillDesc${i}`];
+              if (name) {
+                tooltip.innerHTML += `<strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}<br><br>`;
+              }
             }
+            document.getElementById('counterInfo').innerHTML = `<strong>${selected.Hero}</strong> strategy: ${selected["Strategy"] || 'None'}`;
           }
-          return result;
+        });
+
+        card.appendChild(img);
+        card.appendChild(select);
+        card.appendChild(skillInfo);
+        return card;
+      }
+
+      function createBanSlot(containerId) {
+        const container = document.getElementById(containerId);
+        for (let i = 0; i < 4; i++) {
+          const slot = document.createElement('div');
+          slot.className = 'ban-slot';
+
+          const img = document.createElement('img');
+          img.className = 'hero-image';
+          img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
+          slot.appendChild(img);
+
+          const select = document.createElement('select');
+          select.innerHTML = '<option value="">Ban</option>' +
+            heroData.map(hero => `<option value="${hero.Hero}">${hero.Hero}</option>`).join('');
+
+          select.addEventListener('change', () => {
+            const selected = heroData.find(h => h.Hero === select.value);
+            img.src = selected?.["Image URL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
+          });
+
+          slot.appendChild(select);
+          container.appendChild(slot);
         }
-      });
-  </script>
+      }
+
+      function renderDraftUI() {
+        for (let i = 0; i < 5; i++) {
+          document.getElementById('team1').appendChild(createHeroCard('team1', i));
+          document.getElementById('team2').appendChild(createHeroCard('team2', i));
+        }
+        createBanSlot('team1Bans');
+        createBanSlot('team2Bans');
+      }
+
+      // Kick things off
+      renderDraftUI();
+    </script>
+  </div>
 </body>
 </html>
