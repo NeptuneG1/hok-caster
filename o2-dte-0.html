@@ -1,225 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Honor of Kings Draft Viewer</title>
+  <meta charset="UTF-8">
+  <title>HOK Match Viewer</title>
   <style>
     body {
-      background-color: #1e1e2f;
       font-family: Arial, sans-serif;
+      background: #121212;
       color: #f0f0f0;
       margin: 0;
-      padding: 2rem;
+      padding: 20px;
     }
     h1 {
       text-align: center;
-      margin-bottom: 1rem;
-      font-size: 2rem;
+      color: #ff7733;
+    }
+    .match {
+      background: #1e1e1e;
+      margin-bottom: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 5px solid #ff7733;
     }
     .teams {
       display: flex;
-      justify-content: space-around;
-      gap: 2rem;
+      justify-content: space-between;
     }
     .team {
-      flex: 1;
-      background-color: #2a2a3d;
-      padding: 1rem;
-      border-radius: 1rem;
+      width: 48%;
     }
-    .hero-card {
-      background-color: #3a3a4d;
-      border-radius: 1rem;
-      padding: 1rem;
-      margin: 0.5rem 0;
-      text-align: center;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    .team h2 {
+      color: #ffd700;
     }
-    .hero-image {
-      width: 60px;
-      height: 60px;
-      border-radius: 0.5rem;
-    }
-    .tooltip {
-      position: relative;
-      display: inline-block;
-      cursor: pointer;
-      margin-top: 0.4rem;
-      font-size: 0.8rem;
-      color: #a0cfff;
-    }
-    .tooltiptext {
-      visibility: hidden;
-      width: 220px;
-      background-color: #444;
-      color: #fff;
-      text-align: left;
-      border-radius: 0.5rem;
-      padding: 1rem;
-      position: absolute;
-      z-index: 1;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .tooltip:hover .tooltiptext {
-      visibility: visible;
-      opacity: 1;
-    }
-    .bans {
+    .bans, .heroes {
       display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-top: 1rem;
+      flex-wrap: wrap;
+      gap: 10px;
     }
-    .ban-slot {
+    .ban, .hero {
+      background: #2a2a2a;
+      padding: 10px;
+      border-radius: 5px;
       text-align: center;
-      font-size: 0.75rem;
+    }
+    .ban img, .hero img {
+      width: 60px;
+      height: auto;
+      border-radius: 5px;
+    }
+    .hero span {
+      display: block;
+      font-size: 0.8rem;
+      margin-top: 5px;
     }
   </style>
 </head>
 <body>
-  <h1>Honor of Kings Draft Viewer</h1>
-  <div class="teams">
-    <div class="team" id="team1"></div>
-    <div class="team" id="team2"></div>
-  </div>
-  <div class="bans" id="team1Bans"></div>
-  <div class="bans" id="team2Bans"></div>
+  <h1>Honor of Kings Match Viewer</h1>
+  <div id="matchContainer"></div>
 
   <script>
-    const HERO_DATA_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json";
-    const MATCH_DATA_URL = "https://neptuneg1.github.io/hero-skills-viewer/matchdata.json";
-    let heroData = [];
+    const matchDataUrl = 'https://neptuneg1.github.io/hero-skills-viewer/matchdata.json';
 
-    async function loadHeroes() {
-      const res = await fetch(HERO_DATA_URL);
-      heroData = await res.json();
+    async function fetchMatchData() {
+      const res = await fetch(matchDataUrl);
+      const matches = await res.json();
+      renderMatches(matches);
     }
 
-    function getKDAColor(kda) {
-      const [kills, deaths, assists] = kda.split('/').map(Number);
-      const ratio = deaths === 0 ? kills + assists : (kills + assists) / deaths;
-      if (ratio >= 4) return '#8aff8a';
-      if (ratio >= 2) return '#ffdd55';
-      return '#ff6b6b';
+    function createHeroCard(hero, player, kda, isMVP) {
+      return `
+        <div class="hero">
+          <img src="${hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero.Hero}">
+          <span><strong>${hero.Hero}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</span>
+        </div>
+      `;
     }
 
-    function setFixedHeroCard(heroName, playerName, kda, teamId, i, mvpIndex) {
+    function createBanCard(heroName, heroData) {
       const hero = heroData.find(h => h.Hero === heroName);
-      const card = document.createElement('div');
-      card.className = 'hero-card';
-
-      const img = document.createElement('img');
-      img.className = 'hero-image';
-      img.src = hero?.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg';
-
-      const nameLabel = document.createElement('div');
-      nameLabel.textContent = heroName;
-      nameLabel.style.marginTop = "0.4rem";
-      nameLabel.style.fontWeight = "bold";
-      nameLabel.style.fontSize = "0.9rem";
-
-      const kdaColor = getKDAColor(kda);
-      const isMVP = i === mvpIndex;
-
-      const playerLabel = document.createElement('div');
-      playerLabel.innerHTML = `${playerName}<br>
-        <span style="color:${kdaColor}; font-size:0.75rem;">KDA: ${kda}</span>
-        ${isMVP ? '<br><span style="color:#ffd700;">🌟 MVP</span>' : ''}`;
-
-      const skillInfo = document.createElement('div');
-      skillInfo.className = 'tooltip';
-      skillInfo.textContent = "Skills";
-
-      const tooltip = document.createElement('div');
-      tooltip.className = 'tooltiptext';
-      skillInfo.appendChild(tooltip);
-
-      if (hero) {
-        tooltip.innerHTML = '';
-        for (let i = 1; i <= 5; i++) {
-          const type = hero[`SkillType${i}`];
-          const name = hero[`SkillName${i}`];
-          const desc = hero[`SkillDesc${i}`];
-          if (name) {
-            tooltip.innerHTML += `<strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}<br><br>`;
-          }
-        }
-      }
-
-      card.appendChild(img);
-      card.appendChild(nameLabel);
-      card.appendChild(playerLabel);
-      card.appendChild(skillInfo);
-      return card;
+      return `
+        <div class="ban">
+          <img src="${hero?.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${heroName}">
+          <div>${heroName}</div>
+        </div>
+      `;
     }
 
-    function setFixedBanSlot(heroNames, containerId) {
-      const container = document.getElementById(containerId);
+    async function renderMatches(matches) {
+      const res = await fetch('https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json');
+      const heroData = await res.json();
+      const container = document.getElementById('matchContainer');
       container.innerHTML = '';
-      heroNames.forEach(heroName => {
-        const hero = heroData.find(h => h.Hero === heroName);
-        const slot = document.createElement('div');
-        slot.className = 'ban-slot';
 
-        const img = document.createElement('img');
-        img.className = 'hero-image';
-        img.src = hero?.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg';
-        slot.appendChild(img);
+      matches.forEach(match => {
+        const matchDiv = document.createElement('div');
+        matchDiv.className = 'match';
 
-        const name = document.createElement('div');
-        name.textContent = heroName;
-        name.style.fontSize = "0.8rem";
-        name.style.marginTop = "0.3rem";
-        slot.appendChild(name);
+        matchDiv.innerHTML = `
+          <h2>${match.Team1Name} (${match.Team1Score}) vs ${match.Team2Name} (${match.Team2Score})</h2>
+          <div class="teams">
+            <div class="team">
+              <h2>${match.Team1Name}</h2>
+              <div class="bans">${match.Team1Bans.map(ban => createBanCard(ban, heroData)).join('')}</div>
+              <div class="heroes">
+                ${match.Team1Heroes.map((hero, i) => createHeroCard(
+                  heroData.find(h => h.Hero === hero),
+                  match.Team1Players[i],
+                  match.Team1KDA[i],
+                  i === match.Team1MVP
+                )).join('')}
+              </div>
+            </div>
+            <div class="team">
+              <h2>${match.Team2Name}</h2>
+              <div class="bans">${match.Team2Bans.map(ban => createBanCard(ban, heroData)).join('')}</div>
+              <div class="heroes">
+                ${match.Team2Heroes.map((hero, i) => createHeroCard(
+                  heroData.find(h => h.Hero === hero),
+                  match.Team2Players[i],
+                  match.Team2KDA[i],
+                  i === match.Team2MVP
+                )).join('')}
+              </div>
+            </div>
+          </div>
+        `;
 
-        container.appendChild(slot);
+        container.appendChild(matchDiv);
       });
     }
 
-    async function loadMatchData() {
-      const res = await fetch(MATCH_DATA_URL);
-      const matchData = await res.json();
-      const match = matchData[0]; // First match
-
-      const team1 = document.getElementById('team1');
-      const team2 = document.getElementById('team2');
-      team1.innerHTML = '';
-      team2.innerHTML = '';
-
-      for (let i = 0; i < 5; i++) {
-        team1.appendChild(setFixedHeroCard(
-          match.team1_hero[i],
-          match.team1_player[i],
-          match.team1_kda[i],
-          'team1',
-          i,
-          match.team1.mvp
-        ));
-        team2.appendChild(setFixedHeroCard(
-          match.team2_heroe[i],
-          match.team2_player[i],
-          match.team2_kda[i],
-          'team2',
-          i,
-          match.team2.mvp
-        ));
-      }
-      
-      setFixedBanSlot(match.team1_bans, 'team1Bans');
-      setFixedBanSlot(match.team2.bans, 'team2Bans');
-    }
-
-    async function initialize() {
-      await loadHeroes();
-      await loadMatchData();
-    }
-
-    initialize();
+    fetchMatchData();
   </script>
 </body>
 </html>
