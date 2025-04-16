@@ -182,139 +182,103 @@
     <div class="counter-info" id="counterInfo">Select a hero to view strategy information.</div>
 
     <script>
-      const heroData = [
-        {
-          Hero: "Lu Bu",
-          "Image URL": "https://i.imgur.com/xD7Gc9X.png",
-          Strategy: "Engage during cooldown gaps and sustain using his lifesteal.",
-          SkillType1: "Passive",
-          SkillName1: "Conqueror",
-          SkillDesc1: "Increases lifesteal while in combat.",
-          SkillType2: "Active",
-          SkillName2: "Red Blade",
-          SkillDesc2: "Deals damage and slows enemies.",
-          SkillType3: "Active",
-          SkillName3: "War Cry",
-          SkillDesc3: "Grants a shield and enhances attack.",
-          SkillType4: "Ultimate",
-          SkillName4: "Heaven's Trial",
-          SkillDesc4: "Leaps and deals AoE damage while buffing himself."
-        },
-        {
-          Hero: "Mulan",
-          "Image URL": "https://i.imgur.com/dljFzyl.png",
-          Strategy: "Switch stances strategically to burst and escape.",
-          SkillType1: "Passive",
-          SkillName1: "Dual Wield",
-          SkillDesc1: "Switches between light and heavy stance.",
-          SkillType2: "Active",
-          SkillName2: "Shadow Dance",
-          SkillDesc2: "Quick dash to reposition.",
-          SkillType3: "Active",
-          SkillName3: "Piercing Slash",
-          SkillDesc3: "Deals damage based on stance.",
-          SkillType4: "Ultimate",
-          SkillName4: "Blade Flurry",
-          SkillDesc4: "Unleashes a combo attack."
-        },
-        {
-          Hero: "Angela",
-          "Image URL": "https://i.imgur.com/7A74xqY.png",
-          Strategy: "Stay at range, poke often, combo ult with crowd control.",
-          SkillType1: "Passive",
-          SkillName1: "Arcane Aura",
-          SkillDesc1: "Boosts damage over time.",
-          SkillType2: "Active",
-          SkillName2: "Magic Bolt",
-          SkillDesc2: "Single target damage spell.",
-          SkillType3: "Active",
-          SkillName3: "Frost Ray",
-          SkillDesc3: "Slows enemies in a line.",
-          SkillType4: "Ultimate",
-          SkillName4: "Meteor Shower",
-          SkillDesc4: "Calls meteors to rain down in area."
-        }
-      ];
-
-      function createHeroCard(teamId, slotIndex) {
+      const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/data.json";
+      let heroData = [];
+    
+      const team1Heroes = ["Mulan", "Li Bai", "Zhang Fei", "Diaochan", "Luban No.7"];
+      const team2Heroes = ["Ying Zheng", "Yao", "Baili Shouyue", "Daji", "Han Xin"];
+    
+      const team1Bans = ["Gongsun Li", "Mozi", "Wukong", "Zhao Yun"];
+      const team2Bans = ["Lian Po", "Angela", "Marco Polo", "Ying Zheng"];
+    
+      async function loadHeroes() {
+        const res = await fetch(API_URL);
+        heroData = await res.json();
+        renderDraftUI();
+      }
+    
+      function setFixedHeroCard(heroName) {
+        const hero = heroData.find(h => h.Hero === heroName);
         const card = document.createElement('div');
         card.className = 'hero-card';
-
-        const select = document.createElement('select');
-        select.innerHTML = '<option value="">Select Hero</option>' +
-          heroData.map(hero => `<option value="${hero.Hero}">${hero.Hero}</option>`).join('');
-
+    
         const img = document.createElement('img');
         img.className = 'hero-image';
-        img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
-
+        img.src = hero?.["Image URL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
+    
+        const nameLabel = document.createElement('div');
+        nameLabel.textContent = heroName;
+        nameLabel.style.marginTop = "0.5rem";
+        nameLabel.style.fontWeight = "bold";
+    
         const skillInfo = document.createElement('div');
         skillInfo.className = 'tooltip';
         skillInfo.textContent = "Skills";
-
+    
         const tooltip = document.createElement('div');
         tooltip.className = 'tooltiptext';
         skillInfo.appendChild(tooltip);
-
-        select.addEventListener('change', () => {
-          const selected = heroData.find(h => h.Hero === select.value);
-          if (selected) {
-            img.src = selected["Image URL"] || img.src;
-            tooltip.innerHTML = '';
-            for (let i = 1; i <= 5; i++) {
-              const type = selected[`SkillType${i}`];
-              const name = selected[`SkillName${i}`];
-              const desc = selected[`SkillDesc${i}`];
-              if (name) {
-                tooltip.innerHTML += `<strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}<br><br>`;
-              }
+    
+        if (hero) {
+          tooltip.innerHTML = '';
+          for (let i = 1; i <= 5; i++) {
+            const type = hero[`SkillType${i}`];
+            const name = hero[`SkillName${i}`];
+            const desc = hero[`SkillDesc${i}`];
+            if (name) {
+              tooltip.innerHTML += `<strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}<br><br>`;
             }
-            document.getElementById('counterInfo').innerHTML = `<strong>${selected.Hero}</strong> strategy: ${selected["Strategy"] || 'None'}`;
           }
-        });
-
+        }
+    
         card.appendChild(img);
-        card.appendChild(select);
+        card.appendChild(nameLabel);
         card.appendChild(skillInfo);
         return card;
       }
-
-      function createBanSlot(containerId) {
+    
+      function setFixedBanSlot(heroNames, containerId) {
         const container = document.getElementById(containerId);
-        for (let i = 0; i < 4; i++) {
+        container.innerHTML = '';
+        heroNames.forEach(heroName => {
+          const hero = heroData.find(h => h.Hero === heroName);
           const slot = document.createElement('div');
           slot.className = 'ban-slot';
-
+    
           const img = document.createElement('img');
           img.className = 'hero-image';
-          img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
+          img.src = hero?.["Image URL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
           slot.appendChild(img);
-
-          const select = document.createElement('select');
-          select.innerHTML = '<option value="">Ban</option>' +
-            heroData.map(hero => `<option value="${hero.Hero}">${hero.Hero}</option>`).join('');
-
-          select.addEventListener('change', () => {
-            const selected = heroData.find(h => h.Hero === select.value);
-            img.src = selected?.["Image URL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
-          });
-
-          slot.appendChild(select);
+    
+          const name = document.createElement('div');
+          name.textContent = heroName;
+          name.style.fontSize = "0.8rem";
+          name.style.marginTop = "0.3rem";
+          slot.appendChild(name);
+    
           container.appendChild(slot);
-        }
+        });
       }
-
+    
       function renderDraftUI() {
-        for (let i = 0; i < 5; i++) {
-          document.getElementById('team1').appendChild(createHeroCard('team1', i));
-          document.getElementById('team2').appendChild(createHeroCard('team2', i));
-        }
-        createBanSlot('team1Bans');
-        createBanSlot('team2Bans');
+        const team1 = document.getElementById('team1');
+        const team2 = document.getElementById('team2');
+        team1.innerHTML = '';
+        team2.innerHTML = '';
+    
+        team1Heroes.forEach(hero => {
+          team1.appendChild(setFixedHeroCard(hero));
+        });
+    
+        team2Heroes.forEach(hero => {
+          team2.appendChild(setFixedHeroCard(hero));
+        });
+    
+        setFixedBanSlot(team1Bans, 'team1Bans');
+        setFixedBanSlot(team2Bans, 'team2Bans');
       }
-
-      // Kick things off
-      renderDraftUI();
+    
+      loadHeroes();
     </script>
   </div>
 </body>
