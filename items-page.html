@@ -56,7 +56,15 @@
       transform: translateX(5px);
       color: #ff7733;
     }
-
+    
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
     .main-content {
       flex: 1;
       padding: 25px;
@@ -208,17 +216,18 @@
 
   <div class="main-content">
   <h1>Item Viewer</h1>
+    <div class="controls-row">
     <div class="button-group">
       <button id="Advanced" class="toggle-button active" onclick="switchTab('Advanced')">Advanced</button>
       <button id="Novice" class="toggle-button" onclick="switchTab('Novice')">Novice</button>
     </div>
-    <div class="spacer"></div> 
     <div class="top-controls">
       <input id="search" class="search-box" placeholder="Search item name..." onkeyup="renderItems()">
       <select id="classFilter" class="filter-dropdown" onchange="renderItems()">
         <option value="">All Classes</option>
       </select>
     </div>
+  </div>
 
     <div id="items">Loading...</div>
   </div>
