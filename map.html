@@ -176,8 +176,16 @@
         <div 
           class="hotspot" 
           style="top: 20%; left: 38%;" 
-          onclick="showTooltip('Overlord', ['https://i.imgur.com/2NPd6wk.jpeg', 'https://i.imgur.com/gdM60Uc.jpeg'])" 
-          ontouchstart="showTooltip('Overlord', ['https://i.imgur.com/2NPd6wk.jpeg', 'https://i.imgur.com/gdM60Uc.jpeg'])">
+          onclick="showTooltip('Overlord Evolution', [
+            { img: 'https://i.imgur.com/2NPd6wk.jpeg', label: 'Overlord' },
+            { img: 'https://i.imgur.com/gdM60Uc.jpeg', label: 'Shadow Overlord' },
+            { img: 'https://i.imgur.com/ABC123x.jpeg', label: 'Tempest Dragon' }
+          ])"
+          ontouchstart="showTooltip('Overlord Evolution', [
+            { img: 'https://i.imgur.com/2NPd6wk.jpeg', label: 'Overlord' },
+            { img: 'https://i.imgur.com/gdM60Uc.jpeg', label: 'Shadow Overlord' },
+            { img: 'https://i.imgur.com/ABC123x.jpeg', label: 'Tempest Dragon' }
+          ])">
         </div>
         <div class="label" style="top: 20%; left: 41%;">Overlord</div>
 
@@ -217,19 +225,38 @@
   </div>
 
   <script>
-    function showTooltip(title, imgUrls) {
+    function showTooltip(title, items) {
       const tooltip = document.getElementById('tooltip');
       const tooltipTitle = document.getElementById('tooltip-title');
       const tooltipImgContainer = document.getElementById('tooltip-img-container');
     
       tooltipTitle.textContent = title;
-      tooltipImgContainer.innerHTML = ''; // Clear existing images
+      tooltipImgContainer.innerHTML = ''; // Clear old content
     
-      imgUrls.forEach(url => {
+      items.forEach((item, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.style.display = 'flex';
+        wrapper.style.flexDirection = 'column';
+        wrapper.style.alignItems = 'center';
+        wrapper.style.marginRight = '12px';
+    
         const img = document.createElement('img');
-        img.src = url;
-        img.alt = title;
-        tooltipImgContainer.appendChild(img);
+        img.src = item.img;
+        img.alt = item.label || `Stage ${index + 1}`;
+        img.style.width = '80px';
+        img.style.height = '80px';
+        img.style.borderRadius = '6px';
+        img.style.boxShadow = '0 0 6px rgba(255, 119, 51, 0.4)';
+        img.style.marginBottom = '4px';
+    
+        const label = document.createElement('div');
+        label.textContent = item.label || `Stage ${index + 1}`;
+        label.style.fontSize = '0.8rem';
+        label.style.color = '#ccc';
+    
+        wrapper.appendChild(img);
+        wrapper.appendChild(label);
+        tooltipImgContainer.appendChild(wrapper);
       });
     
       tooltip.style.display = 'block';
