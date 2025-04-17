@@ -89,7 +89,26 @@
       border-radius: 12px;
       box-shadow: 0 0 12px #ff773366;
     }
+    .tooltip-right {
+      background: #1f222b;
+      border: 1px solid #ff7733;
+      border-radius: 8px;
+      padding: 10px;
+      margin-left: 20px;
+      min-width: 160px;
+      color: #fff;
+      display: none;
+      position: absolute;
+      left: 820px; /* adjust to match map width */
+    }
     
+    .tooltip-right img {
+      width: 80px;
+      height: 80px;
+      margin-top: 8px;
+      border-radius: 6px;
+      box-shadow: 0 0 6px rgba(255, 119, 51, 0.4);
+    }
     .hotspot {
       position: absolute;
       width: 30px;
@@ -177,8 +196,25 @@
     </div>
   </div>
 </div>  
+</div>
+function showTooltip(title, imgUrl, hotspotEl) {
+  const tooltip = document.getElementById('tooltip');
+  const tooltipImg = document.getElementById('tooltip-img');
+  const tooltipTitle = document.getElementById('tooltip-title');
 
-     
-    </div>
+  tooltipTitle.textContent = title;
+  tooltipImg.src = imgUrl;
+
+  // Position tooltip vertically aligned with hotspot
+  const rect = hotspotEl.getBoundingClientRect();
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  tooltip.style.top = (rect.top + scrollTop - 20) + "px";
+
+  tooltip.style.display = "block";
+}
+
+function hideTooltip() {
+  document.getElementById('tooltip').style.display = 'none';
+}
 </body>
 </html>
