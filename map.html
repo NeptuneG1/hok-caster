@@ -172,47 +172,67 @@
       <div class="map-area">
         <img src="https://i.imgur.com/rd1JIKs.jpeg" alt="HOK Map" />
 
-        <!-- Hotspots -->
-        <div class="hotspot" style="top: 20%; left: 38%;" 
-             onclick="showTooltip('Overlord', 'https://i.imgur.com/2NPd6wk.jpeg')" 
-             ontouchstart="showTooltip('Overlord', 'https://i.imgur.com/2NPd6wk.jpeg')"></div>
+        <!-- Overlord -->
+        <div 
+          class="hotspot" 
+          style="top: 20%; left: 38%;" 
+          onclick="showTooltip('Overlord', ['https://i.imgur.com/2NPd6wk.jpeg', 'https://i.imgur.com/gdM60Uc.jpeg'])" 
+          ontouchstart="showTooltip('Overlord', ['https://i.imgur.com/2NPd6wk.jpeg', 'https://i.imgur.com/gdM60Uc.jpeg'])">
+        </div>
         <div class="label" style="top: 20%; left: 41%;">Overlord</div>
-        
+
+        <!-- Crimson Golem top -->
         <div class="hotspot" style="top: 17%; left: 50%;"></div>
         <div class="label" style="top: 19%; left: 51%;">Crimson Golem</div>
 
+        <!-- Azure Golem top -->
         <div class="hotspot" style="top: 35%; left: 32%;"></div>
         <div class="label" style="top: 37%; left: 33%;">Azure Golem</div>
 
-        <div class="hotspot" style="top: 47%; left: 48%;" 
-             onclick="showTooltip('Tyrant', 'https://i.imgur.com/gdM60Uc.jpeg')" 
-             ontouchstart="showTooltip('Tyrant', 'https://i.imgur.com/gdM60Uc.jpeg')"></div>
-
+        <!-- Tyrant -->
+        <div 
+          class="hotspot" 
+          style="top: 47%; left: 48%;" 
+          onclick="showTooltip('Tyrant', ['https://i.imgur.com/gdM60Uc.jpeg', 'https://i.imgur.com/gdM60Uc.jpeg'])" 
+          ontouchstart="showTooltip('Tyrant', ['https://i.imgur.com/gdM60Uc.jpeg', 'https://i.imgur.com/gdM60Uc.jpeg'])">
+        </div>
+        <div class="label" style="top: 47%; left: 48%;">Tyrant</div>
+        
+        <!-- Crimson Golem bot -->
         <div class="hotspot" style="top: 52%; left: 41%;"></div>
         <div class="label" style="top: 52%; left: 42%;">Crimson Golem</div>
 
-        
-
+        <!-- Azure Golem bot -->
         <div class="hotspot" style="top: 34%; left: 49%;"></div>
         <div class="label" style="top: 34%; left: 50%;">Azure Golem</div>
-
-        
+     
       </div>
 
       <!-- Tooltip Panel -->
       <div id="tooltip" class="tooltip-right">
         <strong id="tooltip-title">Title</strong><br />
-        <img id="tooltip-img" src="" alt="Tooltip image" />
+        <div id="tooltip-img-container" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
       </div>
     </div>
   </div>
 
   <script>
-    function showTooltip(title, imgUrl) {
+    function showTooltip(title, imgUrls) {
       const tooltip = document.getElementById('tooltip');
-      document.getElementById('tooltip-title').textContent = title;
-      document.getElementById('tooltip-img').src = imgUrl;
-      tooltip.style.display = "block";
+      const tooltipTitle = document.getElementById('tooltip-title');
+      const tooltipImgContainer = document.getElementById('tooltip-img-container');
+    
+      tooltipTitle.textContent = title;
+      tooltipImgContainer.innerHTML = ''; // Clear existing images
+    
+      imgUrls.forEach(url => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = title;
+        tooltipImgContainer.appendChild(img);
+      });
+    
+      tooltip.style.display = 'block';
     }
 
     document.body.addEventListener("click", (e) => {
