@@ -177,9 +177,26 @@
     </div>
   </div>
 </div>  
-
-     
-    </div>
+</div>
+    function showTooltip(title, imgUrl, hotspotEl) {
+    const tooltip = document.getElementById('tooltip');
+    const tooltipImg = document.getElementById('tooltip-img');
+    const tooltipTitle = document.getElementById('tooltip-title');
+  
+    tooltipTitle.textContent = title;
+    tooltipImg.src = imgUrl;
+  
+    // Position tooltip vertically aligned with hotspot
+    const rect = hotspotEl.getBoundingClientRect();
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    tooltip.style.top = (rect.top + scrollTop - 20) + "px";
+  
+    tooltip.style.display = "block";
+  }
+  
+  function hideTooltip() {
+    document.getElementById('tooltip').style.display = 'none';
+  }
 </body>
 </html>
 
