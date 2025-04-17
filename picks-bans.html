@@ -238,6 +238,7 @@
             const type = selected[`SkillType${i}`];
             const name = selected[`SkillName${i}`];
             const desc = selected[`SkillDesc${i}`];
+            if (desc) desc = desc.replace(/\n/g, '<br>'); // Replace \n with <br>
             if (name) {
               tooltip.innerHTML += `<strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}<br><br>`;
             }
