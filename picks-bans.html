@@ -237,16 +237,19 @@
           for (let i = 1; i <= 5; i++) {
             const type = selected[`SkillType${i}`];
             const name = selected[`SkillName${i}`];
-            const desc = selected[`SkillDesc${i}`];
+            let desc = selected[`SkillDesc${i}`];
             if (desc) desc = desc.replace(/\n/g, '<br>'); // Replace \n with <br>
             if (name) {
               tooltip.innerHTML += `<strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}<br><br>`;
             }
           }
-          document.getElementById('counterInfo').innerHTML = `<strong>${selected.Hero}</strong> strategy: ${selected["Strategy"] || 'None'}`;
+      
+          let strategy = selected["Strategy"] || 'None';
+          strategy = strategy.replace(/\n/g, '<br>'); // Replace \n with <br>
+          document.getElementById('counterInfo').innerHTML = `<strong>${selected.Hero}</strong> strategy: ${strategy}`;
         }
       });
-
+      
       card.appendChild(img);
       card.appendChild(select);
       card.appendChild(skillInfo);
