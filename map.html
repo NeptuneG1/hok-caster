@@ -124,17 +124,46 @@
       right: 30px;
     }
 
-    .phases {
-      background: #1f222b;
+    .game-phases {
+      position: absolute;
+      left: 0;
+      top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 10px 15px;
+      background: rgba(28, 31, 38, 0.9);
       border: 1px solid #ff7733;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(255, 119, 51, 0.3);
+      z-index: 10;
+      max-width: 250px;
+    }
+    
+    .phase h4 {
+      color: #ff7733;
+      font-size: 1rem;
+      margin: 0 0 5px;
+    }
+    
+    .time-box {
+      background: #1f222b;
       border-radius: 8px;
       padding: 10px;
-      min-width: 160px;
+      border-left: 3px solid #ff7733;
+      color: #ccc;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    
+    .time-box strong {
       color: #fff;
-      position: fixed;
-      z-index: 999;
-      top: 200px;
-      left: 220px;
+      font-size: 1rem;
+    }
+    
+    .time-box.final {
+      background: #0a1f44;
+      border-color: #4dbaff;
     }
 
     .tooltip-right img {
@@ -262,7 +291,39 @@
 
         <div class="label" style="top: 95%; left: 92%;">Firehawk</div>
 
-        <div class="phases" style="top:100%; left:2%;">Phases</div>
+        <div class="game-phases">
+        <div class="phase">
+          <h4>Early Game</h4>
+          <div class="time-box">
+            <strong>At 0:00</strong><br />
+            <span>The game starts.</span>
+          </div>
+        </div>
+      
+        <div class="phase">
+          <h4>Mid Game</h4>
+          <div class="time-box">
+            <strong>At 4:00</strong><br />
+            <span>Tower shields disappear.</span>
+          </div>
+        </div>
+      
+        <div class="phase">
+          <h4>Late Game</h4>
+          <div class="time-box">
+            <strong>At 10:00</strong><br />
+            <span>Overlord & Tyrant enhanced.</span>
+          </div>
+        </div>
+      
+        <div class="phase">
+          <h4>Final Showdown</h4>
+          <div class="time-box final">
+            <strong>At 20:00</strong><br />
+            <span>The Tempest Dragon arrives.</span>
+          </div>
+        </div>
+      </div>
         
       </div>
 
