@@ -153,16 +153,16 @@
       bottom: 100%;
       left: 50%;
       transform: translateX(-50%);
-      background: #2b2f3b;
+      background-color: #2b2f3b;
       color: #ffd7c1;
       padding: 6px 10px;
       border-radius: 6px;
       border: 1px solid #ff7733;
       font-size: 0.7rem;
       white-space: normal;
-      word-wrap: break-word;
-      max-width: 50vw;
-      transition: opacity 0.2s;
+      word-break: break-word; /* better than word-wrap, which is deprecated */
+      max-width: 50vw; /* good for responsiveness */
+      transition: opacity 0.2s ease;
       z-index: 2;
     }
 
