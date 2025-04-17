@@ -195,6 +195,51 @@
         position: static;
         margin: 10px 0;
       }
+      
+      .image-tooltip-wrapper {
+        position: relative;
+        display: inline-block;
+        margin-right: 10px;
+        text-align: center;
+      }
+      
+      .image-tooltip-wrapper img {
+        width: 80px;
+        height: 80px;
+        margin-top: 8px;
+        border-radius: 6px;
+        box-shadow: 0 0 6px rgba(255, 119, 51, 0.4);
+      }
+      
+      .image-tooltip-wrapper .image-label {
+        margin-top: 5px;
+        font-size: 0.75rem;
+        color: #ffddb8;
+      }
+      
+      .image-tooltip-wrapper .hover-description {
+        visibility: hidden;
+        opacity: 0;
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #2b2f3b;
+        color: #ffd7c1;
+        padding: 6px 10px;
+        border-radius: 6px;
+        border: 1px solid #ff7733;
+        font-size: 0.7rem;
+        white-space: nowrap;
+        transition: opacity 0.2s;
+        z-index: 2;
+      }
+      
+      .image-tooltip-wrapper:hover .hover-description {
+        visibility: visible;
+        opacity: 1;
+      }
+      
     }
   </style>
 </head>
@@ -214,20 +259,21 @@
         <img src="https://i.imgur.com/rd1JIKs.jpeg" alt="HOK Map" />
 
         <!-- Overlord -->
-        <div 
-          class="hotspot" 
-          style="top: 22%; left: 38%;" 
-          onclick="showTooltip('Overlord Evolution', [
-            { img: 'https://i.imgur.com/9EkaKrP.jpeg', label: 'Overlord' },
-            { img: 'https://i.imgur.com/XGjH1Be.jpeg', label: 'Shadow Overlord' },
-            { img: 'https://i.imgur.com/5ia4ROp.jpeg', label: 'Tempest Dragon' }
-          ])"
-          ontouchstart="showTooltip('Overlord Evolution', [
-            { img: 'https://i.imgur.com/9EkaKrP.jpeg', label: 'Overlord' },
-            { img: 'https://i.imgur.com/XGjH1Be.jpeg', label: 'Shadow Overlord' },
-            { img: 'https://i.imgur.com/5ia4ROp.jpeg', label: 'Tempest Dragon' }
-          ])">
-        </div>
+          <div 
+            class="hotspot" 
+            style="top: 22%; left: 38%;" 
+            onclick="showTooltip('Overlord Evolution', [
+              { img: 'https://i.imgur.com/9EkaKrP.jpeg', label: 'Overlord', desc: 'Appears at 2:00' },
+              { img: 'https://i.imgur.com/XGjH1Be.jpeg', label: 'Shadow Overlord', desc: 'Enhanced at 10:00' },
+              { img: 'https://i.imgur.com/5ia4ROp.jpeg', label: 'Tempest Dragon', desc: 'Spawns at 20:00' }
+            ], this)"
+            ontouchstart="showTooltip('Overlord Evolution', [
+              { img: 'https://i.imgur.com/9EkaKrP.jpeg', label: 'Overlord', desc: 'Appears at 2:00' },
+              { img: 'https://i.imgur.com/XGjH1Be.jpeg', label: 'Shadow Overlord', desc: 'Enhanced at 10:00' },
+              { img: 'https://i.imgur.com/5ia4ROp.jpeg', label: 'Tempest Dragon', desc: 'Spawns at 20:00' }
+            ], this)">
+          </div>
+
         <div class="label" style="top: 22%; left: 41%;">Overlord</div>
 
         <!-- Crimson Golem top -->
@@ -336,41 +382,41 @@
   </div>
 
   <script>
-    function showTooltip(title, items) {
+    function showTooltip(title, imageStages = [], hotspotEl) {
       const tooltip = document.getElementById('tooltip');
       const tooltipTitle = document.getElementById('tooltip-title');
-      const tooltipImgContainer = document.getElementById('tooltip-img-container');
+      const tooltipImages = document.getElementById('tooltip-images');
     
       tooltipTitle.textContent = title;
-      tooltipImgContainer.innerHTML = ''; // Clear old content
+      tooltipImages.innerHTML = ''; // Clear previous content
     
-      items.forEach((item, index) => {
+      imageStages.forEach(stage => {
         const wrapper = document.createElement('div');
-        wrapper.style.display = 'flex';
-        wrapper.style.flexDirection = 'column';
-        wrapper.style.alignItems = 'center';
-        wrapper.style.marginRight = '12px';
+        wrapper.className = 'image-tooltip-wrapper';
     
         const img = document.createElement('img');
-        img.src = item.img;
-        img.alt = item.label || `Stage ${index + 1}`;
-        img.style.width = '80px';
-        img.style.height = '80px';
-        img.style.borderRadius = '6px';
-        img.style.boxShadow = '0 0 6px rgba(255, 119, 51, 0.4)';
-        img.style.marginBottom = '4px';
+        img.src = stage.img;
+        img.alt = stage.label;
     
         const label = document.createElement('div');
-        label.textContent = item.label || `Stage ${index + 1}`;
-        label.style.fontSize = '0.8rem';
-        label.style.color = '#ccc';
+        label.className = 'image-label';
+        label.textContent = stage.label;
+    
+        const hoverText = document.createElement('div');
+        hoverText.className = 'hover-description';
+        hoverText.textContent = stage.desc || stage.label; // optional extra desc
     
         wrapper.appendChild(img);
         wrapper.appendChild(label);
-        tooltipImgContainer.appendChild(wrapper);
+        wrapper.appendChild(hoverText);
+        tooltipImages.appendChild(wrapper);
       });
     
-      tooltip.style.display = 'block';
+      const rect = hotspotEl.getBoundingClientRect();
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      tooltip.style.top = (rect.top + scrollTop - 20) + "px";
+    
+      tooltip.style.display = "block";
     }
 
     document.body.addEventListener("click", (e) => {
