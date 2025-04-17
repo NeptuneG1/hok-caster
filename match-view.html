@@ -2,36 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Match Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOK Map Details</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #1c1f26;
       color: #f0f0f0;
       margin: 0;
-      padding: 20px;
       display: flex;
+      flex-direction: row;
     }
 
-    h1, h2 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .main-content {
-      max-width: 1200px; /* You can change this to 800px, 720px, etc. */
-      margin: 0 auto;
-      overflow-y: auto;
-      flex: 1;
-      padding: 25px;
-      box-sizing: border-box;
-      background: #262a33;
-      margin-left: 220px;
-    }
-    /* Sidebar */
     .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 220px;
       background: linear-gradient(to bottom, #0f0f14, #1a1b23);
       padding: 20px 15px;
@@ -39,15 +22,15 @@
       height: 100vh;
       border-right: 2px solid #ff7733;
       box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
-      overflow-y: auto; /* optional, adds scroll if content exceeds height */
-      z-index: 1000; /* stays above other elements */
+      position: fixed;
+      top: 0;
+      left: 0;
     }
 
     .sidebar h2 {
       font-size: 20px;
       margin-bottom: 25px;
       color: #ff7733;
-      text-shadow: 0 0 6px #ff7733aa;
     }
 
     .sidebar a {
@@ -65,240 +48,320 @@
       transform: translateX(5px);
       color: #ff7733;
     }
-    
-    .match {
-      margin-bottom: 3rem;
+
+    .main-content {
+      margin-left: 220px;
+      padding: 30px;
+      flex: 1;
+      box-sizing: border-box;
       background: #262a33;
-      padding: 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #ff7733;
+    }
+
+    .map-container {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 100%;
+      position: relative;
+    }
+
+    .map-area {
+      width: 100%;
+      max-width: 1000px;
+      position: relative;
+      margin: auto;
+    }
+
+    .map-area img {
+      width: 100%;
+      border: 2px solid #ff7733;
       border-radius: 12px;
+      box-shadow: 0 0 12px #ff773366;
+      display: block;
+    }
+
+    .hotspot {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background-color: #f63b09;
+      border: 2px solid #fff;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .hotspot:hover {
+      transform: scale(1.3);
+    }
+
+    .label {
+      position: absolute;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .tooltip-right {
+      background: #1f222b;
+      border: 1px solid #ff7733;
+      border-radius: 8px;
+      padding: 10px;
+      min-width: 160px;
+      color: #fff;
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 200px;
+      right: 30px;
+    }
+
+    .tooltip-right img {
+      width: 80px;
+      height: 80px;
+      margin-top: 8px;
+      border-radius: 6px;
+      box-shadow: 0 0 6px rgba(255, 119, 51, 0.4);
+    }
+
+    .image-tooltip-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-right: 10px;
+      margin-bottom: 12px;
       text-align: center;
     }
-    
-    .team-row {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-      gap: 1rem;
+
+    .image-label {
+      margin-top: 5px;
+      font-size: 0.75rem;
+      color: #ffddb8;
     }
-    
-    .team {
-      width: 48%;
+
+    .hover-description {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2b2f3b;
+      color: #ffd7c1;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #ff7733;
+      font-size: 0.7rem;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+      z-index: 2;
+    }
+
+    .image-tooltip-wrapper:hover .hover-description {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .game-phases {
+      position: absolute;
+      left: 0;
+      top: 80px;
       display: flex;
       flex-direction: column;
-    }
-    
-    .team:first-child {
-      align-items: flex-start; /* Team 1: align left */
-      text-align: left;
-    }
-    
-    .team:last-child {
-      align-items: flex-end; /* Team 2: align right */
-      text-align: right;
-    }
-    
-    .team h3 {
-      margin-top: 0;
-      font-size: 1.1rem;
-      color: #ffcc88;
+      gap: 12px;
+      padding: 8px 12px;
+      background: rgba(28, 31, 38, 0.95);
+      border: 1px solid #ff7733;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(255, 119, 51, 0.2);
+      z-index: 10;
+      max-width: 150px;
     }
 
-    .heroes {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 0.5rem;
-      flex-direction: row;
-      justify-content: flex-start;
-    }
-    
-    .team:last-child .heroes {
-      justify-content: flex-end;
+    .phase h4 {
+      color: #ff7733;
+      font-size: 0.9rem;
+      margin: 0 0 4px;
     }
 
-
-    .hero {
-      background: #2a2d38;
+    .time-box {
+      background: #1f222b;
+      border-radius: 6px;
       padding: 6px 8px;
-      border-radius: 8px;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      min-width: 80px;
-    }
-
-    .hero img {
-      width: 48px;
-      height: 48px;
-      border-radius: 6px;
-      object-fit: cover;
-    }
-
-    .bans {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 0.5rem;
-      width: 48%;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .ban {
-      text-align: center;
+      border-left: 3px solid #ff7733;
+      color: #ccc;
       font-size: 0.75rem;
+      line-height: 1.3;
     }
 
-    .ban img {
-      width: 48px;
-      height: 48px;
-      border-radius: 6px;
+    .time-box strong {
+      color: #fff;
+      font-size: 0.85rem;
+    }
+
+    .time-box.final {
+      background: #0a1f44;
+      border-color: #4dbaff;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 2px solid #ff7733;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .tooltip-right {
+        position: static;
+        margin: 10px 0;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
+  <div class="sidebar">
     <h2>HOK Viewer</h2>
     <a href="index.html">Heroes</a>
     <a href="items-page.html">Items</a>
     <a href="picks-bans.html">Draft</a>
-    <a href="map.html">Map</a>
+    <a href="match-view.html">Match Viewer</a>
   </div>
 
-  <!-- Main content -->
   <div class="main-content">
-  <h1>Match Viewer</h1>
+    <h1>Map Overview</h1>
+    <div class="map-container">
+      <div class="map-area">
+        <img src="https://i.imgur.com/rd1JIKs.jpeg" alt="HOK Map" />
 
-  <!-- Dropdown for tournament filtering -->
-  <div style="text-align: center; margin-bottom: 1rem;">
-    <label for="tournamentSelect">Filter by Tournament: </label>
-    <select id="tournamentSelect">
-      <option value="all">All</option>
-    </select>
+        <!-- Overlord Hotspot -->
+        <div 
+          class="hotspot" 
+          style="top: 22%; left: 38%;" 
+          onclick="showTooltip('Overlord Evolution', [
+            { img: 'https://i.imgur.com/9EkaKrP.jpeg', label: 'Overlord', desc: 'Appears at 2:00' },
+            { img: 'https://i.imgur.com/XGjH1Be.jpeg', label: 'Shadow Overlord', desc: 'Enhanced at 10:00' },
+            { img: 'https://i.imgur.com/5ia4ROp.jpeg', label: 'Tempest Dragon', desc: 'Spawns at 20:00' }
+          ], this)">
+        </div>
+        <div class="label" style="top: 22%; left: 41%;">Overlord</div>
+
+        <!-- Tyrant Hotspot -->
+        <div 
+          class="hotspot" 
+          style="top: 65%; left: 72%;" 
+          onclick="showTooltip('Tyrant Evolution', [
+            { img: 'https://i.imgur.com/F36AJVo.jpeg', label: 'Tyrant' },
+            { img: 'https://i.imgur.com/duD3Ky7.jpeg', label: 'Shadow Tyrant' }
+          ], this)">
+        </div>
+        <div class="label" style="top: 65%; left: 75%;">Tyrant</div>
+
+        <!-- Other static labels here (abbreviated for space) -->
+        <!-- Add all your other labels as needed -->
+
+        <div class="game-phases">
+          <div class="phase">
+            <h4>Early Game</h4>
+            <div class="time-box">
+              <strong>At 0:00</strong><br />
+              <span>The game starts.</span>
+            </div>
+          </div>
+          <div class="phase">
+            <h4>Mid Game</h4>
+            <div class="time-box">
+              <strong>At 4:00</strong><br />
+              <span>Tower shields disappear.</span>
+            </div>
+          </div>
+          <div class="phase">
+            <h4>Late Game</h4>
+            <div class="time-box">
+              <strong>At 10:00</strong><br />
+              <span>Overlord & Tyrant enhanced.</span>
+            </div>
+          </div>
+          <div class="phase">
+            <h4>Final Showdown</h4>
+            <div class="time-box final">
+              <strong>At 20:00</strong><br />
+              <span>The Tempest Dragon arrives.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Tooltip Panel -->
+      <div id="tooltip" class="tooltip-right">
+        <strong id="tooltip-title">Title</strong><br />
+        <div id="tooltip-img-container" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
+      </div>
+    </div>
   </div>
-
-  <div id="matches"></div>
 
   <script>
-    const heroAPI = "https://neptuneg1.github.io/hero-skills-viewer/data.json";
-    const matchAPI = "https://neptuneg1.github.io/hero-skills-viewer/matchdata.json";
+    function showTooltip(title, imageStages = [], hotspotEl) {
+      const tooltip = document.getElementById('tooltip');
+      const tooltipTitle = document.getElementById('tooltip-title');
+      const tooltipImages = document.getElementById('tooltip-img-container');
 
-    let heroList = [];
-    let matchList = [];
+      tooltipTitle.textContent = title;
+      tooltipImages.innerHTML = ''; // Clear previous content
 
-    async function fetchData() {
-      const [heroRes, matchRes] = await Promise.all([
-        fetch(heroAPI),
-        fetch(matchAPI)
-      ]);
+      imageStages.forEach(stage => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'image-tooltip-wrapper';
 
-      heroList = await heroRes.json();
-      matchList = await matchRes.json();
+        const img = document.createElement('img');
+        img.src = stage.img;
+        img.alt = stage.label;
 
-      populateTournamentDropdown(matchList);
-      renderMatches(matchList);
-    }
+        const label = document.createElement('div');
+        label.className = 'image-label';
+        label.textContent = stage.label;
 
-    function populateTournamentDropdown(matches) {
-      const tournamentSet = new Set(matches.map(m => m.tournament));
-      const select = document.getElementById("tournamentSelect");
+        const hoverText = document.createElement('div');
+        hoverText.className = 'hover-description';
+        hoverText.textContent = stage.desc || stage.label;
 
-      tournamentSet.forEach(t => {
-        const option = document.createElement("option");
-        option.value = t;
-        option.textContent = t;
-        select.appendChild(option);
+        wrapper.appendChild(img);
+        wrapper.appendChild(label);
+        wrapper.appendChild(hoverText);
+        tooltipImages.appendChild(wrapper);
       });
 
-      select.addEventListener("change", () => {
-        const selected = select.value;
-        const filtered = selected === "all"
-          ? matchList
-          : matchList.filter(m => m.tournament === selected);
-        renderMatches(filtered);
-      });
+      const rect = hotspotEl.getBoundingClientRect();
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      tooltip.style.top = (rect.top + scrollTop - 20) + "px";
+
+      tooltip.style.display = "block";
     }
 
-    function getHeroData(heroName) {
-      return heroList.find(h => h.Hero === heroName) || {};
-    }
-
-    function createHeroCard(heroName, player, kda, isMVP) {
-      const hero = getHeroData(heroName);
-      return `
-        <div class="hero">
-          <img src="${hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero.Hero}">
-          <div><strong>${heroName}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</div>
-        </div>
-      `;
-    }
-
-    function createBanCard(heroName) {
-      const hero = getHeroData(heroName);
-      return `
-        <div class="ban">
-          <img src="${hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${heroName}">
-          <div>${heroName}</div>
-        </div>
-      `;
-    }
-
-    function renderMatches(data) {
-      const container = document.getElementById('matches');
-      container.innerHTML = '';
-
-      data.forEach(match => {
-        const matchHTML = `
-          <div class="match">
-            <h2>${match.matchup} – Game ${match.game} (${match.format})</h2>
-            <h3>${match.stage} – ${match.date}</h3>
-
-            <div class="team-row">
-              <div class="team">
-                <h3>${match.team1_name} – ${match.team1_score}</h3>
-                <div class="heroes">
-                  ${createHeroCard(match.team1_hero1, match.team1_player1, match.team1_kda1, match.team1_MVP === 1)}
-                  ${createHeroCard(match.team1_hero2, match.team1_player2, match.team1_kda2, match.team1_MVP === 2)}
-                  ${createHeroCard(match.team1_hero3, match.team1_player3, match.team1_kda3, match.team1_MVP === 3)}
-                  ${createHeroCard(match.team1_hero4, match.team1_player4, match.team1_kda4, match.team1_MVP === 4)}
-                  ${createHeroCard(match.team1_hero5, match.team1_player5, match.team1_kda5, match.team1_MVP === 5)}
-                </div>
-                <div class="bans">
-                  ${createBanCard(match.team1_ban1)}
-                  ${createBanCard(match.team1_ban2)}
-                  ${createBanCard(match.team1_ban3)}
-                  ${createBanCard(match.team1_ban4)}
-                </div>
-              </div>
-
-              <div class="team">
-                <h3>${match.team2_score} - ${match.team2_name}</h3>
-                <div class="heroes">
-                  ${createHeroCard(match.team2_hero1, match.team2_player1, match.team2_kda1, match.team2_MVP === 1)}
-                  ${createHeroCard(match.team2_hero2, match.team2_player2, match.team2_kda2, match.team2_MVP === 2)}
-                  ${createHeroCard(match.team2_hero3, match.team2_player3, match.team2_kda3, match.team2_MVP === 3)}
-                  ${createHeroCard(match.team2_hero4, match.team2_player4, match.team2_kda4, match.team2_MVP === 4)}
-                  ${createHeroCard(match.team2_hero5, match.team2_player5, match.team2_kda5, match.team2_MVP === 5)}
-                </div>
-                <div class="bans">
-                  ${createBanCard(match.team2_ban4)}
-                  ${createBanCard(match.team2_ban3)}
-                  ${createBanCard(match.team2_ban2)}
-                  ${createBanCard(match.team2_ban1)}
-                </div>
-              </div>
-            </div>
-
-            <p><strong>Winner:</strong> ${match.winner}</p>
-          </div>
-        `;
-        container.innerHTML += matchHTML;
-      });
-    }
-
-    fetchData();
+    document.body.addEventListener("click", (e) => {
+      const isHotspot = e.target.classList.contains("hotspot");
+      const isTooltip = e.target.closest("#tooltip");
+      if (!isHotspot && !isTooltip) {
+        document.getElementById('tooltip').style.display = "none";
+      }
+    });
   </script>
 </body>
 </html>
