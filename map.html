@@ -124,6 +124,51 @@
       right: 30px;
     }
 
+    .tooltip-right img {
+      width: 80px;
+      height: 80px;
+      margin-top: 8px;
+      border-radius: 6px;
+      box-shadow: 0 0 6px rgba(255, 119, 51, 0.4);
+    }
+
+    .image-tooltip-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-right: 10px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .image-label {
+      margin-top: 5px;
+      font-size: 0.75rem;
+      color: #ffddb8;
+    }
+
+    .hover-description {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2b2f3b;
+      color: #ffd7c1;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #ff7733;
+      font-size: 0.7rem;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+      z-index: 2;
+    }
+
+    .image-tooltip-wrapper:hover .hover-description {
+      visibility: visible;
+      opacity: 1;
+    }
+
     .game-phases {
       position: absolute;
       left: 0;
@@ -139,13 +184,13 @@
       z-index: 10;
       max-width: 150px;
     }
-    
+
     .phase h4 {
       color: #ff7733;
       font-size: 0.9rem;
       margin: 0 0 4px;
     }
-    
+
     .time-box {
       background: #1f222b;
       border-radius: 6px;
@@ -155,23 +200,15 @@
       font-size: 0.75rem;
       line-height: 1.3;
     }
-    
+
     .time-box strong {
       color: #fff;
       font-size: 0.85rem;
     }
-    
+
     .time-box.final {
       background: #0a1f44;
       border-color: #4dbaff;
-    }
-
-    .tooltip-right img {
-      width: 80px;
-      height: 80px;
-      margin-top: 8px;
-      border-radius: 6px;
-      box-shadow: 0 0 6px rgba(255, 119, 51, 0.4);
     }
 
     @media (max-width: 768px) {
@@ -195,51 +232,6 @@
         position: static;
         margin: 10px 0;
       }
-      
-      .image-tooltip-wrapper {
-        position: relative;
-        display: inline-block;
-        margin-right: 10px;
-        text-align: center;
-      }
-      
-      .image-tooltip-wrapper img {
-        width: 80px;
-        height: 80px;
-        margin-top: 8px;
-        border-radius: 6px;
-        box-shadow: 0 0 6px rgba(255, 119, 51, 0.4);
-      }
-      
-      .image-tooltip-wrapper .image-label {
-        margin-top: 5px;
-        font-size: 0.75rem;
-        color: #ffddb8;
-      }
-      
-      .image-tooltip-wrapper .hover-description {
-        visibility: hidden;
-        opacity: 0;
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #2b2f3b;
-        color: #ffd7c1;
-        padding: 6px 10px;
-        border-radius: 6px;
-        border: 1px solid #ff7733;
-        font-size: 0.7rem;
-        white-space: nowrap;
-        transition: opacity 0.2s;
-        z-index: 2;
-      }
-      
-      .image-tooltip-wrapper:hover .hover-description {
-        visibility: visible;
-        opacity: 1;
-      }
-      
     }
   </style>
 </head>
@@ -258,22 +250,31 @@
       <div class="map-area">
         <img src="https://i.imgur.com/rd1JIKs.jpeg" alt="HOK Map" />
 
-        <!-- Overlord -->
-          <div 
-            class="hotspot" 
-            style="top: 22%; left: 38%;" 
-            onclick="showTooltip('Overlord Evolution', [
-              { img: 'https://i.imgur.com/9EkaKrP.jpeg', label: 'Overlord', desc: 'Appears at 2:00' },
-              { img: 'https://i.imgur.com/XGjH1Be.jpeg', label: 'Shadow Overlord', desc: 'Enhanced at 10:00' },
-              { img: 'https://i.imgur.com/5ia4ROp.jpeg', label: 'Tempest Dragon', desc: 'Spawns at 20:00' }
-            ], this)"
-            ontouchstart="showTooltip('Overlord Evolution', [
-              { img: 'https://i.imgur.com/9EkaKrP.jpeg', label: 'Overlord', desc: 'Appears at 2:00' },
-              { img: 'https://i.imgur.com/XGjH1Be.jpeg', label: 'Shadow Overlord', desc: 'Enhanced at 10:00' },
-              { img: 'https://i.imgur.com/5ia4ROp.jpeg', label: 'Tempest Dragon', desc: 'Spawns at 20:00' }
-            ], this)">
-          </div>
+        <!-- Overlord Hotspot -->
+        <div 
+          class="hotspot" 
+          style="top: 22%; left: 38%;" 
+          onclick="showTooltip('Overlord Evolution', [
+            { img: 'https://i.imgur.com/9EkaKrP.jpeg', label: 'Overlord', desc: 'Appears at 2:00' },
+            { img: 'https://i.imgur.com/XGjH1Be.jpeg', label: 'Shadow Overlord', desc: 'Enhanced at 10:00' },
+            { img: 'https://i.imgur.com/5ia4ROp.jpeg', label: 'Tempest Dragon', desc: 'Spawns at 20:00' }
+          ], this)">
+        </div>
+        <div class="label" style="top: 22%; left: 41%;">Overlord</div>
 
+        <!-- Tyrant Hotspot -->
+        <div 
+          class="hotspot" 
+          style="top: 65%; left: 72%;" 
+          onclick="showTooltip('Tyrant Evolution', [
+            { img: 'https://i.imgur.com/F36AJVo.jpeg', label: 'Tyrant' },
+            { img: 'https://i.imgur.com/duD3Ky7.jpeg', label: 'Shadow Tyrant' }
+          ], this)">
+        </div>
+        <div class="label" style="top: 65%; left: 75%;">Tyrant</div>
+
+        <!-- Other static labels here (abbreviated for space) -->
+        <!-- Add all your other labels as needed -->
         <div class="label" style="top: 22%; left: 41%;">Overlord</div>
 
         <!-- Crimson Golem top -->
@@ -281,21 +282,6 @@
 
         <!-- Azure Golem top -->
         <div class="label" style="top: 36%; left: 34%;">Azure<br>Golem</div>
-
-        <!-- Tyrant -->
-        <div 
-          class="hotspot" 
-          style="top: 65%; left: 72%;" 
-          onclick="showTooltip('Tyrant Evolution', [
-            { img: 'https://i.imgur.com/F36AJVo.jpeg', label: 'Tyrant' },
-            { img: 'https://i.imgur.com/duD3Ky7.jpeg', label: 'Shadow Tyrant' }
-          ])"
-          ontouchstart="showTooltip('Tyrant Evolution', [
-            { img: 'https://i.imgur.com/F36AJVo.jpeg', label: 'Tyrant' },
-            { img: 'https://i.imgur.com/duD3Ky7.jpeg', label: 'Shadow Tyrant' }
-          ])">
-        </div>
-        <div class="label" style="top: 65%; left: 75%;">Tyrant</div>
         
         <!-- Crimson Golem bot -->
         <div class="label" style="top: 70%; left: 60%;">Crimson<br>Golem</div>
@@ -338,39 +324,36 @@
         <div class="label" style="top: 95%; left: 92%;">Firehawk</div>
 
         <div class="game-phases">
-        <div class="phase">
-          <h4>Early Game</h4>
-          <div class="time-box">
-            <strong>At 0:00</strong><br />
-            <span>The game starts.</span>
+          <div class="phase">
+            <h4>Early Game</h4>
+            <div class="time-box">
+              <strong>At 0:00</strong><br />
+              <span>The game starts.</span>
+            </div>
+          </div>
+          <div class="phase">
+            <h4>Mid Game</h4>
+            <div class="time-box">
+              <strong>At 4:00</strong><br />
+              <span>Tower shields disappear.</span>
+            </div>
+          </div>
+          <div class="phase">
+            <h4>Late Game</h4>
+            <div class="time-box">
+              <strong>At 10:00</strong><br />
+              <span>Overlord & Tyrant enhanced.</span>
+            </div>
+          </div>
+          <div class="phase">
+            <h4>Final Showdown</h4>
+            <div class="time-box final">
+              <strong>At 20:00</strong><br />
+              <span>The Tempest Dragon arrives.</span>
+            </div>
           </div>
         </div>
-      
-        <div class="phase">
-          <h4>Mid Game</h4>
-          <div class="time-box">
-            <strong>At 4:00</strong><br />
-            <span>Tower shields disappear.</span>
-          </div>
-        </div>
-      
-        <div class="phase">
-          <h4>Late Game</h4>
-          <div class="time-box">
-            <strong>At 10:00</strong><br />
-            <span>Overlord & Tyrant enhanced.</span>
-          </div>
-        </div>
-      
-        <div class="phase">
-          <h4>Final Showdown</h4>
-          <div class="time-box final">
-            <strong>At 20:00</strong><br />
-            <span>The Tempest Dragon arrives.</span>
-          </div>
-        </div>
-      </div>
-        
+
       </div>
 
       <!-- Tooltip Panel -->
@@ -385,37 +368,37 @@
     function showTooltip(title, imageStages = [], hotspotEl) {
       const tooltip = document.getElementById('tooltip');
       const tooltipTitle = document.getElementById('tooltip-title');
-      const tooltipImages = document.getElementById('tooltip-images');
-    
+      const tooltipImages = document.getElementById('tooltip-img-container');
+
       tooltipTitle.textContent = title;
       tooltipImages.innerHTML = ''; // Clear previous content
-    
+
       imageStages.forEach(stage => {
         const wrapper = document.createElement('div');
         wrapper.className = 'image-tooltip-wrapper';
-    
+
         const img = document.createElement('img');
         img.src = stage.img;
         img.alt = stage.label;
-    
+
         const label = document.createElement('div');
         label.className = 'image-label';
         label.textContent = stage.label;
-    
+
         const hoverText = document.createElement('div');
         hoverText.className = 'hover-description';
-        hoverText.textContent = stage.desc || stage.label; // optional extra desc
-    
+        hoverText.textContent = stage.desc || stage.label;
+
         wrapper.appendChild(img);
         wrapper.appendChild(label);
         wrapper.appendChild(hoverText);
         tooltipImages.appendChild(wrapper);
       });
-    
+
       const rect = hotspotEl.getBoundingClientRect();
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       tooltip.style.top = (rect.top + scrollTop - 20) + "px";
-    
+
       tooltip.style.display = "block";
     }
 
