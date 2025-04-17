@@ -299,24 +299,27 @@
 
     function renderSkills(hero) {
       let skillHTML = '';
+    
       for (let i = 1; i <= 5; i++) {
         const skillName = hero[`SkillName${i}`];
         const skillDesc = hero[`SkillDesc${i}`];
-        const skillURL = hero[`SkillURL${i}`];
-        const skillType = hero[`SkillType${i}`];
+        const skillURL = hero[`SkillURL${i}`] || 'https://i.imgur.com/default-skill.png';
+        const skillType = hero[`SkillType${i}`] || 'Unknown Type';
+    
         if (skillName) {
-        skillHTML += `
-          <div class="skill tooltip">
-            <img src="${skillURL || 'https://i.imgur.com/default-skill.png'}" alt="${skillName}">
-            <span>${skillName}</span>
-            <span class="tooltiptext">
-              <strong>${skillType || 'Unknown Type'}</strong><br>
-              ${(skillDesc || 'No description available').replace(/\n/g, '<br>')}
-            </span>
+          skillHTML += `
+            <div class="skill tooltip">
+              <img src="${skillURL}" alt="${skillName}">
+              <span>${skillName}</span>
+              <span class="tooltiptext">
+                <strong>${skillType}</strong><br>
+                ${skillDesc ? skillDesc.replace(/\n/g, '<br>') : 'No description available'}
+              </span>
             </div>
           `;
         }
       }
+    
       return skillHTML || '<p>No skills available</p>';
     }
 
