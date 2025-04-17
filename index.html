@@ -311,7 +311,7 @@
             <span>${skillName}</span>
             <span class="tooltiptext">
               <strong>${skillType || 'Unknown Type'}</strong><br>
-              ${skillDesc || 'No description available'}
+              ${(skillDesc || 'No description available').replace(/\n/g, '<br>')}
             </span>
             </div>
           `;
