@@ -66,6 +66,9 @@
       width: 100%;
       max-width: 800px;
       margin-bottom: 2rem;
+      display: flex;
+      align-items: flex-start;
+      position: relative;
     }
 
     .map-container img {
@@ -75,6 +78,39 @@
       box-shadow: 0 0 12px #ff773366;
     }
 
+    .map-area {
+      position: relative;
+      width: 800px;
+    }
+    
+    .map-img {
+      width: 100%;
+      border: 2px solid #ff7733;
+      border-radius: 12px;
+      box-shadow: 0 0 12px #ff773366;
+    }
+    
+    .tooltip-right {
+      background: #1f222b;
+      border: 1px solid #ff7733;
+      border-radius: 8px;
+      padding: 10px;
+      margin-left: 20px;
+      min-width: 160px;
+      color: #fff;
+      display: none;
+      position: absolute;
+      left: 820px; /* adjust to match map width */
+    }
+    
+    .tooltip-right img {
+      width: 80px;
+      height: 80px;
+      margin-top: 8px;
+      border-radius: 6px;
+      box-shadow: 0 0 6px rgba(255, 119, 51, 0.4);
+    }
+    
     .hotspot {
       position: absolute;
       width: 30px;
@@ -86,7 +122,6 @@
       opacity: 0.5;
       transition: transform 0.2s;
     }
-
     .hotspot:hover {
       transform: scale(1.2);
     }
