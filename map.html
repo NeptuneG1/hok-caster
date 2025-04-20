@@ -507,36 +507,40 @@
       const tooltip = document.getElementById('tooltip');
       const tooltipTitle = document.getElementById('tooltip-title');
       const tooltipImages = document.getElementById('tooltip-img-container');
-
+    
       tooltipTitle.textContent = title;
       tooltipImages.innerHTML = ''; // Clear previous content
-
+    
       imageStages.forEach(stage => {
         const wrapper = document.createElement('div');
         wrapper.className = 'image-tooltip-wrapper';
-
+    
         const img = document.createElement('img');
         img.src = stage.img;
         img.alt = stage.label;
-
+    
         const label = document.createElement('div');
         label.className = 'image-label';
         label.textContent = stage.label;
-
+    
         const hoverText = document.createElement('div');
         hoverText.className = 'hover-description';
         hoverText.textContent = stage.desc || stage.label;
-
+    
         wrapper.appendChild(img);
         wrapper.appendChild(label);
         wrapper.appendChild(hoverText);
         tooltipImages.appendChild(wrapper);
       });
-
+    
+      // Position Tooltip with overflow protection
       const rect = hotspotEl.getBoundingClientRect();
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      tooltip.style.top = (rect.top + scrollTop - 20) + "px";
-
+      const tooltipHeight = tooltip.offsetHeight;
+      const maxTop = window.innerHeight + scrollTop - tooltipHeight - 20; // Bottom margin
+      const top = Math.min(rect.top + scrollTop - 20, maxTop);
+    
+      tooltip.style.top = `${top}px`;
       tooltip.style.display = "block";
     }
 
