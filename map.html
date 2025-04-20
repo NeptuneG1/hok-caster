@@ -176,7 +176,7 @@
 
     .game-phases {
       position: absolute;
-      left: -20px;
+      left: -200px;
       top: 100px;
       display: flex;
       flex-direction: column;
@@ -533,16 +533,22 @@
         tooltipImages.appendChild(wrapper);
       });
     
-      // Position Tooltip with overflow protection
+      // Temporarily show tooltip to measure height
+      tooltip.style.visibility = "hidden";
+      tooltip.style.display = "block";
+    
       const rect = hotspotEl.getBoundingClientRect();
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const tooltipHeight = tooltip.offsetHeight;
-      const maxTop = window.innerHeight + scrollTop - tooltipHeight - 20; // Bottom margin
+      const maxTop = window.innerHeight + scrollTop - tooltipHeight - 20;
       const top = Math.min(rect.top + scrollTop - 20, maxTop);
     
       tooltip.style.top = `${top}px`;
-      tooltip.style.display = "block";
+    
+      // Now make it visible
+      tooltip.style.visibility = "visible";
     }
+
 
     document.body.addEventListener("click", (e) => {
       const isHotspot = e.target.classList.contains("hotspot");
