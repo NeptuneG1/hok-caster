@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Match Viewer + Stats</title>
+  <title>Match Viewer</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -150,6 +150,10 @@
         <option value="all">All</option>
       </select>
     </div>
+    <div style="text-align: center; margin-bottom: 1rem;">
+      <label for="teamFilter">Filter by Team: </label>
+      <input type="text" id="teamFilter" placeholder="Enter team name">
+    </div>
     <div id="matches"></div>
     <h2 style="margin-top: 2rem;">Hero Stats</h2>
     <div id="stats"></div>
@@ -178,16 +182,6 @@
 
     function getHeroData(heroName) {
       return heroList.find(h => h.Hero.toLowerCase() === heroName.toLowerCase()) || { ImageURL: "https://i.imgur.com/kkUX3a3.jpeg" };
-    }
-
-    function createHeroCard(heroName, player, kda, isMVP) {
-      const hero = getHeroData(heroName);
-      return `<div class="hero"><img src="${hero.ImageURL}" alt="${heroName}"><div><strong>${heroName}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</div></div>`;
-    }
-
-    function createBanCard(heroName) {
-      const hero = getHeroData(heroName);
-      return `<div class="ban"><img src="${hero.ImageURL}" alt="${heroName}"><div>${heroName}</div></div>`;
     }
 
     function computeHeroStats(matches) {
@@ -220,24 +214,61 @@
 
     function renderHeroStats(stats) {
       const container = document.getElementById('stats');
+      container.innerHTML = '';
       const totalMatches = matchList.length;
-      for (const [hero, data] of Object.entries(stats)) {
+      const sorted = Object.entries(stats).map(([hero, data]) => {
+        const pickRate = data.picks / (totalMatches * 10);
+        const winRate = data.picks > 0 ? data.wins / data.picks : 0;
+        return { hero, data, pickRate, winRate };
+      }).sort((a, b) => b.winRate - a.winRate || b.pickRate - a.pickRate);
+
+      sorted.forEach(({ hero, data, pickRate, winRate }) => {
         const heroData = getHeroData(hero);
-        const pickRate = ((data.picks / (totalMatches * 10)) * 100).toFixed(1);
-        const banRate = ((data.bans / (totalMatches * 8)) * 100).toFixed(1);
-        const winRate = data.picks > 0 ? ((data.wins / data.picks) * 100).toFixed(1) : '0.0';
-        if (!heroData.ImageURL) console.warn("Missing hero image for:", hero);
+        const pickRatePct = (pickRate * 100).toFixed(1);
+        const banRatePct = ((data.bans / (totalMatches * 8)) * 100).toFixed(1);
+        const winRatePct = (winRate * 100).toFixed(1);
         container.innerHTML += `
           <div class="stat-card">
             <img src="${heroData.ImageURL}" alt="${hero}">
             <div class="bar-graph">
-              <div class="bar pick" style="width: ${pickRate}%"></div>
-              <div class="bar ban" style="width: ${banRate}%"></div>
-              <div class="bar win" style="width: ${winRate}%"></div>
-              <small>${hero}<br>Pick: ${pickRate}% | Ban: ${banRate}% | Win: ${winRate}%</small>
+              <div class="bar pick" style="width: ${pickRatePct}%"></div>
+              <div class="bar ban" style="width: ${banRatePct}%"></div>
+              <div class="bar win" style="width: ${winRatePct}%"></div>
+              <small>${hero}<br>Pick: ${pickRatePct}% | Ban: ${banRatePct}% | Win: ${winRatePct}%</small>
             </div>
           </div>`;
-      }
+      });
+    }
+
+    function renderMatches(data) {
+      const container = document.getElementById('matches');
+      container.innerHTML = '';
+      data.forEach(match => {
+        container.innerHTML += `<div class="match">
+          <h3>${match.matchup} – G${match.game}</h3>
+          <div class="team-row">
+            <div class="team">
+              <strong>${match.team1_name} (${match.team1_score})</strong>
+              <div class="heroes">
+                ${[1,2,3,4,5].map(i => createHeroCard(match[`team1_hero${i}`], match[`team1_player${i}`], match[`team1_kda${i}`], match.team1_MVP === i)).join('')}
+              </div>
+              <div class="bans">
+                ${[1,2,3,4].map(i => createBanCard(match[`team1_ban${i}`])).join('')}
+              </div>
+            </div>
+            <div class="team">
+              <strong>${match.team2_name} (${match.team2_score})</strong>
+              <div class="heroes">
+                ${[1,2,3,4,5].map(i => createHeroCard(match[`team2_hero${i}`], match[`team2_player${i}`], match[`team2_kda${i}`], match.team2_MVP === i)).join('')}
+              </div>
+              <div class="bans">
+                ${[1,2,3,4].map(i => createBanCard(match[`team2_ban${i}`])).join('')}
+              </div>
+            </div>
+          </div>
+          <p><strong>Winner:</strong> ${match.winner}</p>
+        </div>`;
+      });
     }
 
     document.getElementById('playerSearch').addEventListener('input', e => {
@@ -253,6 +284,15 @@
       document.getElementById('playerPicks').innerHTML = `<strong>Heroes picked by "${name}"</strong>: ${result}`;
     });
 
+    document.getElementById('teamFilter').addEventListener('input', e => {
+      const filter = e.target.value.toLowerCase();
+      const filtered = matchList.filter(match =>
+        match.team1_name.toLowerCase().includes(filter) ||
+        match.team2_name.toLowerCase().includes(filter)
+      );
+      renderMatches(filtered);
+    });
+
     function populateTournamentDropdown(matches) {
       const select = document.getElementById("tournamentSelect");
       const tournaments = new Set(matches.map(m => m.tournament));
@@ -266,51 +306,6 @@
         const selected = select.value;
         const filtered = selected === "all" ? matchList : matchList.filter(m => m.tournament === selected);
         renderMatches(filtered);
-      });
-    }
-
-    function renderMatches(data) {
-      const container = document.getElementById('matches');
-      container.innerHTML = '';
-      data.forEach(match => {
-        container.innerHTML += `<div class="match">
-          <h3>${match.matchup} – G${match.game}</h3>
-          <div class="team-row">
-            <div class="team">
-              <strong>${match.team1_name} (${match.team1_score})</strong>
-              <div class="heroes">
-                ${createHeroCard(match.team1_hero1, match.team1_player1, match.team1_kda1, match.team1_MVP === 1)}
-                ${createHeroCard(match.team1_hero2, match.team1_player2, match.team1_kda2, match.team1_MVP === 2)}
-                ${createHeroCard(match.team1_hero3, match.team1_player3, match.team1_kda3, match.team1_MVP === 3)}
-                ${createHeroCard(match.team1_hero4, match.team1_player4, match.team1_kda4, match.team1_MVP === 4)}
-                ${createHeroCard(match.team1_hero5, match.team1_player5, match.team1_kda5, match.team1_MVP === 5)}
-              </div>
-              <div class="bans">
-                ${createBanCard(match.team1_ban1)}
-                ${createBanCard(match.team1_ban2)}
-                ${createBanCard(match.team1_ban3)}
-                ${createBanCard(match.team1_ban4)}
-              </div>
-            </div>
-            <div class="team">
-              <strong>${match.team2_name} (${match.team2_score})</strong>
-              <div class="heroes">
-                ${createHeroCard(match.team2_hero1, match.team2_player1, match.team2_kda1, match.team2_MVP === 1)}
-                ${createHeroCard(match.team2_hero2, match.team2_player2, match.team2_kda2, match.team2_MVP === 2)}
-                ${createHeroCard(match.team2_hero3, match.team2_player3, match.team2_kda3, match.team2_MVP === 3)}
-                ${createHeroCard(match.team2_hero4, match.team2_player4, match.team2_kda4, match.team2_MVP === 4)}
-                ${createHeroCard(match.team2_hero5, match.team2_player5, match.team2_kda5, match.team2_MVP === 5)}
-              </div>
-              <div class="bans">
-                ${createBanCard(match.team2_ban1)}
-                ${createBanCard(match.team2_ban2)}
-                ${createBanCard(match.team2_ban3)}
-                ${createBanCard(match.team2_ban4)}
-              </div>
-            </div>
-          </div>
-          <p><strong>Winner:</strong> ${match.winner}</p>
-        </div>`;
       });
     }
 
