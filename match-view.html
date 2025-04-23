@@ -164,6 +164,11 @@
         <option value="pick">Pick %</option>
         <option value="ban">Ban %</option>
       </select>
+
+      <label for="teamStats" style="margin-left: 2rem;">Filter by Team: </label>
+      <select id="teamStats">
+        <option value="all">All</option>
+      </select>
     </div>
     <div id="stats"></div>
 
@@ -176,7 +181,7 @@
   <script>
     const heroAPI = "https://neptuneg1.github.io/hok-caster/data.json";
     const matchAPI = "https://neptuneg1.github.io/hok-caster/matchdata.json";
-    let heroList = [], matchList = [], heroStats = [];
+    let heroList = [], matchList = [], heroStats = [], currentSort = 'win';
 
     async function fetchData() {
       try {
@@ -186,11 +191,40 @@
         heroList = await heroRes.json();
         matchList = await matchRes.json();
         populateTournamentDropdown(matchList);
+        populateTeamStatsDropdown(matchList);
         renderMatches(matchList);
         heroStats = computeHeroStats(matchList);
         renderHeroStats(heroStats);
-        document.getElementById('sortStats').addEventListener('change', (e) => {
-          renderHeroStats(heroStats, e.target.value);
+
+        document.getElementById('sortStats').addEventListener('change', e => {
+          currentSort = e.target.value;
+          renderHeroStats(heroStats);
+        });
+
+        document.getElementById('teamStats').addEventListener('change', () => {
+          renderHeroStats(heroStats);
+        });
+
+        document.getElementById('teamFilter').addEventListener('input', e => {
+          const filter = e.target.value.toLowerCase();
+          const filtered = matchList.filter(match =>
+            match.team1_name.toLowerCase().includes(filter) ||
+            match.team2_name.toLowerCase().includes(filter)
+          );
+          renderMatches(filtered);
+        });
+
+        document.getElementById('playerSearch').addEventListener('input', e => {
+          const name = e.target.value.toLowerCase();
+          const picks = [];
+          matchList.forEach(match => {
+            for (let i = 1; i <= 5; i++) {
+              if (match[`team1_player${i}`].toLowerCase().includes(name)) picks.push(match[`team1_hero${i}`]);
+              if (match[`team2_player${i}`].toLowerCase().includes(name)) picks.push(match[`team2_hero${i}`]);
+            }
+          });
+          const result = [...new Set(picks)].join(', ') || 'None found';
+          document.getElementById('playerPicks').innerHTML = `<strong>Heroes picked by "${name}"</strong>: ${result}`;
         });
       } catch (error) {
         console.error("Failed to load data:", error);
@@ -199,6 +233,37 @@
 
     function getHeroData(heroName) {
       return heroList.find(h => h.Hero.toLowerCase() === heroName.toLowerCase()) || { ImageURL: "https://i.imgur.com/kkUX3a3.jpeg" };
+    }
+
+    function populateTournamentDropdown(matches) {
+      const select = document.getElementById("tournamentSelect");
+      const tournaments = new Set(matches.map(m => m.tournament));
+      tournaments.forEach(t => {
+        const option = document.createElement("option");
+        option.value = t;
+        option.textContent = t;
+        select.appendChild(option);
+      });
+      select.addEventListener("change", () => {
+        const selected = select.value;
+        const filtered = selected === "all" ? matchList : matchList.filter(m => m.tournament === selected);
+        renderMatches(filtered);
+      });
+    }
+
+    function populateTeamStatsDropdown(matches) {
+      const select = document.getElementById("teamStats");
+      const teams = new Set();
+      matches.forEach(m => {
+        teams.add(m.team1_name);
+        teams.add(m.team2_name);
+      });
+      Array.from(teams).sort().forEach(t => {
+        const option = document.createElement("option");
+        option.value = t;
+        option.textContent = t;
+        select.appendChild(option);
+      });
     }
 
     function renderMatches(data) {
@@ -269,19 +334,26 @@
       return stats;
     }
 
-    function renderHeroStats(stats, sortBy = 'win') {
+    function renderHeroStats(stats) {
       const container = document.getElementById('stats');
       container.innerHTML = '';
       const totalMatches = matchList.length;
+      const selectedTeam = document.getElementById('teamStats').value;
 
-      const sorted = Object.entries(stats).map(([hero, data]) => {
-        const pickRate = data.picks / (totalMatches * 10);
-        const banRate = data.bans / (totalMatches * 8);
+      const filteredMatches = selectedTeam === 'all' ? matchList : matchList.filter(
+        m => m.team1_name === selectedTeam || m.team2_name === selectedTeam
+      );
+
+      const localStats = computeHeroStats(filteredMatches);
+
+      const sorted = Object.entries(localStats).map(([hero, data]) => {
+        const pickRate = data.picks / (filteredMatches.length * 10);
+        const banRate = data.bans / (filteredMatches.length * 8);
         const winRate = data.picks > 0 ? data.wins / data.picks : 0;
         return { hero, data, pickRate, banRate, winRate };
       }).sort((a, b) => {
-        if (sortBy === 'pick') return b.pickRate - a.pickRate;
-        if (sortBy === 'ban') return b.banRate - a.banRate;
+        if (currentSort === 'pick') return b.pickRate - a.pickRate;
+        if (currentSort === 'ban') return b.banRate - a.banRate;
         return b.winRate - a.winRate;
       });
 
@@ -300,44 +372,6 @@
               <small>${hero}<br>Pick: ${pickRatePct}% | Ban: ${banRatePct}% | Win: ${winRatePct}%</small>
             </div>
           </div>`;
-      });
-    }
-
-    document.getElementById('playerSearch').addEventListener('input', e => {
-      const name = e.target.value.toLowerCase();
-      const picks = [];
-      matchList.forEach(match => {
-        for (let i = 1; i <= 5; i++) {
-          if (match[`team1_player${i}`].toLowerCase().includes(name)) picks.push(match[`team1_hero${i}`]);
-          if (match[`team2_player${i}`].toLowerCase().includes(name)) picks.push(match[`team2_hero${i}`]);
-        }
-      });
-      const result = [...new Set(picks)].join(', ') || 'None found';
-      document.getElementById('playerPicks').innerHTML = `<strong>Heroes picked by "${name}"</strong>: ${result}`;
-    });
-
-    document.getElementById('teamFilter').addEventListener('input', e => {
-      const filter = e.target.value.toLowerCase();
-      const filtered = matchList.filter(match =>
-        match.team1_name.toLowerCase().includes(filter) ||
-        match.team2_name.toLowerCase().includes(filter)
-      );
-      renderMatches(filtered);
-    });
-
-    function populateTournamentDropdown(matches) {
-      const select = document.getElementById("tournamentSelect");
-      const tournaments = new Set(matches.map(m => m.tournament));
-      tournaments.forEach(t => {
-        const option = document.createElement("option");
-        option.value = t;
-        option.textContent = t;
-        select.appendChild(option);
-      });
-      select.addEventListener("change", () => {
-        const selected = select.value;
-        const filtered = selected === "all" ? matchList : matchList.filter(m => m.tournament === selected);
-        renderMatches(filtered);
       });
     }
 
