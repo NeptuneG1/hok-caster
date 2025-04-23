@@ -235,7 +235,7 @@
 
     async function loadItems() {
       try {
-        const res = await fetch('https://raw.githubusercontent.com/NeptuneG1/hero-skills-viewer/main/items.json');
+        const res = await fetch('https://raw.githubusercontent.com/NeptuneG1/hok-caster/main/items.json');
         allItems = await res.json();
         populateFilterOptions();
         renderItems();
