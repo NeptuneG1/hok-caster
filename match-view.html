@@ -341,16 +341,16 @@
       const totalMatches = matchList.length;
       const selectedTeam = document.getElementById('teamStats').value;
 
-      const filteredMatches = selectedTeam === 'all' ? matchList : matchList.filter(
+      const filteredMatches = (selectedTeam && selectedTeam !== 'all') ? matchList.filter(
         m => m.team1_name === selectedTeam || m.team2_name === selectedTeam
-      );
+      ) : matchList;
 
       const localStats = computeHeroStats(filteredMatches);
 
       const sorted = Object.entries(localStats).map(([hero, data]) => {
-        const pickRate = data.picks / filteredMatches.length;
-        const banRate = data.bans / filteredMatches.length;
-        const winRate = data.picks > 0 ? data.wins / data.picks : 0;
+        const pickRate = filteredMatches.length > 0 ? data.picks / filteredMatches.length : 0;
+        const banRate = filteredMatches.length > 0 ? data.bans / filteredMatches.length : 0;
+        const winRate = filteredMatches.length > 0 ? data.wins / filteredMatches.length : 0;
         return { hero, data, pickRate, banRate, winRate };
       }).sort((a, b) => {
         if (currentSort === 'pick') return b.pickRate - a.pickRate;
