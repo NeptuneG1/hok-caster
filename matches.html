@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Match Viewer</title>
+  <title>Match Viewer + Stats</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -12,12 +12,10 @@
       padding: 20px;
       display: flex;
     }
-
     h1, h2 {
       text-align: center;
       margin-bottom: 1rem;
     }
-
     .main-content {
       max-width: 100%;
       margin-left: 220px;
@@ -26,7 +24,6 @@
       box-sizing: border-box;
       background: #262a33;
     }
-
     .sidebar {
       position: fixed;
       top: 0;
@@ -41,14 +38,12 @@
       overflow-y: auto;
       z-index: 1000;
     }
-
     .sidebar h2 {
       font-size: 20px;
       margin-bottom: 25px;
       color: #ff7733;
       text-shadow: 0 0 6px #ff7733aa;
     }
-
     .sidebar a {
       display: block;
       color: #ddd;
@@ -58,20 +53,17 @@
       border-radius: 8px;
       transition: background 0.2s, transform 0.2s;
     }
-
     .sidebar a:hover {
       background-color: #33384a;
       transform: translateX(5px);
       color: #ff7733;
     }
-
     #matches {
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
       justify-content: center;
     }
-
     .match {
       background: #2a2d38;
       padding: 0.75rem;
@@ -81,26 +73,22 @@
       min-width: 280px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
-
     .team-row {
       display: flex;
       flex-direction: column;
       gap: 1rem;
     }
-
     .team {
       display: flex;
       flex-direction: column;
       text-align: center;
     }
-
     .heroes, .bans {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
       justify-content: center;
     }
-
     .hero, .ban {
       background: #393e4f;
       padding: 4px;
@@ -108,21 +96,18 @@
       font-size: 0.7rem;
       text-align: center;
     }
-
     .hero img, .ban img {
       width: 36px;
       height: 36px;
       border-radius: 5px;
       object-fit: cover;
     }
-
     #stats {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 1rem;
       margin-top: 2rem;
     }
-
     .stat-card {
       background: #2f3442;
       padding: 0.5rem;
@@ -131,23 +116,19 @@
       align-items: center;
       gap: 10px;
     }
-
     .stat-card img {
       width: 40px;
       height: 40px;
       border-radius: 6px;
     }
-
     .bar-graph {
       flex: 1;
     }
-
     .bar {
       height: 6px;
       border-radius: 3px;
       margin-bottom: 3px;
     }
-
     .pick { background: #4caf50; }
     .ban { background: #f44336; }
     .win { background: #2196f3; }
@@ -161,43 +142,34 @@
     <a href="picks-bans.html">Draft</a>
     <a href="map.html">Map</a>
   </div>
-
   <div class="main-content">
     <h1>Match Viewer</h1>
-
     <div style="text-align: center; margin-bottom: 1rem;">
       <label for="tournamentSelect">Filter by Tournament: </label>
       <select id="tournamentSelect">
         <option value="all">All</option>
       </select>
     </div>
-
     <div id="matches"></div>
-
     <h2 style="margin-top: 2rem;">Hero Stats</h2>
     <div id="stats"></div>
-
     <div style="text-align: center; margin-top: 2rem;">
       <label for="playerSearch">Heroes picked by player: </label>
       <input type="text" id="playerSearch" placeholder="Enter player name">
       <div id="playerPicks"></div>
     </div>
   </div>
-
   <script>
     const heroAPI = "https://neptuneg1.github.io/hok-caster/data.json";
     const matchAPI = "https://neptuneg1.github.io/hok-caster/matchdata.json";
-
     let heroList = [], matchList = [];
 
     async function fetchData() {
       const [heroRes, matchRes] = await Promise.all([
         fetch(heroAPI), fetch(matchAPI)
       ]);
-
       heroList = await heroRes.json();
       matchList = await matchRes.json();
-
       populateTournamentDropdown(matchList);
       renderMatches(matchList);
       const stats = computeHeroStats(matchList);
@@ -205,17 +177,45 @@
     }
 
     function getHeroData(heroName) {
-      return heroList.find(h => h.Hero === heroName) || {};
+      return heroList.find(h => h.Hero.toLowerCase() === heroName.toLowerCase()) || { ImageURL: "https://i.imgur.com/kkUX3a3.jpeg" };
     }
 
     function createHeroCard(heroName, player, kda, isMVP) {
       const hero = getHeroData(heroName);
-      return `<div class="hero"><img src="${hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${heroName}"><div><strong>${heroName}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</div></div>`;
+      return `<div class="hero"><img src="${hero.ImageURL}" alt="${heroName}"><div><strong>${heroName}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</div></div>`;
     }
 
     function createBanCard(heroName) {
       const hero = getHeroData(heroName);
-      return `<div class="ban"><img src="${hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${heroName}"><div>${heroName}</div></div>`;
+      return `<div class="ban"><img src="${hero.ImageURL}" alt="${heroName}"><div>${heroName}</div></div>`;
+    }
+
+    function computeHeroStats(matches) {
+      const stats = {};
+      matches.forEach(match => {
+        const picks = [
+          match.team1_hero1, match.team1_hero2, match.team1_hero3, match.team1_hero4, match.team1_hero5,
+          match.team2_hero1, match.team2_hero2, match.team2_hero3, match.team2_hero4, match.team2_hero5
+        ];
+        const bans = [
+          match.team1_ban1, match.team1_ban2, match.team1_ban3, match.team1_ban4,
+          match.team2_ban1, match.team2_ban2, match.team2_ban3, match.team2_ban4
+        ];
+        const winnerTeam = match.winner === match.team1_name ? 'team1' : 'team2';
+        picks.forEach(hero => {
+          if (!stats[hero]) stats[hero] = { picks: 0, bans: 0, wins: 0 };
+          stats[hero].picks++;
+        });
+        bans.forEach(hero => {
+          if (!stats[hero]) stats[hero] = { picks: 0, bans: 0, wins: 0 };
+          stats[hero].bans++;
+        });
+        for (let i = 1; i <= 5; i++) {
+          const winnerHero = match[`${winnerTeam}_hero${i}`];
+          if (winnerHero) stats[winnerHero].wins++;
+        }
+      });
+      return stats;
     }
 
     function renderHeroStats(stats) {
@@ -226,10 +226,10 @@
         const pickRate = ((data.picks / (totalMatches * 10)) * 100).toFixed(1);
         const banRate = ((data.bans / (totalMatches * 8)) * 100).toFixed(1);
         const winRate = data.picks > 0 ? ((data.wins / data.picks) * 100).toFixed(1) : '0.0';
-
+        if (!heroData.ImageURL) console.warn("Missing hero image for:", hero);
         container.innerHTML += `
           <div class="stat-card">
-            <img src="${heroData.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero}">
+            <img src="${heroData.ImageURL}" alt="${hero}">
             <div class="bar-graph">
               <div class="bar pick" style="width: ${pickRate}%"></div>
               <div class="bar ban" style="width: ${banRate}%"></div>
@@ -243,14 +243,12 @@
     document.getElementById('playerSearch').addEventListener('input', e => {
       const name = e.target.value.toLowerCase();
       const picks = [];
-
       matchList.forEach(match => {
         for (let i = 1; i <= 5; i++) {
           if (match[`team1_player${i}`].toLowerCase().includes(name)) picks.push(match[`team1_hero${i}`]);
           if (match[`team2_player${i}`].toLowerCase().includes(name)) picks.push(match[`team2_hero${i}`]);
         }
       });
-
       const result = [...new Set(picks)].join(', ') || 'None found';
       document.getElementById('playerPicks').innerHTML = `<strong>Heroes picked by "${name}"</strong>: ${result}`;
     });
