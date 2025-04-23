@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Match Viewer</title>
+  <title>Match Viewer + Stats</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -169,19 +169,32 @@
     let heroList = [], matchList = [];
 
     async function fetchData() {
-      const [heroRes, matchRes] = await Promise.all([
-        fetch(heroAPI), fetch(matchAPI)
-      ]);
-      heroList = await heroRes.json();
-      matchList = await matchRes.json();
-      populateTournamentDropdown(matchList);
-      renderMatches(matchList);
-      const stats = computeHeroStats(matchList);
-      renderHeroStats(stats);
+      try {
+        const [heroRes, matchRes] = await Promise.all([
+          fetch(heroAPI), fetch(matchAPI)
+        ]);
+        heroList = await heroRes.json();
+        matchList = await matchRes.json();
+        populateTournamentDropdown(matchList);
+        renderMatches(matchList);
+        renderHeroStats(computeHeroStats(matchList));
+      } catch (error) {
+        console.error("Failed to load data:", error);
+      }
     }
 
     function getHeroData(heroName) {
       return heroList.find(h => h.Hero.toLowerCase() === heroName.toLowerCase()) || { ImageURL: "https://i.imgur.com/kkUX3a3.jpeg" };
+    }
+
+    function createHeroCard(heroName, player, kda, isMVP) {
+      const hero = getHeroData(heroName);
+      return `<div class="hero"><img src="${hero.ImageURL}" alt="${heroName}"><div><strong>${heroName}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</div></div>`;
+    }
+
+    function createBanCard(heroName) {
+      const hero = getHeroData(heroName);
+      return `<div class="ban"><img src="${hero.ImageURL}" alt="${heroName}"><div>${heroName}</div></div>`;
     }
 
     function computeHeroStats(matches) {
