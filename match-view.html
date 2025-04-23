@@ -363,13 +363,16 @@
         const banRatePct = (banRate * 100).toFixed(1);
         const winRatePct = (winRate * 100).toFixed(1);
         container.innerHTML += `
-          <div class="stat-card">
+          <div class=\"stat-card\">
             <img src="${heroData.ImageURL}" alt="${hero}">
             <div class="bar-graph">
               <div class="bar pick" style="width: ${pickRatePct}%"></div>
               <div class="bar ban" style="width: ${banRatePct}%"></div>
               <div class="bar win" style="width: ${winRatePct}%"></div>
-              <small>${hero}<br>Pick: ${pickRatePct}% | Ban: ${banRatePct}% | Win: ${winRatePct}%</small>
+              <small>${hero}<br>
+<span style=\"color: ${pickRatePct > 30 ? '#4caf50' : pickRatePct < 10 ? '#f44336' : '#ffc107'}\">Pick: ${pickRatePct}% (${data.picks} picks out of ${filteredMatches.length * 10})</span><br>
+<span style=\"color: ${banRatePct > 20 ? '#f44336' : banRatePct < 5 ? '#4caf50' : '#ffc107'}\">Ban: ${banRatePct}% (${data.bans} bans out of ${filteredMatches.length * 8})</span><br>
+<span style=\"color: ${winRatePct > 60 ? '#4caf50' : winRatePct < 40 ? '#f44336' : '#ffc107'}\">Win: ${winRatePct}% (${data.wins} wins out of ${data.picks})</span></small>
             </div>
           </div>`;
       });
