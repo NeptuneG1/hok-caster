@@ -189,6 +189,9 @@
         renderMatches(matchList);
         heroStats = computeHeroStats(matchList);
         renderHeroStats(heroStats);
+        document.getElementById('sortStats').addEventListener('change', (e) => {
+          renderHeroStats(heroStats, e.target.value);
+        });
       } catch (error) {
         console.error("Failed to load data:", error);
       }
@@ -196,6 +199,47 @@
 
     function getHeroData(heroName) {
       return heroList.find(h => h.Hero.toLowerCase() === heroName.toLowerCase()) || { ImageURL: "https://i.imgur.com/kkUX3a3.jpeg" };
+    }
+
+    function renderMatches(data) {
+      const container = document.getElementById('matches');
+      container.innerHTML = '';
+      data.forEach(match => {
+        container.innerHTML += `<div class="match">
+          <h3>${match.matchup} – G${match.game}</h3>
+          <div class="team-row">
+            <div class="team">
+              <strong>${match.team1_name} (${match.team1_score})</strong>
+              <div class="heroes">
+                ${[1,2,3,4,5].map(i => createHeroCard(match[`team1_hero${i}`], match[`team1_player${i}`], match[`team1_kda${i}`], match.team1_MVP === i)).join('')}
+              </div>
+              <div class="bans">
+                ${[1,2,3,4].map(i => createBanCard(match[`team1_ban${i}`])).join('')}
+              </div>
+            </div>
+            <div class="team">
+              <strong>${match.team2_name} (${match.team2_score})</strong>
+              <div class="heroes">
+                ${[1,2,3,4,5].map(i => createHeroCard(match[`team2_hero${i}`], match[`team2_player${i}`], match[`team2_kda${i}`], match.team2_MVP === i)).join('')}
+              </div>
+              <div class="bans">
+                ${[1,2,3,4].map(i => createBanCard(match[`team2_ban${i}`])).join('')}
+              </div>
+            </div>
+          </div>
+          <p><strong>Winner:</strong> ${match.winner}</p>
+        </div>`;
+      });
+    }
+
+    function createHeroCard(heroName, player, kda, isMVP) {
+      const hero = getHeroData(heroName);
+      return `<div class="hero"><img src="${hero.ImageURL}" alt="${heroName}"><div><strong>${heroName}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</div></div>`;
+    }
+
+    function createBanCard(heroName) {
+      const hero = getHeroData(heroName);
+      return `<div class="ban"><img src="${hero.ImageURL}" alt="${heroName}"><div>${heroName}</div></div>`;
     }
 
     function computeHeroStats(matches) {
@@ -256,42 +300,6 @@
               <small>${hero}<br>Pick: ${pickRatePct}% | Ban: ${banRatePct}% | Win: ${winRatePct}%</small>
             </div>
           </div>`;
-      });
-    }
-  
-      document.getElementById('sortStats').addEventListener('change', (e) => {
-        renderHeroStats(heroStats, e.target.value);
-      });
-    }
-
-    function renderMatches(data) {
-      const container = document.getElementById('matches');
-      container.innerHTML = '';
-      data.forEach(match => {
-        container.innerHTML += `<div class="match">
-          <h3>${match.matchup} – G${match.game}</h3>
-          <div class="team-row">
-            <div class="team">
-              <strong>${match.team1_name} (${match.team1_score})</strong>
-              <div class="heroes">
-                ${[1,2,3,4,5].map(i => createHeroCard(match[`team1_hero${i}`], match[`team1_player${i}`], match[`team1_kda${i}`], match.team1_MVP === i)).join('')}
-              </div>
-              <div class="bans">
-                ${[1,2,3,4].map(i => createBanCard(match[`team1_ban${i}`])).join('')}
-              </div>
-            </div>
-            <div class="team">
-              <strong>${match.team2_name} (${match.team2_score})</strong>
-              <div class="heroes">
-                ${[1,2,3,4,5].map(i => createHeroCard(match[`team2_hero${i}`], match[`team2_player${i}`], match[`team2_kda${i}`], match.team2_MVP === i)).join('')}
-              </div>
-              <div class="bans">
-                ${[1,2,3,4].map(i => createBanCard(match[`team2_ban${i}`])).join('')}
-              </div>
-            </div>
-          </div>
-          <p><strong>Winner:</strong> ${match.winner}</p>
-        </div>`;
       });
     }
 
