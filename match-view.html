@@ -151,8 +151,8 @@
       </select>
     </div>
     <div style="text-align: center; margin-bottom: 1rem;">
-      <label for="teamFilter">Filter by Team: </label>
-      <input type="text" id="teamFilter" placeholder="Enter team name">
+      <label for=\"teamFilter\">Filter by Team: </label>
+<select id=\"teamFilter\"><option value=\"all\">All</option></select>
     </div>
     <div id="matches"></div>
 
@@ -191,6 +191,7 @@
         heroList = await heroRes.json();
         matchList = await matchRes.json();
         populateTournamentDropdown(matchList);
+        populateTeamFilterDropdown(matchList);
         populateTeamStatsDropdown(matchList);
         renderMatches(matchList);
         heroStats = computeHeroStats(matchList);
@@ -205,14 +206,14 @@
           renderHeroStats(heroStats);
         });
 
-        document.getElementById('teamFilter').addEventListener('input', e => {
-          const filter = e.target.value.toLowerCase();
-          const filtered = matchList.filter(match =>
-            match.team1_name.toLowerCase().includes(filter) ||
-            match.team2_name.toLowerCase().includes(filter)
-          );
-          renderMatches(filtered);
-        });
+        document.getElementById('teamFilter').addEventListener('change', e => {
+  const filter = e.target.value.toLowerCase();
+  const filtered = filter === 'all' ? matchList : matchList.filter(match =>
+    match.team1_name.toLowerCase() === filter ||
+    match.team2_name.toLowerCase() === filter
+  );
+  renderMatches(filtered);
+});
 
         document.getElementById('playerSearch').addEventListener('input', e => {
           const name = e.target.value.toLowerCase();
@@ -340,16 +341,16 @@
       const totalMatches = matchList.length;
       const selectedTeam = document.getElementById('teamStats').value;
 
-      const filteredMatches = selectedTeam === 'all' ? matchList : matchList.filter(
+      const filteredMatches = (selectedTeam && selectedTeam !== 'all') ? matchList.filter(
         m => m.team1_name === selectedTeam || m.team2_name === selectedTeam
-      );
+      ) : matchList;
 
       const localStats = computeHeroStats(filteredMatches);
 
       const sorted = Object.entries(localStats).map(([hero, data]) => {
-        const pickRate = data.picks / filteredMatches.length;
-        const banRate = data.bans / filteredMatches.length;
-        const winRate = data.picks > 0 ? data.wins / data.picks : 0;
+        const pickRate = filteredMatches.length > 0 ? data.picks / filteredMatches.length : 0;
+        const banRate = filteredMatches.length > 0 ? data.bans / filteredMatches.length : 0;
+        const winRate = filteredMatches.length > 0 ? data.wins / filteredMatches.length : 0;
         return { hero, data, pickRate, banRate, winRate };
       }).sort((a, b) => {
         if (currentSort === 'pick') return b.pickRate - a.pickRate;
@@ -366,9 +367,9 @@
           <div class=\"stat-card\">
             <img src="${heroData.ImageURL}" alt="${hero}">
             <div class="bar-graph">
-              <div class="bar pick" style="width: ${pickRatePct}%"></div>
-              <div class="bar ban" style="width: ${banRatePct}%"></div>
-              <div class="bar win" style="width: ${winRatePct}%"></div>
+              <div class=\"bar pick\" style=\"width: ${pickRatePct}%; height: 8px;\"></div>
+              <div class=\"bar ban\" style=\"width: ${banRatePct}%; height: 8px;\"></div>
+              <div class=\"bar win\" style=\"width: ${winRatePct}%; height: 8px;\"></div>
               <small>${hero}<br>
 <span style=\"color: ${pickRatePct > 30 ? '#4caf50' : pickRatePct < 10 ? '#f44336' : '#ffc107'}\">Pick: ${pickRatePct}% (${data.picks} picks out of ${filteredMatches.length})</span><br>
 <span style=\"color: ${banRatePct > 20 ? '#f44336' : banRatePct < 5 ? '#4caf50' : '#ffc107'}\">Ban: ${banRatePct}% (${data.bans} bans out of ${filteredMatches.length})</span><br>
@@ -377,6 +378,21 @@
           </div>`;
       });
     }
+
+    function populateTeamFilterDropdown(matches) {
+  const select = document.getElementById("teamFilter");
+  const teams = new Set();
+  matches.forEach(m => {
+    teams.add(m.team1_name);
+    teams.add(m.team2_name);
+  });
+  Array.from(teams).sort().forEach(t => {
+    const option = document.createElement("option");
+    option.value = t;
+    option.textContent = t;
+    select.appendChild(option);
+  });
+}
 
     fetchData();
   </script>
