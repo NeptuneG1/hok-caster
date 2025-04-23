@@ -155,8 +155,18 @@
       <input type="text" id="teamFilter" placeholder="Enter team name">
     </div>
     <div id="matches"></div>
+
     <h2 style="margin-top: 2rem;">Hero Stats</h2>
+    <div style="text-align: center; margin-bottom: 1rem;">
+      <label for="sortStats">Sort by: </label>
+      <select id="sortStats">
+        <option value="win">Win %</option>
+        <option value="pick">Pick %</option>
+        <option value="ban">Ban %</option>
+      </select>
+    </div>
     <div id="stats"></div>
+
     <div style="text-align: center; margin-top: 2rem;">
       <label for="playerSearch">Heroes picked by player: </label>
       <input type="text" id="playerSearch" placeholder="Enter player name">
@@ -166,7 +176,7 @@
   <script>
     const heroAPI = "https://neptuneg1.github.io/hok-caster/data.json";
     const matchAPI = "https://neptuneg1.github.io/hok-caster/matchdata.json";
-    let heroList = [], matchList = [];
+    let heroList = [], matchList = [], heroStats = [];
 
     async function fetchData() {
       try {
@@ -177,7 +187,8 @@
         matchList = await matchRes.json();
         populateTournamentDropdown(matchList);
         renderMatches(matchList);
-        renderHeroStats(computeHeroStats(matchList));
+        heroStats = computeHeroStats(matchList);
+        renderHeroStats(heroStats);
       } catch (error) {
         console.error("Failed to load data:", error);
       }
@@ -187,36 +198,25 @@
       return heroList.find(h => h.Hero.toLowerCase() === heroName.toLowerCase()) || { ImageURL: "https://i.imgur.com/kkUX3a3.jpeg" };
     }
 
-    function createHeroCard(heroName, player, kda, isMVP) {
-      const hero = getHeroData(heroName);
-      return `<div class="hero"><img src="${hero.ImageURL}" alt="${heroName}"><div><strong>${heroName}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</div></div>`;
-    }
-
-    function createBanCard(heroName) {
-      const hero = getHeroData(heroName);
-      return `<div class="ban"><img src="${hero.ImageURL}" alt="${heroName}"><div>${heroName}</div></div>`;
-    }
-
     function computeHeroStats(matches) {
       const stats = {};
       matches.forEach(match => {
-        const picks = [
-          match.team1_hero1, match.team1_hero2, match.team1_hero3, match.team1_hero4, match.team1_hero5,
-          match.team2_hero1, match.team2_hero2, match.team2_hero3, match.team2_hero4, match.team2_hero5
-        ];
-        const bans = [
-          match.team1_ban1, match.team1_ban2, match.team1_ban3, match.team1_ban4,
-          match.team2_ban1, match.team2_ban2, match.team2_ban3, match.team2_ban4
-        ];
+        const picks = [match.team1_hero1, match.team1_hero2, match.team1_hero3, match.team1_hero4, match.team1_hero5,
+                       match.team2_hero1, match.team2_hero2, match.team2_hero3, match.team2_hero4, match.team2_hero5];
+        const bans = [match.team1_ban1, match.team1_ban2, match.team1_ban3, match.team1_ban4,
+                      match.team2_ban1, match.team2_ban2, match.team2_ban3, match.team2_ban4];
         const winnerTeam = match.winner === match.team1_name ? 'team1' : 'team2';
+
         picks.forEach(hero => {
           if (!stats[hero]) stats[hero] = { picks: 0, bans: 0, wins: 0 };
           stats[hero].picks++;
         });
+
         bans.forEach(hero => {
           if (!stats[hero]) stats[hero] = { picks: 0, bans: 0, wins: 0 };
           stats[hero].bans++;
         });
+
         for (let i = 1; i <= 5; i++) {
           const winnerHero = match[`${winnerTeam}_hero${i}`];
           if (winnerHero) stats[winnerHero].wins++;
@@ -225,20 +225,26 @@
       return stats;
     }
 
-    function renderHeroStats(stats) {
+    function renderHeroStats(stats, sortBy = 'win') {
       const container = document.getElementById('stats');
       container.innerHTML = '';
       const totalMatches = matchList.length;
+
       const sorted = Object.entries(stats).map(([hero, data]) => {
         const pickRate = data.picks / (totalMatches * 10);
+        const banRate = data.bans / (totalMatches * 8);
         const winRate = data.picks > 0 ? data.wins / data.picks : 0;
-        return { hero, data, pickRate, winRate };
-      }).sort((a, b) => b.winRate - a.winRate || b.pickRate - a.pickRate);
+        return { hero, data, pickRate, banRate, winRate };
+      }).sort((a, b) => {
+        if (sortBy === 'pick') return b.pickRate - a.pickRate;
+        if (sortBy === 'ban') return b.banRate - a.banRate;
+        return b.winRate - a.winRate;
+      });
 
-      sorted.forEach(({ hero, data, pickRate, winRate }) => {
+      sorted.forEach(({ hero, data, pickRate, banRate, winRate }) => {
         const heroData = getHeroData(hero);
         const pickRatePct = (pickRate * 100).toFixed(1);
-        const banRatePct = ((data.bans / (totalMatches * 8)) * 100).toFixed(1);
+        const banRatePct = (banRate * 100).toFixed(1);
         const winRatePct = (winRate * 100).toFixed(1);
         container.innerHTML += `
           <div class="stat-card">
@@ -250,6 +256,11 @@
               <small>${hero}<br>Pick: ${pickRatePct}% | Ban: ${banRatePct}% | Win: ${winRatePct}%</small>
             </div>
           </div>`;
+      });
+    }
+  
+      document.getElementById('sortStats').addEventListener('change', (e) => {
+        renderHeroStats(heroStats, e.target.value);
       });
     }
 
