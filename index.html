@@ -2,31 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Match Viewer + Stats</title>
+  <title>Hero Skills Viewer</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #1c1f26;
       color: #f0f0f0;
       margin: 0;
-      padding: 20px;
       display: flex;
     }
-
-    h1, h2 {
+    h1 {
       text-align: center;
-      margin-bottom: 1rem;
+      color: #ffffff;
+      font-size: 2.5rem;
+      margin-top: 1rem;
+      font-weight: 600;
     }
 
-    .main-content {
-      max-width: 100%;
-      margin-left: 220px;
-      flex: 1;
-      padding: 25px;
-      box-sizing: border-box;
-      background: #262a33;
-    }
-
+   /* Sidebar */
     .sidebar {
       position: fixed;
       top: 0;
@@ -34,12 +27,12 @@
       width: 220px;
       background: linear-gradient(to bottom, #0f0f14, #1a1b23);
       padding: 20px 15px;
-      height: 100vh;
       box-sizing: border-box;
+      height: 100vh;
       border-right: 2px solid #ff7733;
       box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
-      overflow-y: auto;
-      z-index: 1000;
+      overflow-y: auto; /* optional, adds scroll if content exceeds height */
+      z-index: 1000; /* stays above other elements */
     }
 
     .sidebar h2 {
@@ -65,258 +58,276 @@
       color: #ff7733;
     }
 
-    #matches {
+    /* Main content */
+    .main-content {
+      overflow-y: auto;
+      flex: 1;
+      padding: 25px;
+      box-sizing: border-box;
+      background: #262a33;
+      margin-left: 220px;
+    }
+
+    /* Filters */
+    .filters {
       display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-    }
-
-    .match {
-      background: #2a2d38;
-      padding: 0.75rem;
-      border-radius: 10px;
-      text-align: center;
-      width: 30%;
-      min-width: 280px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-
-    .team-row {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .team {
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-    }
-
-    .heroes, .bans {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      justify-content: center;
-    }
-
-    .hero, .ban {
-      background: #393e4f;
-      padding: 4px;
-      border-radius: 6px;
-      font-size: 0.7rem;
-      text-align: center;
-    }
-
-    .hero img, .ban img {
-      width: 36px;
-      height: 36px;
-      border-radius: 5px;
-      object-fit: cover;
-    }
-
-    #stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .stat-card {
-      background: #2f3442;
-      padding: 0.5rem;
-      border-radius: 8px;
-      display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      font-size: 14px;
+      gap: 12px;
+      margin-bottom: 20px;
+      max-width: 500px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #1c1f26;
+      color: white;
+      border: 1px solid #555;
+    }
+    .filters input, .filters select {
+      padding: 1rem;
+      background-color: #333;
+      border: 1px solid #444;
+      color: #fff;
+      border-radius: 6px;
+      width: 200px;
+      transition: background-color 0.3s;
+    }
+    .filters input:focus, .filters select:focus {
+      background-color: #444;
     }
 
-    .stat-card img {
+    /* Hero grid and card styling */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      padding-bottom: 2rem;
+    }
+    .hero-card {
+      background: #2e3340;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      box-sizing: border-box;
+      transition: 0.3s;
+      border: 1px solid #3c3f4f;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      text-align: left;
+    }
+    .hero-card:hover {
+      transform: scale(1.02);
+      border-color: #ff7733;
+      box-shadow: 0 0 12px #ff773355;
+    }
+
+    .hero-image {
+      width: 100%;
+      max-width: 220px;
+      height: auto;
+      border-radius: 1rem;
+      margin-bottom: 1rem;
+    }
+    .hero-card h2 {
+      font-size: 1.6rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .hero-card p {
+      font-size: 1rem;
+      color: #ccc;
+      line-height: 1.4;
+      margin: 0.2rem 0;
+    }
+
+    /* Tooltip styling */
+    .tooltip {
+      position: relative;
+      cursor: pointer;
+    }
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      background-color: #1f222b;
+      color: #fff;
+      text-align: left;
+      padding: 8px;
+      border-radius: 6px;
+      border-color: #ff7733;
+      border: 1px solid #3c3f4f;
+      box-sizing: border-box;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      width: 200px;
+    }
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .lane-icon {
       width: 40px;
       height: 40px;
-      border-radius: 6px;
+      margin-left: 5px;
+      vertical-align: middle;
     }
 
-    .bar-graph {
-      flex: 1;
+    /* Skill styling */
+    .skills {
+      margin-top: 1rem;
+      text-align: left;
     }
-
-    .bar {
-      height: 6px;
-      border-radius: 3px;
-      margin-bottom: 3px;
+    .skill {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
     }
-
-    .pick { background: #4caf50; }
-    .ban { background: #f44336; }
-    .win { background: #2196f3; }
+    .skill img {
+      width: 40px;
+      height: 40px;
+      margin-right: 0.8rem;
+      border-radius: 50%;
+    }
   </style>
 </head>
 <body>
-  <div class="sidebar">
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
     <h2>HOK Viewer</h2>
-    <a href="index.html">Heroes</a>
     <a href="items-page.html">Items</a>
     <a href="picks-bans.html">Draft</a>
+    <a href="match-view.html">Match Viewer</a>
     <a href="map.html">Map</a>
   </div>
 
+  <!-- Main content -->
   <div class="main-content">
-    <h1>Match Viewer</h1>
+    <h1>Hero Skills Viewer</h1>
 
-    <div style="text-align: center; margin-bottom: 1rem;">
-      <label for="tournamentSelect">Filter by Tournament: </label>
-      <select id="tournamentSelect">
-        <option value="all">All</option>
+    <div class="filters">
+      <input type="text" id="searchInput" placeholder="Search hero name..." />
+      <select id="roleFilter">
+        <option value="">All Roles</option>
+        <option value="Marksman">Marksman</option>
+        <option value="Mage">Mage</option>
+        <option value="Tank">Tank</option>
+        <option value="Fighter">Fighter</option>
+        <option value="Assassin">Assassin</option>
+      </select>
+      <select id="laneFilter">
+        <option value="">All Lanes</option>
+        <option value="ClashLane">Clash Lane</option>
+        <option value="MidLane">Mid Lane</option>
+        <option value="FarmLane">Farm Lane</option>
+        <option value="Jungling">Jungling</option>
+        <option value="Roaming">Roaming</option>
       </select>
     </div>
 
-    <div id="matches"></div>
-
-    <h2 style="margin-top: 2rem;">Hero Stats</h2>
-    <div id="stats"></div>
-
-    <div style="text-align: center; margin-top: 2rem;">
-      <label for="playerSearch">Heroes picked by player: </label>
-      <input type="text" id="playerSearch" placeholder="Enter player name">
-      <div id="playerPicks"></div>
-    </div>
+    <div id="heroContainer" class="hero-grid"></div>
   </div>
 
   <script>
-    const heroAPI = "https://neptuneg1.github.io/hero-skills-viewer/data.json";
-    const matchAPI = "https://neptuneg1.github.io/hero-skills-viewer/matchdata.json";
+    const laneIcons = {
+      "ClashLane": "https://i.imgur.com/gS9vNF1.png",
+      "MidLane": "https://i.imgur.com/DOKOd28.png",
+      "FarmLane": "https://i.imgur.com/DyNgBdZ.png",
+      "Jungling": "https://i.imgur.com/oS2xiM5.png",
+      "Roaming": "https://i.imgur.com/sTO6sEO.png",
+      "Unknown": "https://i.imgur.com/kkUX3a3.jpeg"
+    };
 
-    let heroList = [], matchList = [];
-
-    async function fetchData() {
-      const [heroRes, matchRes] = await Promise.all([
-        fetch(heroAPI), fetch(matchAPI)
-      ]);
-
-      heroList = await heroRes.json();
-      matchList = await matchRes.json();
-
-      populateTournamentDropdown(matchList);
-      renderMatches(matchList);
-      const stats = computeHeroStats(matchList);
-      renderHeroStats(stats);
-    }
-
-    function getHeroData(heroName) {
-      return heroList.find(h => h.Hero === heroName) || {};
-    }
-
-    function createHeroCard(heroName, player, kda, isMVP) {
-      const hero = getHeroData(heroName);
-      return `<div class="hero"><img src="${hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${heroName}"><div><strong>${heroName}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</div></div>`;
-    }
-
-    function createBanCard(heroName) {
-      const hero = getHeroData(heroName);
-      return `<div class="ban"><img src="${hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${heroName}"><div>${heroName}</div></div>`;
-    }
-
-    function renderHeroStats(stats) {
-      const container = document.getElementById('stats');
-      const totalMatches = matchList.length;
-      for (const [hero, data] of Object.entries(stats)) {
-        const heroData = getHeroData(hero);
-        const pickRate = ((data.picks / (totalMatches * 10)) * 100).toFixed(1);
-        const banRate = ((data.bans / (totalMatches * 8)) * 100).toFixed(1);
-        const winRate = data.picks > 0 ? ((data.wins / data.picks) * 100).toFixed(1) : '0.0';
-
-        container.innerHTML += `
-          <div class="stat-card">
-            <img src="${heroData.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero}">
-            <div class="bar-graph">
-              <div class="bar pick" style="width: ${pickRate}%"></div>
-              <div class="bar ban" style="width: ${banRate}%"></div>
-              <div class="bar win" style="width: ${winRate}%"></div>
-              <small>${hero}<br>Pick: ${pickRate}% | Ban: ${banRate}% | Win: ${winRate}%</small>
-            </div>
-          </div>`;
+    const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hok-caster/main/data.json";
+    
+    async function loadHeroData() {
+      try {
+        const res = await fetch(API_URL);
+        const heroes = await res.json();
+        renderHeroes(heroes);
+      } catch (err) {
+        console.error("Failed to load heroes:", err);
       }
     }
 
-    document.getElementById('playerSearch').addEventListener('input', e => {
-      const name = e.target.value.toLowerCase();
-      const picks = [];
-
-      matchList.forEach(match => {
-        for (let i = 1; i <= 5; i++) {
-          if (match[`team1_player${i}`].toLowerCase().includes(name)) picks.push(match[`team1_hero${i}`]);
-          if (match[`team2_player${i}`].toLowerCase().includes(name)) picks.push(match[`team2_hero${i}`]);
-        }
-      });
-
-      const result = [...new Set(picks)].join(', ') || 'None found';
-      document.getElementById('playerPicks').innerHTML = `<strong>Heroes picked by "${name}"</strong>: ${result}`;
-    });
-
-    function populateTournamentDropdown(matches) {
-      const select = document.getElementById("tournamentSelect");
-      const tournaments = new Set(matches.map(m => m.tournament));
-      tournaments.forEach(t => {
-        const option = document.createElement("option");
-        option.value = t;
-        option.textContent = t;
-        select.appendChild(option);
-      });
-      select.addEventListener("change", () => {
-        const selected = select.value;
-        const filtered = selected === "all" ? matchList : matchList.filter(m => m.tournament === selected);
-        renderMatches(filtered);
-      });
-    }
-
-    function renderMatches(data) {
-      const container = document.getElementById('matches');
+    function renderHeroes(heroes) {
+      const container = document.getElementById('heroContainer');
       container.innerHTML = '';
-      data.forEach(match => {
-        container.innerHTML += `<div class="match">
-          <h3>${match.matchup} – G${match.game}</h3>
-          <div class="team-row">
-            <div class="team">
-              <strong>${match.team1_name} (${match.team1_score})</strong>
-              <div class="heroes">
-                ${createHeroCard(match.team1_hero1, match.team1_player1, match.team1_kda1, match.team1_MVP === 1)}
-                ${createHeroCard(match.team1_hero2, match.team1_player2, match.team1_kda2, match.team1_MVP === 2)}
-                ${createHeroCard(match.team1_hero3, match.team1_player3, match.team1_kda3, match.team1_MVP === 3)}
-                ${createHeroCard(match.team1_hero4, match.team1_player4, match.team1_kda4, match.team1_MVP === 4)}
-                ${createHeroCard(match.team1_hero5, match.team1_player5, match.team1_kda5, match.team1_MVP === 5)}
-              </div>
-              <div class="bans">
-                ${createBanCard(match.team1_ban1)}
-                ${createBanCard(match.team1_ban2)}
-                ${createBanCard(match.team1_ban3)}
-                ${createBanCard(match.team1_ban4)}
-              </div>
+
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const role = document.getElementById('roleFilter').value;
+      const lane = document.getElementById('laneFilter').value;
+
+      const filtered = heroes.filter(hero => {
+        return (!search || hero.Hero.toLowerCase().includes(search)) &&
+               (!role || hero["PrimaryRole"]?.includes(role)) &&
+               (!lane || hero.Lane?.includes(lane));
+      });
+
+      filtered.forEach(hero => {
+        const lanes = hero.Lane ? hero.Lane.split(",") : [];
+        const card = document.createElement('div');
+        card.className = 'hero-card';
+
+        card.innerHTML = `
+          <img class="hero-image" src="${hero['ImageURL'] || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero.Hero}">
+          <h2>${hero.Hero || 'Unknown Hero'}</h2>
+          <p><strong>Role:</strong> ${hero["PrimaryRole"] || 'Unknown Role'}</p>
+          <p><strong>Lane:</strong><div>
+              ${lanes.map(lane => `
+                <span class="tooltip">
+                  <img src="${laneIcons[lane.trim()] || laneIcons["Unknown"]}" alt="${lane}" class="lane-icon">
+                  <span class="tooltiptext">${lane || 'Unknown Lane'}</span>
+                </span>
+              `).join('')}
             </div>
-            <div class="team">
-              <strong>${match.team2_name} (${match.team2_score})</strong>
-              <div class="heroes">
-                ${createHeroCard(match.team2_hero1, match.team2_player1, match.team2_kda1, match.team2_MVP === 1)}
-                ${createHeroCard(match.team2_hero2, match.team2_player2, match.team2_kda2, match.team2_MVP === 2)}
-                ${createHeroCard(match.team2_hero3, match.team2_player3, match.team2_kda3, match.team2_MVP === 3)}
-                ${createHeroCard(match.team2_hero4, match.team2_player4, match.team2_kda4, match.team2_MVP === 4)}
-                ${createHeroCard(match.team2_hero5, match.team2_player5, match.team2_kda5, match.team2_MVP === 5)}
-              </div>
-              <div class="bans">
-                ${createBanCard(match.team2_ban1)}
-                ${createBanCard(match.team2_ban2)}
-                ${createBanCard(match.team2_ban3)}
-                ${createBanCard(match.team2_ban4)}
-              </div>
+            <div class="skills">
+            ${renderSkills(hero)}
             </div>
-          </div>
-          <p><strong>Winner:</strong> ${match.winner}</p>
-        </div>`;
+          </p>
+          <p><strong>Countered By:</strong> ${hero["Countered by"] || 'No counters available'}</p>
+         <p><strong>Strategy:</strong><br>${(hero.Description || 'No strategy available').replace(/\n/g, '<br>')}</p>
+        `;
+        container.appendChild(card);
       });
     }
 
-    fetchData();
+    function renderSkills(hero) {
+      let skillHTML = '';
+    
+      for (let i = 1; i <= 5; i++) {
+        const skillName = hero[`SkillName${i}`];
+        const skillDesc = hero[`SkillDesc${i}`];
+        const skillURL = hero[`SkillURL${i}`] || 'https://i.imgur.com/default-skill.png';
+        const skillType = hero[`SkillType${i}`] || 'Unknown Type';
+    
+        if (skillName) {
+          skillHTML += `
+            <div class="skill tooltip">
+              <img src="${skillURL}" alt="${skillName}">
+              <span>${skillName}</span>
+              <span class="tooltiptext">
+                <strong>${skillType}</strong><br>
+                ${skillDesc ? skillDesc.replace(/\n/g, '<br>') : 'No description available'}
+              </span>
+            </div>
+          `;
+        }
+      }
+    
+      return skillHTML || '<p>No skills available</p>';
+    }
+
+    document.getElementById('searchInput').addEventListener('input', () => loadHeroData());
+    document.getElementById('roleFilter').addEventListener('change', () => loadHeroData());
+    document.getElementById('laneFilter').addEventListener('change', () => loadHeroData());
+
+    loadHeroData();
   </script>
 </body>
 </html>
