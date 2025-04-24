@@ -164,13 +164,13 @@
   </div>
   <div class="main-content">
     <h1>Match Viewer</h1>
-    <div style="text-align: center; margin-bottom: 1rem;">
+    <div>
       <label for="tournamentSelect">Filter by Tournament: </label>
       <select id="tournamentSelect">
         <option value="all">All</option>
       </select>
     </div>
-    <div style="text-align: center; margin-bottom: 1rem;">
+    <div>
       <label for="teamFilter">Filter by Team: </label>
       <select id="teamFilter">
         <option value="all">All</option>
@@ -178,8 +178,8 @@
     </div>
     <div id="matches"></div>
 
-    <h2 style="margin-top: 2rem;">Hero Stats</h2>
-    <div style="text-align: center; margin-bottom: 1rem;">
+    <h2>Hero Stats</h2>
+    <div>
       <label for="sortStats">Sort by: </label>
       <select id="sortStats">
         <option value="win">Win %</option>
@@ -194,12 +194,13 @@
     </div>
     <div id="stats"></div>
 
-    <div style="text-align: center; margin-top: 2rem;">
+    <div>
       <label for="playerSearch">Heroes picked by player: </label>
       <input type="text" id="playerSearch" placeholder="Enter player name">
       <div id="playerPicks"></div>
     </div>
   </div>
+
   <script>
     const heroAPI = "https://neptuneg1.github.io/hok-caster/data.json";
     const matchAPI = "https://neptuneg1.github.io/hok-caster/matchdata.json";
@@ -246,25 +247,25 @@
         renderHeroStats(computeHeroStats(filteredMatches));
       
         // Update player picks display to filter by team
-        document.getElementById('playerSearch').addEventListener('input', e => {
-        const name = e.target.value.toLowerCase();
-        const selectedTeam = document.getElementById('teamFilter').value;
-        const filteredMatches = selectedTeam === 'all'
-          ? matchList
-          : matchList.filter(match =>
-              match.team1_name === selectedTeam || match.team2_name === selectedTeam
-            );
+         document.getElementById('playerSearch').addEventListener('input', e => {
+          const name = e.target.value.toLowerCase();
+          const selectedTeam = document.getElementById('teamFilter').value;
+          const filteredMatches = selectedTeam === 'all'
+            ? matchList
+            : matchList.filter(match =>
+                match.team1_name === selectedTeam || match.team2_name === selectedTeam
+              );
     
-        const pickCounts = {};
-        filteredMatches.forEach(match => {
-          for (let i = 1; i <= 5; i++) {
-            const t1Player = match[`team1_player${i}`].toLowerCase();
-            const t2Player = match[`team2_player${i}`].toLowerCase();
-            const t1Hero = match[`team1_hero${i}`];
-            const t2Hero = match[`team2_hero${i}`];
+          const pickCounts = {};
+          filteredMatches.forEach(match => {
+            for (let i = 1; i <= 5; i++) {
+              const t1Player = match[`team1_player${i}`].toLowerCase();
+              const t2Player = match[`team2_player${i}`].toLowerCase();
+              const t1Hero = match[`team1_hero${i}`];
+              const t2Hero = match[`team2_hero${i}`];
     
-            if (t1Player.includes(name)) pickCounts[t1Hero] = (pickCounts[t1Hero] || 0) + 1;
-            if (t2Player.includes(name)) pickCounts[t2Hero] = (pickCounts[t2Hero] || 0) + 1;
+              if (t1Player.includes(name)) pickCounts[t1Hero] = (pickCounts[t1Hero] || 0) + 1;
+              if (t2Player.includes(name)) pickCounts[t2Hero] = (pickCounts[t2Hero] || 0) + 1;
           }
         });
       
