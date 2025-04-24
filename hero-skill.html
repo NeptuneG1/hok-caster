@@ -1,1 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero Grid Tooltip View</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1c1f26;
+      color: #f0f0f0;
+      display: flex;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 220px;
+      height: 100vh;
+      background: linear-gradient(to bottom, #0f0f14, #1a1b23);
+      padding: 20px 15px;
+      box-sizing: border-box;
+      border-right: 2px solid #ff7733;
+      box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
+    }
+
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 25px;
+      color: #ff7733;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #ddd;
+      text-decoration: none;
+      margin-bottom: 15px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .sidebar a:hover {
+      background-color: #33384a;
+      transform: translateX(5px);
+      color: #ff7733;
+    }
+
+    .main-content {
+      margin-left: 220px;
+      padding: 25px;
+      flex: 1;
+      background: #262a33;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff7733;
+      margin-bottom: 2rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .hero-img-wrapper {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .hero-img-wrapper img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .hero-img-wrapper:hover img {
+      transform: scale(1.03);
+    }
+
+    .hero-tooltip {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1f222b;
+      color: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ff7733;
+      z-index: 100;
+      width: 280px;
+      margin-top: 8px;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 10px rgba(255, 119, 51, 0.3);
+    }
+
+    .hero-img-wrapper:hover .hero-tooltip {
+      display: block;
+    }
+
+    .hero-tooltip h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      color: #ffddb8;
+    }
+
+    .hero-tooltip .skills {
+      margin-top: 10px;
+    }
+
+    .skill {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .skill img {
+      width: 36px;
+      height: 36px;
+      margin-right: 10px;
+      border-radius: 4px;
+    }
+
+    .skill span {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>HOK Viewer</h2>
+    <a href="index.html">Dashboard</a>
+    <a href="items-page.html">Items</a>
+    <a href="picks-bans.html">Draft</a>
+    <a href="match-view.html">Match Viewer</a>
+    <a href="map.html">Map</a>
+  </div>
+
+  <div class="main-content">
+    <h1>Heroes Grid</h1>
+    <div id="heroContainer" class="hero-grid"></div>
+  </div>
+
+  <script>
+    const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hok-caster/main/data.json";
+
+    async function loadHeroData() {
+      try {
+        const res = await fetch(API_URL);
+        const heroes = await res.json();
+        renderHeroes(heroes);
+      } catch (err) {
+        console.error("Failed to load heroes:", err);
+      }
+    }
+
+    function renderHeroes(heroes) {
+      const container = document.getElementById("heroContainer");
+      container.innerHTML = "";
+
+      heroes.forEach(hero => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "hero-img-wrapper";
+
+        const heroImg = document.createElement("img");
+        heroImg.src = hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg';
+        heroImg.alt = hero.Hero;
+
+        const tooltip = document.createElement("div");
+        tooltip.className = "hero-tooltip";
+
+        tooltip.innerHTML = `
+          <h3>${hero.Hero}</h3>
+          <p><strong>Role:</strong> ${hero.PrimaryRole || 'N/A'}</p>
+          <p><strong>Lane:</strong> ${hero.Lane || 'N/A'}</p>
+          <div class="skills">
+            ${renderSkills(hero)}
+          </div>
+          <p><strong>Strategy:</strong><br>${(hero.Description || 'No strategy available').replace(/\n/g, '<br>')}</p>
+        `;
+
+        wrapper.appendChild(heroImg);
+        wrapper.appendChild(tooltip);
+        container.appendChild(wrapper);
+      });
+    }
+
+    function renderSkills(hero) {
+      let html = '';
+      for (let i = 1; i <= 5; i++) {
+        const name = hero[`SkillName${i}`];
+        const desc = hero[`SkillDesc${i}`];
+        const icon = hero[`SkillURL${i}`] || 'https://i.imgur.com/default-skill.png';
+        const type = hero[`SkillType${i}`] || 'Unknown';
+        if (name) {
+          html += `
+            <div class="skill">
+              <img src="${icon}" alt="${name}" />
+              <span>
+                <strong>${name}</strong><br>
+                <em>${type}</em><br>
+                ${desc ? desc.replace(/\n/g, '<br>') : 'No description'}
+              </span>
+            </div>
+          `;
+        }
+      }
+      return html;
+    }
+
+    loadHeroData();
+  </script>
+</body>
+</html>
 
