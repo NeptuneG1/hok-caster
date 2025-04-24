@@ -254,7 +254,7 @@
           : matchList.filter(match =>
               match.team1_name === selectedTeam || match.team2_name === selectedTeam
             );
-      
+    
         const pickCounts = {};
         filteredMatches.forEach(match => {
           for (let i = 1; i <= 5; i++) {
@@ -262,7 +262,7 @@
             const t2Player = match[`team2_player${i}`].toLowerCase();
             const t1Hero = match[`team1_hero${i}`];
             const t2Hero = match[`team2_hero${i}`];
-      
+    
             if (t1Player.includes(name)) pickCounts[t1Hero] = (pickCounts[t1Hero] || 0) + 1;
             if (t2Player.includes(name)) pickCounts[t2Hero] = (pickCounts[t2Hero] || 0) + 1;
           }
