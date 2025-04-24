@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOK Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1c1f26;
+      color: #f0f0f0;
+      margin: 0;
+      display: flex;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 220px;
+      height: 100vh;
+      background: linear-gradient(to bottom, #0f0f14, #1a1b23);
+      padding: 20px 15px;
+      box-sizing: border-box;
+      border-right: 2px solid #ff7733;
+      box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
+      z-index: 1000;
+    }
+
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 25px;
+      color: #ff7733;
+      text-shadow: 0 0 6px #ff7733aa;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #ddd;
+      text-decoration: none;
+      margin-bottom: 15px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .sidebar a:hover {
+      background-color: #33384a;
+      transform: translateX(5px);
+      color: #ff7733;
+    }
+
+    .main-content {
+      margin-left: 220px;
+      padding: 40px;
+      flex: 1;
+      background: #262a33;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #ff7733;
+      margin-bottom: 1rem;
+    }
+
+    .section {
+      background: #2e3340;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      margin-bottom: 30px;
+      transition: 0.3s;
+    }
+
+    .section:hover {
+      box-shadow: 0 0 10px #ff773344;
+      border-left: 4px solid #ff7733;
+    }
+
+    .section h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #ffffff;
+    }
+
+    .section p {
+      color: #ccc;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>HOK Viewer</h2>
+    <a href="index.html">Dashboard</a>
+    <a href="hero.html">Hero Skills</a>
+    <a href="items-page.html">Items</a>
+    <a href="picks-bans.html">Draft</a>
+    <a href="match-view.html">Match Viewer</a>
+    <a href="map.html">Map</a>
+  </div>
+  <div class="main-content">
+    <h1>Welcome to HOK Dashboard</h1>
+
+    <div class="section">
+      <h2>Heroes Overview</h2>
+      <p>Browse all heroes and explore their skills, lanes, and strategies.</p>
+    </div>
+
+    <div class="section">
+      <h2>Draft Analysis</h2>
+      <p>Analyze picks, bans, and team compositions from top tournaments.</p>
+    </div>
+
+    <div class="section">
+      <h2>Interactive Map</h2>
+      <p>Learn spawn timings, buffs, and objective zones on the battlefield.</p>
+    </div>
+
+    <div class="section">
+      <h2>Match Overview</h2>
+      <p>Check out detailed info on the matches, win rate, ban rate and pick rate.</p>
+    </div>
+  </div>
+</body>
+</html>
