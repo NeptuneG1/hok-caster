@@ -115,43 +115,41 @@
       border: 1px solid #ff7733;
       border-radius: 8px;
       padding: 10px;
-      min-width: 160px;
-      max-width: 400px;
+      max-width: 90vw;
+      width: 350px;
       color: #fff;
       display: none;
       position: fixed;
       z-index: 999;
       top: 20px;
       right: 30px;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
     }
-
+    
     .tooltip-right img {
       width: 120px;
-      height: 120px;
+      height: auto;
       margin-top: 8px;
       border-radius: 6px;
       box-shadow: 0 0 6px rgba(255, 119, 51, 0.4);
     }
-
-    .image-tooltip-wrapper {
-      position: relative;
-      display: inline-block;
-      margin-right: 10px;
-      margin-bottom: 12px;
-      text-align: center;
-    }
-
+    
     .image-label {
       margin-top: 5px;
       font-size: 0.75rem;
       color: #ffddb8;
+      white-space: normal;
+      line-height: 1.3;
+      text-align: left;
     }
-
+    
     .hover-description {
       visibility: hidden;
       opacity: 0;
       position: absolute;
-      top 100%;
+      top: 100%;
       left: 50%;
       transform: translateX(-50%);
       background: #2b2f3b;
@@ -160,8 +158,20 @@
       border-radius: 6px;
       border: 1px solid #ff7733;
       font-size: 0.7rem;
+      line-height: 1.2;
       transition: opacity 0.2s;
       z-index: 2;
+      max-width: 200px;
+      white-space: normal;
+    }
+    
+    @media (max-width: 768px) {
+      .tooltip-right {
+        position: static;
+        width: auto;
+        max-width: 100%;
+        margin: 10px 0;
+      }
     }
 
     .label:hover .hover-description {
@@ -515,7 +525,7 @@
       const tooltipImages = document.getElementById('tooltip-img-container');
     
       tooltipTitle.textContent = title;
-      tooltipImages.innerHTML = ''; // Clear previous content
+      tooltipImages.innerHTML = '';
     
       imageStages.forEach(stage => {
         const wrapper = document.createElement('div');
@@ -527,7 +537,7 @@
     
         const label = document.createElement('div');
         label.className = 'image-label';
-        label.textContent = stage.label;
+        label.innerHTML = stage.label.replace(/\n/g, '<br>'); // Support newlines
     
         const hoverText = document.createElement('div');
         hoverText.className = 'hover-description';
@@ -539,9 +549,8 @@
         tooltipImages.appendChild(wrapper);
       });
     
-      // Temporarily show tooltip to measure height
-      tooltip.style.visibility = "hidden";
       tooltip.style.display = "block";
+      tooltip.style.visibility = "hidden";
     
       const rect = hotspotEl.getBoundingClientRect();
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -550,11 +559,8 @@
       const top = Math.min(rect.top + scrollTop - 20, maxTop);
     
       tooltip.style.top = `${top}px`;
-    
-      // Now make it visible
       tooltip.style.visibility = "visible";
     }
-
 
     document.body.addEventListener("click", (e) => {
       const isHotspot = e.target.classList.contains("hotspot");
