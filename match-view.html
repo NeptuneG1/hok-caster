@@ -358,20 +358,22 @@
         const bans = [match.team1_ban1, match.team1_ban2, match.team1_ban3, match.team1_ban4,
                       match.team2_ban1, match.team2_ban2, match.team2_ban3, match.team2_ban4];
         const winnerTeam = match.winner === match.team1_name ? 'team1' : 'team2';
-
+    
         picks.forEach(hero => {
           if (!stats[hero]) stats[hero] = { picks: 0, bans: 0, wins: 0 };
           stats[hero].picks++;
         });
-
+    
         bans.forEach(hero => {
           if (!stats[hero]) stats[hero] = { picks: 0, bans: 0, wins: 0 };
           stats[hero].bans++;
         });
-
+    
         for (let i = 1; i <= 5; i++) {
           const winnerHero = match[`${winnerTeam}_hero${i}`];
-          if (winnerHero) stats[winnerHero].wins++;
+          if (winnerHero && stats[winnerHero]) {
+            stats[winnerHero].wins++;
+          }
         }
       });
       return stats;
@@ -379,15 +381,14 @@
     function renderHeroStats(stats) {
       const container = document.getElementById('stats');
       container.innerHTML = '';
-      const totalMatches = matchList.length;
       const selectedTeam = document.getElementById('teamStats').value;
-
+    
       const filteredMatches = selectedTeam === 'all' ? matchList : matchList.filter(
         m => m.team1_name === selectedTeam || m.team2_name === selectedTeam
       );
-
+    
       const localStats = computeHeroStats(filteredMatches);
-
+    
       const sorted = Object.entries(localStats).map(([hero, data]) => {
         const pickRate = data.picks / filteredMatches.length;
         const banRate = data.bans / filteredMatches.length;
@@ -398,29 +399,32 @@
         if (currentSort === 'ban') return b.banRate - a.banRate;
         return b.winRate - a.winRate;
       });
-
+    
       sorted.forEach(({ hero, data, pickRate, banRate, winRate }) => {
         const heroData = getHeroData(hero);
         const pickRatePct = (pickRate * 100).toFixed(1);
         const banRatePct = (banRate * 100).toFixed(1);
         const winRatePct = (winRate * 100).toFixed(1);
         container.innerHTML += `
-          <div class=\"stat-card\">
+          <div class="stat-card">
             <img src="${heroData.ImageURL}" alt="${hero}">
             <div class="bar-graph">
               <div class="bar pick" style="width: ${pickRatePct}%"></div>
               <div class="bar ban" style="width: ${banRatePct}%"></div>
               <div class="bar win" style="width: ${winRatePct}%"></div>
               <small>${hero}<br>
-<span style=\"color: ${pickRatePct > 30 ? '#4caf50' : pickRatePct < 10 ? '#f44336' : '#ffc107'}\">Pick: ${pickRatePct}% (${data.picks} picks out of ${filteredMatches.length})</span><br>
-<span style=\"color: ${banRatePct > 20 ? '#f44336' : banRatePct < 5 ? '#4caf50' : '#ffc107'}\">Ban: ${banRatePct}% (${data.bans} bans out of ${filteredMatches.length})</span><br>
-<span style=\"color: ${winRatePct > 60 ? '#4caf50' : winRatePct < 40 ? '#f44336' : '#ffc107'}\">Win: ${winRatePct}% (${data.wins} wins out of ${filteredMatches.length})</span></small>
+              <span style="color: ${pickRatePct > 30 ? '#4caf50' : pickRatePct < 10 ? '#f44336' : '#ffc107'}">
+                Pick: ${pickRatePct}% (${data.picks} picks)</span><br>
+              <span style="color: ${banRatePct > 20 ? '#f44336' : banRatePct < 5 ? '#4caf50' : '#ffc107'}">
+                Ban: ${banRatePct}% (${data.bans} bans)</span><br>
+              <span style="color: ${winRatePct > 60 ? '#4caf50' : winRatePct < 40 ? '#f44336' : '#ffc107'}">
+                Win: ${winRatePct}% (${data.wins} wins out of ${data.picks} picks)</span>
+              </small>
             </div>
           </div>`;
       });
     }
-
-
+    
     fetchData();
   </script>
 </body>
