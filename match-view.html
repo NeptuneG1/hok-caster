@@ -218,24 +218,36 @@ had to revert the script to this
 
         document.getElementById('playerSearch').addEventListener('input', e => {
           const name = e.target.value.toLowerCase();
-          const picks = [];
+          const pickCounts = {};
+        
           matchList.forEach(match => {
             for (let i = 1; i <= 5; i++) {
-              if (match[`team1_player${i}`].toLowerCase().includes(name)) picks.push(match[`team1_hero${i}`]);
-              if (match[`team2_player${i}`].toLowerCase().includes(name)) picks.push(match[`team2_hero${i}`]);
+              const team1Player = match[`team1_player${i}`].toLowerCase();
+              const team2Player = match[`team2_player${i}`].toLowerCase();
+              const team1Hero = match[`team1_hero${i}`];
+              const team2Hero = match[`team2_hero${i}`];
+        
+              if (team1Player.includes(name)) {
+                pickCounts[team1Hero] = (pickCounts[team1Hero] || 0) + 1;
+              }
+              if (team2Player.includes(name)) {
+                pickCounts[team2Hero] = (pickCounts[team2Hero] || 0) + 1;
+              }
             }
           });
-          const uniquePicks = [...new Set(picks)];
+        
+          const uniquePicks = Object.entries(pickCounts);
           const resultHTML = uniquePicks.length > 0
             ? '<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">' +
-              uniquePicks.map(heroName => {
+              uniquePicks.map(([heroName, count]) => {
                 const hero = getHeroData(heroName);
                 return `<div style="text-align: center; font-size: 0.8rem;">
                           <img src="${hero.ImageURL}" alt="${heroName}" style="width: 50px; height: 50px; border-radius: 6px; object-fit: cover;"><br>
-                          ${heroName}
+                          ${heroName} (${count})
                         </div>`;
               }).join('') + '</div>'
             : 'None found';
+        
           document.getElementById('playerPicks').innerHTML = `<strong>Heroes picked by "${name}"</strong>:<br>${resultHTML}`;
         });
 
