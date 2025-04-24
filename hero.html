@@ -47,7 +47,32 @@
       transform: translateX(5px);
       color: #ff7733;
     }
-
+    
+    .filters {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .filters input,
+    .filters select {
+      padding: 0.6rem;
+      background-color: #333;
+      border: 1px solid #444;
+      color: #fff;
+      border-radius: 6px;
+      width: 180px;
+      font-size: 0.85rem;
+    }
+    
+    .filters input:focus,
+    .filters select:focus {
+      background-color: #444;
+    }
+    
     .main-content {
       margin-left: 220px;
       padding: 25px;
@@ -152,7 +177,28 @@
   </div>
 
   <div class="main-content">
-    <h1>Hero Viewer</h1>
+  <h1>Hero Viewer</h1>
+
+  <div class="filters">
+      <input type="text" id="searchInput" placeholder="Search hero name..." />
+      <select id="roleFilter">
+        <option value="">All Roles</option>
+        <option value="Marksman">Marksman</option>
+        <option value="Mage">Mage</option>
+        <option value="Tank">Tank</option>
+        <option value="Fighter">Fighter</option>
+        <option value="Assassin">Assassin</option>
+      </select>
+      <select id="laneFilter">
+        <option value="">All Lanes</option>
+        <option value="ClashLane">Clash Lane</option>
+        <option value="MidLane">Mid Lane</option>
+        <option value="FarmLane">Farm Lane</option>
+        <option value="Jungling">Jungling</option>
+        <option value="Roaming">Roaming</option>
+      </select>
+    </div>
+
     <div id="heroContainer" class="hero-grid"></div>
   </div>
 
@@ -169,41 +215,52 @@
       }
     }
 
-    function renderHeroes(heroes) {
-      const container = document.getElementById("heroContainer");
-      container.innerHTML = "";
-
-      heroes.forEach(hero => {
-        const wrapper = document.createElement("div");
-        wrapper.className = "hero-img-wrapper";
-
-        const heroImg = document.createElement("img");
-        heroImg.src = hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg';
-        heroImg.alt = hero.Hero;
-
-        const heroName = document.createElement("div");
-        heroName.className = "hero-name";
-        heroName.textContent = hero.Hero || 'Unknown Hero';
-
-        const tooltip = document.createElement("div");
-        tooltip.className = "hero-tooltip";
-
-        tooltip.innerHTML = `
-          <h3>${hero.Hero}</h3>
-          <p><strong>Role:</strong> ${hero.PrimaryRole || 'N/A'}</p>
-          <p><strong>Lane:</strong> ${hero.Lane || 'N/A'}</p>
-          <div class="skills">
-            ${renderSkills(hero)}
-          </div>
-          <p><strong>Strategy:</strong><br>${(hero.Description || 'No strategy available').replace(/\n/g, '<br>')}</p>
-        `;
-
-        wrapper.appendChild(heroImg);
-        wrapper.appendChild(heroName);
-        wrapper.appendChild(tooltip);
-        container.appendChild(wrapper);
-      });
-    }
+    // Update renderHeroes function to include filtering
+  function renderHeroes(heroes) {
+    const container = document.getElementById("heroContainer");
+    container.innerHTML = "";
+  
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const role = document.getElementById('roleFilter').value;
+    const lane = document.getElementById('laneFilter').value;
+  
+    const filtered = heroes.filter(hero => {
+      return (!search || hero.Hero.toLowerCase().includes(search)) &&
+             (!role || (hero.PrimaryRole && hero.PrimaryRole.includes(role))) &&
+             (!lane || (hero.Lane && hero.Lane.includes(lane)));
+    });
+  
+    filtered.forEach(hero => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "hero-img-wrapper";
+  
+      const heroImg = document.createElement("img");
+      heroImg.src = hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg';
+      heroImg.alt = hero.Hero;
+  
+      const heroName = document.createElement("div");
+      heroName.className = "hero-name";
+      heroName.textContent = hero.Hero || 'Unknown Hero';
+  
+      const tooltip = document.createElement("div");
+      tooltip.className = "hero-tooltip";
+  
+      tooltip.innerHTML = `
+        <h3>${hero.Hero}</h3>
+        <p><strong>Role:</strong> ${hero.PrimaryRole || 'N/A'}</p>
+        <p><strong>Lane:</strong> ${hero.Lane || 'N/A'}</p>
+        <div class="skills">
+          ${renderSkills(hero)}
+        </div>
+        <p><strong>Strategy:</strong><br>${(hero.Description || 'No strategy available').replace(/\n/g, '<br>')}</p>
+      `;
+  
+      wrapper.appendChild(heroImg);
+      wrapper.appendChild(heroName);
+      wrapper.appendChild(tooltip);
+      container.appendChild(wrapper);
+    });
+  }
 
     function renderSkills(hero) {
       let html = '';
@@ -229,6 +286,11 @@
     }
 
     loadHeroData();
+
+    document.getElementById('searchInput').addEventListener('input', loadHeroData);
+    document.getElementById('roleFilter').addEventListener('change', loadHeroData);
+    document.getElementById('laneFilter').addEventListener('change', loadHeroData);
+    
   </script>
 </body>
 </html>
