@@ -1,3 +1,5 @@
+check 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,20 +11,20 @@
       background: #1c1f26;
       color: #f0f0f0;
       margin: 0;
-      padding: 0;
+      padding: 20px;
       display: flex;
     }
     h1, h2 {
       text-align: center;
-      margin: 1rem 0;
+      margin-bottom: 1rem;
     }
     .main-content {
-      max-width: calc(100% - 220px);
+      max-width: 100%;
       margin-left: 220px;
-      padding: 30px;
-      background: #262a33;
-      min-height: 100vh;
+      flex: 1;
+      padding: 25px;
       box-sizing: border-box;
+      background: #262a33;
     }
     .sidebar {
       position: fixed;
@@ -58,38 +60,20 @@
       transform: translateX(5px);
       color: #ff7733;
     }
-    .main-content > div {
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    select, input[type="text"] {
-      background: #1f1f2b;
-      color: #f0f0f0;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 10px;
-      font-size: 0.9rem;
-    }
-    select:focus, input:focus {
-      outline: 2px solid #ff7733;
-    }
-    #playerPicks img {
-      margin-top: 5px;
-    }
     #matches {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.5rem;
+      gap: 1rem;
       justify-content: center;
     }
     .match {
       background: #2a2d38;
-      padding: 1rem;
-      border-radius: 12px;
+      padding: 0.75rem;
+      border-radius: 10px;
       text-align: center;
       width: 30%;
       min-width: 280px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
     .team-row {
       display: flex;
@@ -111,43 +95,41 @@
       background: #393e4f;
       padding: 4px;
       border-radius: 6px;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-align: center;
     }
     .hero img, .ban img {
-      width: 40px;
-      height: 40px;
-      border-radius: 6px;
+      width: 36px;
+      height: 36px;
+      border-radius: 5px;
       object-fit: cover;
     }
     #stats {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
       margin-top: 2rem;
     }
     .stat-card {
       background: #2f3442;
-      padding: 1rem;
-      border-radius: 10px;
+      padding: 0.5rem;
+      border-radius: 8px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      gap: 10px;
     }
     .stat-card img {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: 6px;
     }
     .bar-graph {
       flex: 1;
-      font-size: 0.8rem;
     }
     .bar {
-      height: 6px;
+      height: 5px;
       border-radius: 3px;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .pick { background: #4caf50; }
     .ban { background: #f44336; }
@@ -164,13 +146,13 @@
   </div>
   <div class="main-content">
     <h1>Match Viewer</h1>
-    <div>
+    <div style="text-align: center; margin-bottom: 1rem;">
       <label for="tournamentSelect">Filter by Tournament: </label>
       <select id="tournamentSelect">
         <option value="all">All</option>
       </select>
     </div>
-    <div>
+    <div style="text-align: center; margin-bottom: 1rem;">
       <label for="teamFilter">Filter by Team: </label>
       <select id="teamFilter">
         <option value="all">All</option>
@@ -178,8 +160,8 @@
     </div>
     <div id="matches"></div>
 
-    <h2>Hero Stats</h2>
-    <div>
+    <h2 style="margin-top: 2rem;">Hero Stats</h2>
+    <div style="text-align: center; margin-bottom: 1rem;">
       <label for="sortStats">Sort by: </label>
       <select id="sortStats">
         <option value="win">Win %</option>
@@ -194,13 +176,12 @@
     </div>
     <div id="stats"></div>
 
-    <div>
+    <div style="text-align: center; margin-top: 2rem;">
       <label for="playerSearch">Heroes picked by player: </label>
       <input type="text" id="playerSearch" placeholder="Enter player name">
       <div id="playerPicks"></div>
     </div>
   </div>
-
   <script>
     const heroAPI = "https://neptuneg1.github.io/hok-caster/data.json";
     const matchAPI = "https://neptuneg1.github.io/hok-caster/matchdata.json";
@@ -247,25 +228,17 @@
         renderHeroStats(computeHeroStats(filteredMatches));
       
         // Update player picks display to filter by team
-         document.getElementById('playerSearch').addEventListener('input', e => {
-          const name = e.target.value.toLowerCase();
-          const selectedTeam = document.getElementById('teamFilter').value;
-          const filteredMatches = selectedTeam === 'all'
-            ? matchList
-            : matchList.filter(match =>
-                match.team1_name === selectedTeam || match.team2_name === selectedTeam
-              );
-    
-          const pickCounts = {};
-          filteredMatches.forEach(match => {
-            for (let i = 1; i <= 5; i++) {
-              const t1Player = match[`team1_player${i}`].toLowerCase();
-              const t2Player = match[`team2_player${i}`].toLowerCase();
-              const t1Hero = match[`team1_hero${i}`];
-              const t2Hero = match[`team2_hero${i}`];
-    
-              if (t1Player.includes(name)) pickCounts[t1Hero] = (pickCounts[t1Hero] || 0) + 1;
-              if (t2Player.includes(name)) pickCounts[t2Hero] = (pickCounts[t2Hero] || 0) + 1;
+        const name = document.getElementById('playerSearch').value.toLowerCase();
+        const pickCounts = {};
+        filteredMatches.forEach(match => {
+          for (let i = 1; i <= 5; i++) {
+            const t1Player = match[`team1_player${i}`].toLowerCase();
+            const t2Player = match[`team2_player${i}`].toLowerCase();
+            const t1Hero = match[`team1_hero${i}`];
+            const t2Hero = match[`team2_hero${i}`];
+      
+            if (t1Player.includes(name)) pickCounts[t1Hero] = (pickCounts[t1Hero] || 0) + 1;
+            if (t2Player.includes(name)) pickCounts[t2Hero] = (pickCounts[t2Hero] || 0) + 1;
           }
         });
       
@@ -282,7 +255,7 @@
           : 'None found';
         document.getElementById('playerPicks').innerHTML = `<strong>Heroes picked by "${name}"</strong>:<br>${resultHTML}`;
       });
-          
+
       } catch (error) {
         console.error("Failed to load data:", error);
       }
@@ -440,13 +413,14 @@
               <div class="bar ban" style="width: ${banRatePct}%"></div>
               <div class="bar win" style="width: ${winRatePct}%"></div>
               <small>${hero}<br>
-                <span style=\"color: ${pickRatePct > 30 ? '#4caf50' : pickRatePct < 10 ? '#f44336' : '#ffc107'}\">Pick: ${pickRatePct}% (${data.picks} picks out of ${filteredMatches.length})</span><br>
-                <span style=\"color: ${banRatePct > 20 ? '#f44336' : banRatePct < 5 ? '#4caf50' : '#ffc107'}\">Ban: ${banRatePct}% (${data.bans} bans out of ${filteredMatches.length})</span><br>
-                <span style=\"color: ${winRatePct > 60 ? '#4caf50' : winRatePct < 40 ? '#f44336' : '#ffc107'}\">Win: ${winRatePct}% (${data.wins} wins out of ${filteredMatches.length})</span></small>
+<span style=\"color: ${pickRatePct > 30 ? '#4caf50' : pickRatePct < 10 ? '#f44336' : '#ffc107'}\">Pick: ${pickRatePct}% (${data.picks} picks out of ${filteredMatches.length})</span><br>
+<span style=\"color: ${banRatePct > 20 ? '#f44336' : banRatePct < 5 ? '#4caf50' : '#ffc107'}\">Ban: ${banRatePct}% (${data.bans} bans out of ${filteredMatches.length})</span><br>
+<span style=\"color: ${winRatePct > 60 ? '#4caf50' : winRatePct < 40 ? '#f44336' : '#ffc107'}\">Win: ${winRatePct}% (${data.wins} wins out of ${filteredMatches.length})</span></small>
             </div>
           </div>`;
       });
     }
+
     fetchData();
   </script>
 </body>
