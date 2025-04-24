@@ -1,33 +1,31 @@
+check and fix
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Match Viewer</title>
+  <title>Match Viewer + Stats</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #1c1f26;
       color: #f0f0f0;
       margin: 0;
-      padding: 20px;
+      padding: 0;
       display: flex;
     }
-
     h1, h2 {
       text-align: center;
-      margin-bottom: 1rem;
+      margin: 1rem 0;
     }
     .main-content {
-      max-width: 1200px; /* You can change this to 800px, 720px, etc. */
-      margin: 0 auto;
-      overflow-y: auto;
-      flex: 1;
-      padding: 25px;
-      box-sizing: border-box;
-      background: #262a33;
+      max-width: calc(100% - 220px);
       margin-left: 220px;
+      padding: 30px;
+      background: #262a33;
+      min-height: 100vh;
+      box-sizing: border-box;
     }
-    /* Sidebar */
     .sidebar {
       position: fixed;
       top: 0;
@@ -35,21 +33,19 @@
       width: 220px;
       background: linear-gradient(to bottom, #0f0f14, #1a1b23);
       padding: 20px 15px;
-      box-sizing: border-box;
       height: 100vh;
+      box-sizing: border-box;
       border-right: 2px solid #ff7733;
       box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
-      overflow-y: auto; /* optional, adds scroll if content exceeds height */
-      z-index: 1000; /* stays above other elements */
+      overflow-y: auto;
+      z-index: 1000;
     }
-
     .sidebar h2 {
       font-size: 20px;
       margin-bottom: 25px;
       color: #ff7733;
       text-shadow: 0 0 6px #ff7733aa;
     }
-
     .sidebar a {
       display: block;
       color: #ddd;
@@ -59,242 +55,398 @@
       border-radius: 8px;
       transition: background 0.2s, transform 0.2s;
     }
-
     .sidebar a:hover {
       background-color: #33384a;
       transform: translateX(5px);
       color: #ff7733;
     }
-    
+    #matches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
     .match {
-      margin-bottom: 3rem;
-      background: #262a33;
+      background: #2a2d38;
       padding: 1rem;
       border-radius: 12px;
       text-align: center;
+      width: 31%;
+      min-width: 280px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    
     .team-row {
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      margin-bottom: 1rem;
+      flex-direction: column;
       gap: 1rem;
     }
-    
     .team {
-      width: 48%;
       display: flex;
       flex-direction: column;
+      text-align: center;
     }
-    
-    .team:first-child {
-      align-items: flex-start; /* Team 1: align left */
-      text-align: left;
-    }
-    
-    .team:last-child {
-      align-items: flex-end; /* Team 2: align right */
-      text-align: right;
-    }
-    
-    .team h3 {
-      margin-top: 0;
-      font-size: 1.1rem;
-      color: #ffcc88;
-    }
-
-    .heroes {
+    .heroes, .bans {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 0.5rem;
-      flex-direction: row;
-      justify-content: flex-start;
+      gap: 6px;
+      justify-content: center;
     }
-    
-    .team:last-child .heroes {
-      justify-content: flex-end;
+    .hero, .ban {
+      background: #393e4f;
+      padding: 4px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      text-align: center;
     }
-
-
-    .hero {
-      background: #2a2d38;
-      padding: 6px 8px;
-      border-radius: 8px;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      min-width: 80px;
-    }
-
-    .hero img {
-      width: 48px;
-      height: 48px;
+    .hero img, .ban img {
+      width: 40px;
+      height: 40px;
       border-radius: 6px;
       object-fit: cover;
     }
-
-    .bans {
+    #stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .stat-card {
+      background: #2f3442;
+      padding: 0.75rem;
+      border-radius: 10px;
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 0.5rem;
-      width: 48%;
       align-items: center;
-      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
-
-    .ban {
-      text-align: center;
-      font-size: 0.6rem;
-    }
-
-    .ban img {
-      width: 48px;
-      height: 48px;
+    .stat-card img {
+      width: 44px;
+      height: 44px;
       border-radius: 6px;
+    }
+    .bar-graph {
+      flex: 1;
+      font-size: 0.8rem;
+    }
+    .bar {
+      height: 6px;
+      border-radius: 3px;
+      margin-bottom: 4px;
+    }
+    .pick { background: #4caf50; }
+    .ban { background: #f44336; }
+    .win { background: #2196f3; }
+    label, select, input {
+      font-size: 0.9rem;
+      margin: 0 5px;
+    }
+    select, input {
+      padding: 5px 8px;
+      border-radius: 6px;
+      border: none;
+      background: #1f1f2b;
+      color: #fff;
+    }
+    select:focus, input:focus {
+      outline: 2px solid #ff7733;
+    }
+    .main-content > div {
+      margin-bottom: 1rem;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
+  <div class="sidebar">
     <h2>HOK Viewer</h2>
     <a href="index.html">Heroes</a>
     <a href="items-page.html">Items</a>
     <a href="picks-bans.html">Draft</a>
     <a href="map.html">Map</a>
   </div>
-
-  <!-- Main content -->
   <div class="main-content">
-  <h1>Match Viewer</h1>
+    <h1>Match Viewer</h1>
+    <div style="text-align: center; margin-bottom: 1rem;">
+      <label for="tournamentSelect">Filter by Tournament: </label>
+      <select id="tournamentSelect">
+        <option value="all">All</option>
+      </select>
+    </div>
+    <div style="text-align: center; margin-bottom: 1rem;">
+      <label for="teamFilter">Filter by Team: </label>
+      <select id="teamFilter">
+        <option value="all">All</option>
+      </select>
+    </div>
+    <div id="matches"></div>
 
-  <!-- Dropdown for tournament filtering -->
-  <div style="text-align: center; margin-bottom: 1rem;">
-    <label for="tournamentSelect">Filter by Tournament: </label>
-    <select id="tournamentSelect">
-      <option value="all">All</option>
-    </select>
+    <h2 style="margin-top: 2rem;">Hero Stats</h2>
+    <div style="text-align: center; margin-bottom: 1rem;">
+      <label for="sortStats">Sort by: </label>
+      <select id="sortStats">
+        <option value="win">Win %</option>
+        <option value="pick">Pick %</option>
+        <option value="ban">Ban %</option>
+      </select>
+
+      <label for="teamStats" style="margin-left: 2rem;">Filter by Team: </label>
+      <select id="teamStats">
+        <option value="all">All</option>
+      </select>
+    </div>
+    <div id="stats"></div>
+
+    <div style="text-align: center; margin-top: 2rem;">
+      <label for="playerSearch">Heroes picked by player: </label>
+      <input type="text" id="playerSearch" placeholder="Enter player name">
+      <div id="playerPicks"></div>
+    </div>
   </div>
-
-  <div id="matches"></div>
-
   <script>
-    const heroAPI = "https://neptuneg1.github.io/hero-skills-viewer/data.json";
-    const matchAPI = "https://neptuneg1.github.io/hero-skills-viewer/matchdata.json";
-
-    let heroList = [];
-    let matchList = [];
+    const heroAPI = "https://neptuneg1.github.io/hok-caster/data.json";
+    const matchAPI = "https://neptuneg1.github.io/hok-caster/matchdata.json";
+    let heroList = [], matchList = [], heroStats = [], currentSort = 'win';
 
     async function fetchData() {
-      const [heroRes, matchRes] = await Promise.all([
-        fetch(heroAPI),
-        fetch(matchAPI)
-      ]);
+      try {
+        const [heroRes, matchRes] = await Promise.all([
+          fetch(heroAPI), fetch(matchAPI)
+        ]);
+        heroList = await heroRes.json();
+        matchList = await matchRes.json();
+        populateTournamentDropdown(matchList);
+        populateTeamFilterDropdown(matchList);
+        populateTeamStatsDropdown(matchList);
+        renderMatches(matchList);
+        heroStats = computeHeroStats(matchList);
+        renderHeroStats(heroStats);
 
-      heroList = await heroRes.json();
-      matchList = await matchRes.json();
+        document.getElementById('sortStats').addEventListener('change', e => {
+          currentSort = e.target.value;
+          renderHeroStats(heroStats);
+        });
 
-      populateTournamentDropdown(matchList);
-      renderMatches(matchList);
+        document.getElementById('teamStats').addEventListener('change', () => {
+          renderHeroStats(heroStats);
+        });
+
+        document.getElementById('teamFilter').addEventListener('change', e => {
+        const selectedTeam = e.target.value;
+      
+        // Filter match data
+        const filteredMatches = selectedTeam === 'all'
+          ? matchList
+          : matchList.filter(match =>
+              match.team1_name === selectedTeam || match.team2_name === selectedTeam
+            );
+      
+        // Update matches
+        renderMatches(filteredMatches);
+      
+        // Update hero stats
+        document.getElementById('teamStats').value = selectedTeam;
+        renderHeroStats(computeHeroStats(filteredMatches));
+      
+        // Update player picks display to filter by team
+        document.getElementById('playerSearch').addEventListener('input', e => {
+        const name = e.target.value.toLowerCase();
+        const selectedTeam = document.getElementById('teamFilter').value;
+        const filteredMatches = selectedTeam === 'all'
+          ? matchList
+          : matchList.filter(match =>
+              match.team1_name === selectedTeam || match.team2_name === selectedTeam
+            );
+      
+        const pickCounts = {};
+        filteredMatches.forEach(match => {
+          for (let i = 1; i <= 5; i++) {
+            const t1Player = match[`team1_player${i}`].toLowerCase();
+            const t2Player = match[`team2_player${i}`].toLowerCase();
+            const t1Hero = match[`team1_hero${i}`];
+            const t2Hero = match[`team2_hero${i}`];
+      
+            if (t1Player.includes(name)) pickCounts[t1Hero] = (pickCounts[t1Hero] || 0) + 1;
+            if (t2Player.includes(name)) pickCounts[t2Hero] = (pickCounts[t2Hero] || 0) + 1;
+          }
+        });
+      
+        const uniquePicks = Object.entries(pickCounts);
+        const resultHTML = uniquePicks.length > 0
+          ? '<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">' +
+            uniquePicks.map(([heroName, count]) => {
+              const hero = getHeroData(heroName);
+              return `<div style="text-align: center; font-size: 0.8rem;">
+                        <img src="${hero.ImageURL}" alt="${heroName}" style="width: 50px; height: 50px; border-radius: 6px;"><br>
+                        ${heroName} (${count})
+                      </div>`;
+            }).join('') + '</div>'
+          : 'None found';
+        document.getElementById('playerPicks').innerHTML = `<strong>Heroes picked by "${name}"</strong>:<br>${resultHTML}`;
+      });
+          
+      } catch (error) {
+        console.error("Failed to load data:", error);
+      }
+    }
+
+    function getHeroData(heroName) {
+      return heroList.find(h => h.Hero.toLowerCase() === heroName.toLowerCase()) || { ImageURL: "https://i.imgur.com/kkUX3a3.jpeg" };
     }
 
     function populateTournamentDropdown(matches) {
-      const tournamentSet = new Set(matches.map(m => m.tournament));
       const select = document.getElementById("tournamentSelect");
-
-      tournamentSet.forEach(t => {
+      const tournaments = new Set(matches.map(m => m.tournament));
+      tournaments.forEach(t => {
         const option = document.createElement("option");
         option.value = t;
         option.textContent = t;
         select.appendChild(option);
       });
-
       select.addEventListener("change", () => {
         const selected = select.value;
-        const filtered = selected === "all"
-          ? matchList
-          : matchList.filter(m => m.tournament === selected);
+        const filtered = selected === "all" ? matchList : matchList.filter(m => m.tournament === selected);
         renderMatches(filtered);
       });
     }
-
-    function getHeroData(heroName) {
-      return heroList.find(h => h.Hero === heroName) || {};
+    function populateTeamFilterDropdown(matches) {
+      const select = document.getElementById("teamFilter");
+      const teams = new Set();
+      matches.forEach(m => {
+        teams.add(m.team1_name);
+        teams.add(m.team2_name);
+      });
+      Array.from(teams).sort().forEach(team => {
+        const option = document.createElement("option");
+        option.value = team;
+        option.textContent = team;
+        select.appendChild(option);
+      });
     }
-
-    function createHeroCard(heroName, player, kda, isMVP) {
-      const hero = getHeroData(heroName);
-      return `
-        <div class="hero">
-          <img src="${hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${hero.Hero}">
-          <div><strong>${heroName}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</div>
-        </div>
-      `;
-    }
-
-    function createBanCard(heroName) {
-      const hero = getHeroData(heroName);
-      return `
-        <div class="ban">
-          <img src="${hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg'}" alt="${heroName}">
-          <div>${heroName}</div>
-        </div>
-      `;
+    function populateTeamStatsDropdown(matches) {
+      const select = document.getElementById("teamStats");
+      const teams = new Set();
+      matches.forEach(m => {
+        teams.add(m.team1_name);
+        teams.add(m.team2_name);
+      });
+      Array.from(teams).sort().forEach(t => {
+        const option = document.createElement("option");
+        option.value = t;
+        option.textContent = t;
+        select.appendChild(option);
+      });
     }
 
     function renderMatches(data) {
       const container = document.getElementById('matches');
       container.innerHTML = '';
-
       data.forEach(match => {
-        const matchHTML = `
-          <div class="match">
-            <h2>${match.matchup} – Game ${match.game} (${match.format})</h2>
-            <h3>${match.stage} – ${match.date}</h3>
-
-            <div class="team-row">
-              <div class="team">
-                <h3>${match.team1_name} – ${match.team1_score}</h3>
-                <div class="heroes">
-                  ${createHeroCard(match.team1_hero1, match.team1_player1, match.team1_kda1, match.team1_MVP === 1)}
-                  ${createHeroCard(match.team1_hero2, match.team1_player2, match.team1_kda2, match.team1_MVP === 2)}
-                  ${createHeroCard(match.team1_hero3, match.team1_player3, match.team1_kda3, match.team1_MVP === 3)}
-                  ${createHeroCard(match.team1_hero4, match.team1_player4, match.team1_kda4, match.team1_MVP === 4)}
-                  ${createHeroCard(match.team1_hero5, match.team1_player5, match.team1_kda5, match.team1_MVP === 5)}
-                </div>
-                <div class="bans">
-                  ${createBanCard(match.team1_ban1)}
-                  ${createBanCard(match.team1_ban2)}
-                  ${createBanCard(match.team1_ban3)}
-                  ${createBanCard(match.team1_ban4)}
-                </div>
+        container.innerHTML += `<div class="match">
+          <h3>${match.matchup} – G${match.game}</h3>
+          <div class="team-row">
+            <div class="team">
+              <strong>${match.team1_name} (${match.team1_score})</strong>
+              <div class="heroes">
+                ${[1,2,3,4,5].map(i => createHeroCard(match[`team1_hero${i}`], match[`team1_player${i}`], match[`team1_kda${i}`], match.team1_MVP === i)).join('')}
               </div>
-
-              <div class="team">
-                <h3>${match.team2_score} - ${match.team2_name}</h3>
-                <div class="heroes">
-                  ${createHeroCard(match.team2_hero1, match.team2_player1, match.team2_kda1, match.team2_MVP === 1)}
-                  ${createHeroCard(match.team2_hero2, match.team2_player2, match.team2_kda2, match.team2_MVP === 2)}
-                  ${createHeroCard(match.team2_hero3, match.team2_player3, match.team2_kda3, match.team2_MVP === 3)}
-                  ${createHeroCard(match.team2_hero4, match.team2_player4, match.team2_kda4, match.team2_MVP === 4)}
-                  ${createHeroCard(match.team2_hero5, match.team2_player5, match.team2_kda5, match.team2_MVP === 5)}
-                </div>
-                <div class="bans">
-                  ${createBanCard(match.team2_ban4)}
-                  ${createBanCard(match.team2_ban3)}
-                  ${createBanCard(match.team2_ban2)}
-                  ${createBanCard(match.team2_ban1)}
-                </div>
+              <div class="bans">
+                ${[1,2,3,4].map(i => createBanCard(match[`team1_ban${i}`])).join('')}
               </div>
             </div>
-
-            <p><strong>Winner:</strong> ${match.winner}</p>
+            <div class="team">
+              <strong>${match.team2_name} (${match.team2_score})</strong>
+              <div class="heroes">
+                ${[1,2,3,4,5].map(i => createHeroCard(match[`team2_hero${i}`], match[`team2_player${i}`], match[`team2_kda${i}`], match.team2_MVP === i)).join('')}
+              </div>
+              <div class="bans">
+                ${[1,2,3,4].map(i => createBanCard(match[`team2_ban${i}`])).join('')}
+              </div>
+            </div>
           </div>
-        `;
-        container.innerHTML += matchHTML;
+          <p><strong>Winner:</strong> ${match.winner}</p>
+        </div>`;
+      });
+    }
+
+    function createHeroCard(heroName, player, kda, isMVP) {
+      const hero = getHeroData(heroName);
+      return `<div class="hero"><img src="${hero.ImageURL}" alt="${heroName}"><div><strong>${heroName}</strong><br>${player}<br>${kda}${isMVP ? ' 🌟' : ''}</div></div>`;
+    }
+
+    function createBanCard(heroName) {
+      const hero = getHeroData(heroName);
+      return `<div class="ban"><img src="${hero.ImageURL}" alt="${heroName}"><div>${heroName}</div></div>`;
+    }
+
+    function computeHeroStats(matches) {
+      const stats = {};
+      matches.forEach(match => {
+        const picks = [match.team1_hero1, match.team1_hero2, match.team1_hero3, match.team1_hero4, match.team1_hero5,
+                       match.team2_hero1, match.team2_hero2, match.team2_hero3, match.team2_hero4, match.team2_hero5];
+        const bans = [match.team1_ban1, match.team1_ban2, match.team1_ban3, match.team1_ban4,
+                      match.team2_ban1, match.team2_ban2, match.team2_ban3, match.team2_ban4];
+        const winnerTeam = match.winner === match.team1_name ? 'team1' : 'team2';
+
+        picks.forEach(hero => {
+          if (!stats[hero]) stats[hero] = { picks: 0, bans: 0, wins: 0 };
+          stats[hero].picks++;
+        });
+
+        bans.forEach(hero => {
+          if (!stats[hero]) stats[hero] = { picks: 0, bans: 0, wins: 0 };
+          stats[hero].bans++;
+        });
+
+        for (let i = 1; i <= 5; i++) {
+          const winnerHero = match[`${winnerTeam}_hero${i}`];
+          if (winnerHero) stats[winnerHero].wins++;
+        }
+      });
+      return stats;
+    }
+
+    function renderHeroStats(stats) {
+      const container = document.getElementById('stats');
+      container.innerHTML = '';
+      const totalMatches = matchList.length;
+      const selectedTeam = document.getElementById('teamStats').value;
+
+      const filteredMatches = selectedTeam === 'all' ? matchList : matchList.filter(
+        m => m.team1_name === selectedTeam || m.team2_name === selectedTeam
+      );
+
+      const localStats = computeHeroStats(filteredMatches);
+
+      const sorted = Object.entries(localStats).map(([hero, data]) => {
+        const pickRate = data.picks / filteredMatches.length;
+        const banRate = data.bans / filteredMatches.length;
+        const winRate = data.picks > 0 ? data.wins / data.picks : 0;
+        return { hero, data, pickRate, banRate, winRate };
+      }).sort((a, b) => {
+        if (currentSort === 'pick') return b.pickRate - a.pickRate;
+        if (currentSort === 'ban') return b.banRate - a.banRate;
+        return b.winRate - a.winRate;
+      });
+
+      sorted.forEach(({ hero, data, pickRate, banRate, winRate }) => {
+        const heroData = getHeroData(hero);
+        const pickRatePct = (pickRate * 100).toFixed(1);
+        const banRatePct = (banRate * 100).toFixed(1);
+        const winRatePct = (winRate * 100).toFixed(1);
+        container.innerHTML += `
+          <div class=\"stat-card\">
+            <img src="${heroData.ImageURL}" alt="${hero}">
+            <div class="bar-graph">
+              <div class="bar pick" style="width: ${pickRatePct}%"></div>
+              <div class="bar ban" style="width: ${banRatePct}%"></div>
+              <div class="bar win" style="width: ${winRatePct}%"></div>
+              <small>${hero}<br>
+<span style=\"color: ${pickRatePct > 30 ? '#4caf50' : pickRatePct < 10 ? '#f44336' : '#ffc107'}\">Pick: ${pickRatePct}% (${data.picks} picks out of ${filteredMatches.length})</span><br>
+<span style=\"color: ${banRatePct > 20 ? '#f44336' : banRatePct < 5 ? '#4caf50' : '#ffc107'}\">Ban: ${banRatePct}% (${data.bans} bans out of ${filteredMatches.length})</span><br>
+<span style=\"color: ${winRatePct > 60 ? '#4caf50' : winRatePct < 40 ? '#f44336' : '#ffc107'}\">Win: ${winRatePct}% (${data.wins} wins out of ${filteredMatches.length})</span></small>
+            </div>
+          </div>`;
       });
     }
 
