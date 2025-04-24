@@ -11,15 +11,15 @@
       margin: 0;
       display: flex;
     }
+
     h1 {
       text-align: center;
       color: #ffffff;
-      font-size: 2.5rem;
+      font-size: 2rem;
       margin-top: 1rem;
       font-weight: 600;
     }
 
-   /* Sidebar */
     .sidebar {
       position: fixed;
       top: 0;
@@ -31,8 +31,8 @@
       height: 100vh;
       border-right: 2px solid #ff7733;
       box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
-      overflow-y: auto; /* optional, adds scroll if content exceeds height */
-      z-index: 1000; /* stays above other elements */
+      overflow-y: auto;
+      z-index: 1000;
     }
 
     .sidebar h2 {
@@ -58,7 +58,6 @@
       color: #ff7733;
     }
 
-    /* Main content */
     .main-content {
       overflow-y: auto;
       flex: 1;
@@ -68,7 +67,6 @@
       margin-left: 220px;
     }
 
-    /* Filters */
     .filters {
       display: flex;
       justify-content: space-between;
@@ -83,78 +81,80 @@
       color: white;
       border: 1px solid #555;
     }
+
     .filters input, .filters select {
-      padding: 1rem;
+      padding: 0.7rem;
       background-color: #333;
       border: 1px solid #444;
       color: #fff;
       border-radius: 6px;
-      width: 200px;
+      width: 180px;
       transition: background-color 0.3s;
+      font-size: 0.85rem;
     }
+
     .filters input:focus, .filters select:focus {
       background-color: #444;
     }
 
-    /* Hero grid and card styling */
     .hero-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-      padding-bottom: 2rem;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      padding-bottom: 1rem;
     }
+
     .hero-card {
       background: #2e3340;
-      padding: 1.5rem;
-      border-radius: 1rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      box-sizing: border-box;
-      transition: 0.3s;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
       border: 1px solid #3c3f4f;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       display: flex;
       flex-direction: column;
-      align-items: left;
-      text-align: left;
+      font-size: 0.85rem;
     }
+
     .hero-card:hover {
-      transform: scale(1.02);
+      transform: scale(1.015);
       border-color: #ff7733;
-      box-shadow: 0 0 12px #ff773355;
+      box-shadow: 0 0 10px #ff773344;
     }
 
     .hero-image {
       width: 100%;
-      max-width: 220px;
+      max-width: 180px;
       height: auto;
-      border-radius: 1rem;
-      margin-bottom: 1rem;
-    }
-    .hero-card h2 {
-      font-size: 1.6rem;
-      color: #fff;
-      margin-bottom: 0.5rem;
-    }
-    .hero-card p {
-      font-size: 1rem;
-      color: #ccc;
-      line-height: 1.4;
-      margin: 0.2rem 0;
+      border-radius: 0.75rem;
+      margin-bottom: 0.75rem;
+      align-self: center;
     }
 
-    /* Tooltip styling */
+    .hero-card h2 {
+      font-size: 1.2rem;
+      color: #fff;
+      margin: 0 0 0.4rem 0;
+    }
+
+    .hero-card p {
+      font-size: 0.85rem;
+      color: #ccc;
+      margin: 0.2rem 0;
+      line-height: 1.3;
+    }
+
     .tooltip {
       position: relative;
       cursor: pointer;
     }
+
     .tooltip .tooltiptext {
       visibility: hidden;
       background-color: #1f222b;
       color: #fff;
       text-align: left;
-      padding: 8px;
+      padding: 6px 8px;
       border-radius: 6px;
-      border-color: #ff7733;
       border: 1px solid #3c3f4f;
       box-sizing: border-box;
       position: absolute;
@@ -164,40 +164,41 @@
       transform: translateX(-50%);
       opacity: 0;
       transition: opacity 0.3s;
-      width: 200px;
+      width: 180px;
+      font-size: 0.75rem;
     }
+
     .tooltip:hover .tooltiptext {
       visibility: visible;
       opacity: 1;
     }
 
     .lane-icon {
-      width: 40px;
-      height: 40px;
-      margin-left: 5px;
+      width: 30px;
+      height: 30px;
+      margin-left: 3px;
       vertical-align: middle;
     }
 
-    /* Skill styling */
     .skills {
-      margin-top: 1rem;
-      text-align: left;
+      margin-top: 0.75rem;
     }
+
     .skill {
       display: flex;
       align-items: center;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
+
     .skill img {
-      width: 40px;
-      height: 40px;
-      margin-right: 0.8rem;
+      width: 32px;
+      height: 32px;
+      margin-right: 0.6rem;
       border-radius: 50%;
     }
   </style>
 </head>
 <body>
-  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <h2>HOK Viewer</h2>
     <a href="items-page.html">Items</a>
@@ -206,7 +207,6 @@
     <a href="map.html">Map</a>
   </div>
 
-  <!-- Main content -->
   <div class="main-content">
     <h1>Hero Skills Viewer</h1>
 
@@ -244,7 +244,7 @@
     };
 
     const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hok-caster/main/data.json";
-    
+
     async function loadHeroData() {
       try {
         const res = await fetch(API_URL);
@@ -287,11 +287,11 @@
               `).join('')}
             </div>
             <div class="skills">
-            ${renderSkills(hero)}
+              ${renderSkills(hero)}
             </div>
           </p>
           <p><strong>Countered By:</strong> ${hero["Countered by"] || 'No counters available'}</p>
-         <p><strong>Strategy:</strong><br>${(hero.Description || 'No strategy available').replace(/\n/g, '<br>')}</p>
+          <p><strong>Strategy:</strong><br>${(hero.Description || 'No strategy available').replace(/\n/g, '<br>')}</p>
         `;
         container.appendChild(card);
       });
@@ -299,13 +299,12 @@
 
     function renderSkills(hero) {
       let skillHTML = '';
-    
       for (let i = 1; i <= 5; i++) {
         const skillName = hero[`SkillName${i}`];
         const skillDesc = hero[`SkillDesc${i}`];
         const skillURL = hero[`SkillURL${i}`] || 'https://i.imgur.com/default-skill.png';
         const skillType = hero[`SkillType${i}`] || 'Unknown Type';
-    
+
         if (skillName) {
           skillHTML += `
             <div class="skill tooltip">
@@ -319,7 +318,6 @@
           `;
         }
       }
-    
       return skillHTML || '<p>No skills available</p>';
     }
 
@@ -331,3 +329,4 @@
   </script>
 </body>
 </html>
+
