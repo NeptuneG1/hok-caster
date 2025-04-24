@@ -520,47 +520,53 @@
 
   <script>
     function showTooltip(title, imageStages = [], hotspotEl) {
-      const tooltip = document.getElementById('tooltip');
-      const tooltipTitle = document.getElementById('tooltip-title');
-      const tooltipImages = document.getElementById('tooltip-img-container');
-    
-      tooltipTitle.textContent = title;
-      tooltipImages.innerHTML = '';
-    
-      imageStages.forEach(stage => {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'image-tooltip-wrapper';
-    
-        const img = document.createElement('img');
-        img.src = stage.img;
-        img.alt = stage.label;
-    
-        const label = document.createElement('div');
-        label.className = 'image-label';
-        label.innerHTML = stage.label.replace(/\n/g, '<br>'); // Support newlines
-    
-        const hoverText = document.createElement('div');
-        hoverText.className = 'hover-description';
-        hoverText.textContent = stage.desc || stage.label;
-    
-        wrapper.appendChild(img);
-        wrapper.appendChild(label);
-        wrapper.appendChild(hoverText);
-        tooltipImages.appendChild(wrapper);
-      });
-    
-      tooltip.style.display = "block";
-      tooltip.style.visibility = "hidden";
-    
-      const rect = hotspotEl.getBoundingClientRect();
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const tooltipHeight = tooltip.offsetHeight;
-      const maxTop = window.innerHeight + scrollTop - tooltipHeight - 20;
-      const top = Math.min(rect.top + scrollTop - 20, maxTop);
-    
-      tooltip.style.top = `${top}px`;
-      tooltip.style.visibility = "visible";
-    }
+    const tooltip = document.getElementById('tooltip');
+    const tooltipTitle = document.getElementById('tooltip-title');
+    const tooltipImages = document.getElementById('tooltip-img-container');
+  
+    tooltipTitle.textContent = title;
+    tooltipImages.innerHTML = '';
+  
+    imageStages.forEach(stage => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'image-tooltip-wrapper';
+  
+      const img = document.createElement('img');
+      img.src = stage.img;
+      img.alt = stage.label;
+  
+      const label = document.createElement('div');
+      label.className = 'image-label';
+      label.innerHTML = stage.label.replace(/\n/g, '<br>');
+  
+      const hoverText = document.createElement('div');
+      hoverText.className = 'hover-description';
+      hoverText.textContent = stage.desc || stage.label;
+  
+      wrapper.appendChild(img);
+      wrapper.appendChild(label);
+      wrapper.appendChild(hoverText);
+      tooltipImages.appendChild(wrapper);
+    });
+  
+    // Show it to get dimensions
+    tooltip.style.display = "block";
+    tooltip.style.visibility = "hidden";
+  
+    const rect = hotspotEl.getBoundingClientRect();
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+    const scrollX = window.scrollX || document.documentElement.scrollLeft;
+    const tooltipHeight = tooltip.offsetHeight;
+    const tooltipWidth = tooltip.offsetWidth;
+  
+    const margin = 10;
+    let top = rect.top + scrollY - tooltipHeight / 2 + rect.height / 2;
+    top = Math.max(scrollY + margin, Math.min(top, scrollY + window.innerHeight - tooltipHeight - margin));
+  
+    tooltip.style.top = `${top}px`;
+    tooltip.style.right = `30px`; // Keep fixed right
+    tooltip.style.visibility = "visible";
+  }
 
     document.body.addEventListener("click", (e) => {
       const isHotspot = e.target.classList.contains("hotspot");
