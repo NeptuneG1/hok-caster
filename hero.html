@@ -47,7 +47,7 @@
       transform: translateX(5px);
       color: #ff7733;
     }
-    
+
     .filters {
       display: flex;
       justify-content: start;
@@ -56,7 +56,7 @@
       margin-bottom: 20px;
       flex-wrap: wrap;
     }
-    
+
     .filters input,
     .filters select {
       padding: 0.6rem;
@@ -67,12 +67,12 @@
       width: 180px;
       font-size: 0.85rem;
     }
-    
+
     .filters input:focus,
     .filters select:focus {
       background-color: #444;
     }
-    
+
     .main-content {
       margin-left: 220px;
       padding: 25px;
@@ -88,7 +88,7 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
       gap: 1rem;
     }
 
@@ -100,6 +100,7 @@
 
     .hero-img-wrapper img {
       width: 100%;
+      max-width: 100px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       transition: transform 0.2s ease-in-out;
@@ -110,8 +111,8 @@
     }
 
     .hero-name {
-      margin-top: 8px;
-      font-size: 1rem;
+      margin-top: 6px;
+      font-size: 0.85rem;
       color: #fff;
       font-weight: 500;
     }
@@ -177,9 +178,9 @@
   </div>
 
   <div class="main-content">
-  <h1>Hero Viewer</h1>
+    <h1>Hero Viewer</h1>
 
-  <div class="filters">
+    <div class="filters">
       <input type="text" id="searchInput" placeholder="Search hero name..." />
       <select id="roleFilter">
         <option value="">All Roles</option>
@@ -215,52 +216,51 @@
       }
     }
 
-    // Update renderHeroes function to include filtering
-  function renderHeroes(heroes) {
-    const container = document.getElementById("heroContainer");
-    container.innerHTML = "";
-  
-    const search = document.getElementById('searchInput').value.toLowerCase();
-    const role = document.getElementById('roleFilter').value;
-    const lane = document.getElementById('laneFilter').value;
-  
-    const filtered = heroes.filter(hero => {
-      return (!search || hero.Hero.toLowerCase().includes(search)) &&
-             (!role || (hero.PrimaryRole && hero.PrimaryRole.includes(role))) &&
-             (!lane || (hero.Lane && hero.Lane.includes(lane)));
-    });
-  
-    filtered.forEach(hero => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "hero-img-wrapper";
-  
-      const heroImg = document.createElement("img");
-      heroImg.src = hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg';
-      heroImg.alt = hero.Hero;
-  
-      const heroName = document.createElement("div");
-      heroName.className = "hero-name";
-      heroName.textContent = hero.Hero || 'Unknown Hero';
-  
-      const tooltip = document.createElement("div");
-      tooltip.className = "hero-tooltip";
-  
-      tooltip.innerHTML = `
-        <h3>${hero.Hero}</h3>
-        <p><strong>Role:</strong> ${hero.PrimaryRole || 'N/A'}</p>
-        <p><strong>Lane:</strong> ${hero.Lane || 'N/A'}</p>
-        <div class="skills">
-          ${renderSkills(hero)}
-        </div>
-        <p><strong>Strategy:</strong><br>${(hero.Description || 'No strategy available').replace(/\n/g, '<br>')}</p>
-      `;
-  
-      wrapper.appendChild(heroImg);
-      wrapper.appendChild(heroName);
-      wrapper.appendChild(tooltip);
-      container.appendChild(wrapper);
-    });
-  }
+    function renderHeroes(heroes) {
+      const container = document.getElementById("heroContainer");
+      container.innerHTML = "";
+
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const role = document.getElementById('roleFilter').value;
+      const lane = document.getElementById('laneFilter').value;
+
+      const filtered = heroes.filter(hero => {
+        return (!search || hero.Hero.toLowerCase().includes(search)) &&
+               (!role || (hero.PrimaryRole && hero.PrimaryRole.includes(role))) &&
+               (!lane || (hero.Lane && hero.Lane.includes(lane)));
+      });
+
+      filtered.forEach(hero => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "hero-img-wrapper";
+
+        const heroImg = document.createElement("img");
+        heroImg.src = hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg';
+        heroImg.alt = hero.Hero;
+
+        const heroName = document.createElement("div");
+        heroName.className = "hero-name";
+        heroName.textContent = hero.Hero || 'Unknown Hero';
+
+        const tooltip = document.createElement("div");
+        tooltip.className = "hero-tooltip";
+
+        tooltip.innerHTML = `
+          <h3>${hero.Hero}</h3>
+          <p><strong>Role:</strong> ${hero.PrimaryRole || 'N/A'}</p>
+          <p><strong>Lane:</strong> ${hero.Lane || 'N/A'}</p>
+          <div class="skills">
+            ${renderSkills(hero)}
+          </div>
+          <p><strong>Strategy:</strong><br>${(hero.Description || 'No strategy available').replace(/\n/g, '<br>')}</p>
+        `;
+
+        wrapper.appendChild(heroImg);
+        wrapper.appendChild(heroName);
+        wrapper.appendChild(tooltip);
+        container.appendChild(wrapper);
+      });
+    }
 
     function renderSkills(hero) {
       let html = '';
@@ -290,7 +290,6 @@
     document.getElementById('searchInput').addEventListener('input', loadHeroData);
     document.getElementById('roleFilter').addEventListener('change', loadHeroData);
     document.getElementById('laneFilter').addEventListener('change', loadHeroData);
-    
   </script>
 </body>
 </html>
