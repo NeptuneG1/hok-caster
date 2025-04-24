@@ -1,5 +1,3 @@
-check 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -211,50 +209,50 @@ check
         });
 
         document.getElementById('teamFilter').addEventListener('change', e => {
-        const selectedTeam = e.target.value;
-      
-        // Filter match data
-        const filteredMatches = selectedTeam === 'all'
-          ? matchList
-          : matchList.filter(match =>
-              match.team1_name === selectedTeam || match.team2_name === selectedTeam
-            );
-      
-        // Update matches
-        renderMatches(filteredMatches);
-      
-        // Update hero stats
-        document.getElementById('teamStats').value = selectedTeam;
-        renderHeroStats(computeHeroStats(filteredMatches));
-      
-        // Update player picks display to filter by team
-        const name = document.getElementById('playerSearch').value.toLowerCase();
-        const pickCounts = {};
-        filteredMatches.forEach(match => {
-          for (let i = 1; i <= 5; i++) {
-            const t1Player = match[`team1_player${i}`].toLowerCase();
-            const t2Player = match[`team2_player${i}`].toLowerCase();
-            const t1Hero = match[`team1_hero${i}`];
-            const t2Hero = match[`team2_hero${i}`];
-      
-            if (t1Player.includes(name)) pickCounts[t1Hero] = (pickCounts[t1Hero] || 0) + 1;
-            if (t2Player.includes(name)) pickCounts[t2Hero] = (pickCounts[t2Hero] || 0) + 1;
-          }
+          const selectedTeam = e.target.value;
+          const filteredMatches = selectedTeam === 'all'
+            ? matchList
+            : matchList.filter(match => match.team1_name === selectedTeam || match.team2_name === selectedTeam);
+
+          renderMatches(filteredMatches);
+          document.getElementById('teamStats').value = selectedTeam;
+          renderHeroStats(computeHeroStats(filteredMatches));
         });
-      
-        const uniquePicks = Object.entries(pickCounts);
-        const resultHTML = uniquePicks.length > 0
-          ? '<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">' +
-            uniquePicks.map(([heroName, count]) => {
-              const hero = getHeroData(heroName);
-              return `<div style="text-align: center; font-size: 0.8rem;">
-                        <img src="${hero.ImageURL}" alt="${heroName}" style="width: 50px; height: 50px; border-radius: 6px;"><br>
-                        ${heroName} (${count})
-                      </div>`;
-            }).join('') + '</div>'
-          : 'None found';
-        document.getElementById('playerPicks').innerHTML = `<strong>Heroes picked by "${name}"</strong>:<br>${resultHTML}`;
-      });
+
+        document.getElementById('playerSearch').addEventListener('input', e => {
+          const name = e.target.value.toLowerCase();
+          const selectedTeam = document.getElementById('teamFilter').value;
+          const filteredMatches = selectedTeam === 'all'
+            ? matchList
+            : matchList.filter(match => match.team1_name === selectedTeam || match.team2_name === selectedTeam);
+
+          const pickCounts = {};
+          filteredMatches.forEach(match => {
+            for (let i = 1; i <= 5; i++) {
+              const t1Player = match[`team1_player${i}`].toLowerCase();
+              const t2Player = match[`team2_player${i}`].toLowerCase();
+              const t1Hero = match[`team1_hero${i}`];
+              const t2Hero = match[`team2_hero${i}`];
+
+              if (t1Player.includes(name)) pickCounts[t1Hero] = (pickCounts[t1Hero] || 0) + 1;
+              if (t2Player.includes(name)) pickCounts[t2Hero] = (pickCounts[t2Hero] || 0) + 1;
+            }
+          });
+
+          const uniquePicks = Object.entries(pickCounts);
+          const resultHTML = uniquePicks.length > 0
+            ? '<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">' +
+              uniquePicks.map(([heroName, count]) => {
+                const hero = getHeroData(heroName);
+                return `<div style="text-align: center; font-size: 0.8rem;">
+                          <img src="${hero.ImageURL}" alt="${heroName}" style="width: 50px; height: 50px; border-radius: 6px;"><br>
+                          ${heroName} (${count})
+                        </div>`;
+              }).join('') + '</div>'
+            : 'None found';
+
+          document.getElementById('playerPicks').innerHTML = `<strong>Heroes picked by "${name}"</strong>:<br>${resultHTML}`;
+        });
 
       } catch (error) {
         console.error("Failed to load data:", error);
@@ -280,6 +278,7 @@ check
         renderMatches(filtered);
       });
     }
+
     function populateTeamFilterDropdown(matches) {
       const select = document.getElementById("teamFilter");
       const teams = new Set();
@@ -294,6 +293,7 @@ check
         select.appendChild(option);
       });
     }
+
     function populateTeamStatsDropdown(matches) {
       const select = document.getElementById("teamStats");
       const teams = new Set();
@@ -376,7 +376,6 @@ check
       });
       return stats;
     }
-
     function renderHeroStats(stats) {
       const container = document.getElementById('stats');
       container.innerHTML = '';
@@ -420,6 +419,7 @@ check
           </div>`;
       });
     }
+
 
     fetchData();
   </script>
