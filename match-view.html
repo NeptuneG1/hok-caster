@@ -225,9 +225,20 @@ had to revert the script to this
               if (match[`team2_player${i}`].toLowerCase().includes(name)) picks.push(match[`team2_hero${i}`]);
             }
           });
-          const result = [...new Set(picks)].join(', ') || 'None found';
-          document.getElementById('playerPicks').innerHTML = `<strong>Heroes picked by "${name}"</strong>: ${result}`;
+          const uniquePicks = [...new Set(picks)];
+          const resultHTML = uniquePicks.length > 0
+            ? '<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">' +
+              uniquePicks.map(heroName => {
+                const hero = getHeroData(heroName);
+                return `<div style="text-align: center; font-size: 0.8rem;">
+                          <img src="${hero.ImageURL}" alt="${heroName}" style="width: 50px; height: 50px; border-radius: 6px; object-fit: cover;"><br>
+                          ${heroName}
+                        </div>`;
+              }).join('') + '</div>'
+            : 'None found';
+          document.getElementById('playerPicks').innerHTML = `<strong>Heroes picked by "${name}"</strong>:<br>${resultHTML}`;
         });
+
       } catch (error) {
         console.error("Failed to load data:", error);
       }
