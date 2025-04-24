@@ -247,7 +247,15 @@
         renderHeroStats(computeHeroStats(filteredMatches));
       
         // Update player picks display to filter by team
-        const name = document.getElementById('playerSearch').value.toLowerCase();
+        document.getElementById('playerSearch').addEventListener('input', e => {
+        const name = e.target.value.toLowerCase();
+        const selectedTeam = document.getElementById('teamFilter').value;
+        const filteredMatches = selectedTeam === 'all'
+          ? matchList
+          : matchList.filter(match =>
+              match.team1_name === selectedTeam || match.team2_name === selectedTeam
+            );
+      
         const pickCounts = {};
         filteredMatches.forEach(match => {
           for (let i = 1; i <= 5; i++) {
@@ -274,7 +282,7 @@
           : 'None found';
         document.getElementById('playerPicks').innerHTML = `<strong>Heroes picked by "${name}"</strong>:<br>${resultHTML}`;
       });
-
+          
       } catch (error) {
         console.error("Failed to load data:", error);
       }
