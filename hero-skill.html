@@ -70,6 +70,7 @@
     .hero-img-wrapper {
       position: relative;
       cursor: pointer;
+      text-align: center;
     }
 
     .hero-img-wrapper img {
@@ -81,6 +82,13 @@
 
     .hero-img-wrapper:hover img {
       transform: scale(1.03);
+    }
+
+    .hero-name {
+      margin-top: 8px;
+      font-size: 1rem;
+      color: #fff;
+      font-weight: 500;
     }
 
     .hero-tooltip {
@@ -173,6 +181,10 @@
         heroImg.src = hero.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg';
         heroImg.alt = hero.Hero;
 
+        const heroName = document.createElement("div");
+        heroName.className = "hero-name";
+        heroName.textContent = hero.Hero || 'Unknown Hero';
+
         const tooltip = document.createElement("div");
         tooltip.className = "hero-tooltip";
 
@@ -187,6 +199,7 @@
         `;
 
         wrapper.appendChild(heroImg);
+        wrapper.appendChild(heroName);
         wrapper.appendChild(tooltip);
         container.appendChild(wrapper);
       });
@@ -219,4 +232,3 @@
   </script>
 </body>
 </html>
-
