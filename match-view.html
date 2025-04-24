@@ -58,19 +58,36 @@
       transform: translateX(5px);
       color: #ff7733;
     }
+    .main-content > div {
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    select, input[type="text"] {
+      background: #1f1f2b;
+      color: #f0f0f0;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.9rem;
+    }
+    select:focus, input:focus {
+      outline: 2px solid #ff7733;
+    }
+    #playerPicks img {
+      margin-top: 5px;
+    }
     #matches {
       display: flex;
       flex-wrap: wrap;
       gap: 1.5rem;
       justify-content: center;
-      margin-top: 2rem;
     }
     .match {
       background: #2a2d38;
       padding: 1rem;
       border-radius: 12px;
       text-align: center;
-      width: 31%;
+      width: 30%;
       min-width: 280px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
@@ -106,12 +123,12 @@
     #stats {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1rem;
+      gap: 1.5rem;
       margin-top: 2rem;
     }
     .stat-card {
       background: #2f3442;
-      padding: 0.75rem;
+      padding: 1rem;
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -135,24 +152,6 @@
     .pick { background: #4caf50; }
     .ban { background: #f44336; }
     .win { background: #2196f3; }
-    label, select, input {
-      font-size: 0.9rem;
-      margin: 0 5px;
-    }
-    select, input {
-      padding: 5px 8px;
-      border-radius: 6px;
-      border: none;
-      background: #1f1f2b;
-      color: #fff;
-    }
-    select:focus, input:focus {
-      outline: 2px solid #ff7733;
-    }
-    .main-content > div {
-      margin-bottom: 1rem;
-      text-align: center;
-    }
   </style>
 </head>
 <body>
@@ -440,14 +439,13 @@
               <div class="bar ban" style="width: ${banRatePct}%"></div>
               <div class="bar win" style="width: ${winRatePct}%"></div>
               <small>${hero}<br>
-<span style=\"color: ${pickRatePct > 30 ? '#4caf50' : pickRatePct < 10 ? '#f44336' : '#ffc107'}\">Pick: ${pickRatePct}% (${data.picks} picks out of ${filteredMatches.length})</span><br>
-<span style=\"color: ${banRatePct > 20 ? '#f44336' : banRatePct < 5 ? '#4caf50' : '#ffc107'}\">Ban: ${banRatePct}% (${data.bans} bans out of ${filteredMatches.length})</span><br>
-<span style=\"color: ${winRatePct > 60 ? '#4caf50' : winRatePct < 40 ? '#f44336' : '#ffc107'}\">Win: ${winRatePct}% (${data.wins} wins out of ${filteredMatches.length})</span></small>
+                <span style=\"color: ${pickRatePct > 30 ? '#4caf50' : pickRatePct < 10 ? '#f44336' : '#ffc107'}\">Pick: ${pickRatePct}% (${data.picks} picks out of ${filteredMatches.length})</span><br>
+                <span style=\"color: ${banRatePct > 20 ? '#f44336' : banRatePct < 5 ? '#4caf50' : '#ffc107'}\">Ban: ${banRatePct}% (${data.bans} bans out of ${filteredMatches.length})</span><br>
+                <span style=\"color: ${winRatePct > 60 ? '#4caf50' : winRatePct < 40 ? '#f44336' : '#ffc107'}\">Win: ${winRatePct}% (${data.wins} wins out of ${filteredMatches.length})</span></small>
             </div>
           </div>`;
       });
     }
-
     fetchData();
   </script>
 </body>
