@@ -363,53 +363,55 @@
       });
     }
     
-    function updateStrategy(hero) {
-      const area = document.getElementById("strategyArea");
-      const strategyBox = document.getElementById("strategyText");
-      const image = document.getElementById("strategyImg");
-      const strategy = (hero.Strategy || '').replace(/\n/g, '<br>');
-      strategyBox.innerHTML = `<strong>${hero.Hero}</strong>:<br>${strategy}`;
-      image.src = hero.ImageURL || image.src;
-      area.scrollIntoView({ behavior: 'smooth' });
-    }
-  
-    function createSlot(type) {
-      const slot = document.createElement('div');
-      slot.className = type === 'ban' ? 'ban-slot' : 'hero-card';
-      const img = document.createElement('img');
-      img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
-      img.className = 'hero-image';
-      img.onclick = () => { currentSlot = img; openModal(); };
-      slot.appendChild(img);
-      if (type === 'pick') {
-        const tip = document.createElement('div');
-        tip.className = 'tooltip';
-        tip.innerHTML = 'Skills <div class="tooltip-box"></div>';
-        slot.appendChild(tip);
+      function updateStrategy(hero) {
+        const area = document.getElementById("strategyArea");
+        const strategyBox = document.getElementById("strategyText");
+        const image = document.getElementById("strategyImg");
+        const strategy = (hero.Strategy || '').replace(/\n/g, '<br>');
+        strategyBox.innerHTML = `<strong>${hero.Hero}</strong>:<br>${strategy}`;
+        image.src = hero.ImageURL || image.src;
+        area.scrollIntoView({ behavior: 'smooth' });
       }
-      return slot;
-    }
-  
-    function updateTooltip(slotImg, tooltipBox, hero) {
-      if (!tooltipBox || !hero) return;
-      tooltipBox.innerHTML = '';
-      for (let i = 1; i <= 5; i++) {
-        const name = hero[`SkillName${i}`];
-        const desc = hero[`SkillDesc${i}`]?.replace(/\n/g, '<br>');
-        const type = hero[`SkillType${i}`];
-        const icon = hero[`SkillURL${i}`];
-        if (name && icon) {
-          tooltipBox.innerHTML += `
-            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
-              <img src="${icon}" alt="${name}" style="width: 28px; height: 28px; border-radius: 4px;"><br>
-              <div>
-                <strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}
-              </div>
-            </div>`;
+    
+      function createSlot(type) {
+        const slot = document.createElement('div');
+        slot.className = type === 'ban' ? 'ban-slot' : 'hero-card';
+        const img = document.createElement('img');
+        img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
+        img.className = 'hero-image';
+        img.onclick = () => { currentSlot = img; openModal(); };
+        slot.appendChild(img);
+        if (type === 'pick') {
+          const tip = document.createElement('div');
+          tip.className = 'tooltip';
+          tip.innerText = 'Skills';
+          const tooltipBox = document.createElement('div');
+          tooltipBox.className = 'tooltip-box';
+          tip.appendChild(tooltipBox);
+          slot.appendChild(tip);
         }
+        return slot;
       }
-    }
-  
+    
+      function updateTooltip(slotImg, tooltipBox, hero) {
+        if (!tooltipBox || !hero) return;
+        tooltipBox.innerHTML = '';
+        for (let i = 1; i <= 5; i++) {
+          const name = hero[`SkillName${i}`];
+          const desc = hero[`SkillDesc${i}`]?.replace(/\n/g, '<br>');
+          const type = hero[`SkillType${i}`];
+          const icon = hero[`SkillURL${i}`];
+          if (name && icon) {
+            tooltipBox.innerHTML += `
+              <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+                <img src="${icon}" alt="${name}" style="width: 28px; height: 28px; border-radius: 4px;">
+                <div>
+                  <strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}
+                </div>
+              </div>`;
+          }
+        }
+      }  
     loadHeroes();
   </script>
 </body>
