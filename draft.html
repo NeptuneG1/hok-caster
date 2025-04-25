@@ -165,7 +165,7 @@
       border-radius: 10px;
       font-size: 0.9rem;
       color: #ffcd91;
-      max-width: 300px;
+      max-width: 200px;
       scroll-margin-top: 100px;
       display: flex;
       gap: 20px;
@@ -373,7 +373,7 @@
         if (name && icon) {
           tooltipBox.innerHTML += `
             <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
-              <img src="${icon}" alt="${name}" style="width: 28px; height: 28px; border-radius: 4px;">
+              <img src="${icon}" alt="${name}" style="width: 28px; height: 28px; border-radius: 4px;"><br>
               <div>
                 <strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}
               </div>
