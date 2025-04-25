@@ -124,57 +124,70 @@
     }
 
     .item-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 8px;
     }
-
+    
     .item-card {
-      background: #2e3340;
-      border-radius: 15px;
-      padding: 15px;
-      width: calc(20% - 16px); /* 5 columns max */
-      box-sizing: border-box;
-      transition: 0.3s;
-      border: 1px solid #3c3f4f;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      position: relative;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.2s;
     }
-
+    
     .item-card:hover {
-      transform: scale(1.02);
-      border-color: #ff7733;
-      box-shadow: 0 0 12px #ff773355;
+      transform: scale(1.05);
     }
-
+    
     .item-img {
       width: 100%;
-      height: 100px;
+      height: 60px;
       object-fit: contain;
-      border-radius: 12px;
-      margin-bottom: 12px;
+      border-radius: 8px;
       background-color: #1f222b;
+      margin-bottom: 4px;
     }
-
+    
     .item-title {
-      text-align: center;
-      font-size: 17px;
-      font-weight: bold;
-      margin-bottom: 10px;
+      font-size: 11px;
       color: #ff9966;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-
-    .item-field {
-      font-size: 13px;
-      margin-bottom: 6px;
+    
+    .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: #2e3340;
+      color: #fff;
+      text-align: left;
+      border-radius: 6px;
+      padding: 10px;
+      position: absolute;
+      z-index: 10;
+      bottom: 110%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+      font-size: 11px;
+      line-height: 1.3;
     }
-
-    .item-field strong {
-      color: #ffa366;
+    
+    .item-card:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
     }
-
+    
     .item-line {
-      margin-left: 10px;
+      margin-left: 6px;
+      margin-bottom: 2px;
     }
     .spacer {
           margin-bottom: 20px; /* Extra space */
@@ -279,15 +292,16 @@
           <div class="item-card">
             <img src="${item["Image URL"]}" class="item-img" alt="${item.Item}">
             <div class="item-title">${item.Item}</div>
-            <div class="item-field"><strong>Class:</strong> ${item.Class}</div>
-            <div class="item-field"><strong>Stats:</strong>${formatMultiline(item.Stats)}</div>
-            <div class="item-field"><strong>Cost:</strong> ${item.Cost}</div>
-            ${item["Cool Down"] ? `<div class="item-field"><strong>Cooldown:</strong> ${item["Cool Down"]}</div>` : ""}
-            ${item.Passive ? `<div class="item-field"><strong>Effect:</strong>${formatMultiline(item.Passive)}</div>` : ""}
-            <div class="item-field"><strong>Build:</strong>${formatMultiline(item.Build)}</div>
+            <div class="tooltiptext">
+              <div><strong>Class:</strong> ${item.Class}</div>
+              <div><strong>Stats:</strong>${formatMultiline(item.Stats)}</div>
+              <div><strong>Cost:</strong> ${item.Cost}</div>
+              ${item["Cool Down"] ? `<div><strong>Cooldown:</strong> ${item["Cool Down"]}</div>` : ""}
+              ${item.Passive ? `<div><strong>Effect:</strong>${formatMultiline(item.Passive)}</div>` : ""}
+              <div><strong>Build:</strong>${formatMultiline(item.Build)}</div>
+            </div>
           </div>
         `).join('') + `</div>`;
-    }
 
     function switchTab(tabName) {
       currentTab = tabName;
