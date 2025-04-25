@@ -44,7 +44,7 @@
       padding: 25px;
       box-sizing: border-box;
       background: #262a33;
-      margin-left: 240px;
+      margin-left: calc(200px + 40px);
       overflow: visible;
       position: relative;
     }
@@ -147,7 +147,7 @@
       padding: 10px;
       position: absolute;
       z-index: 9999;
-      bottom: 50%;
+      bottom: 110%;
       left: 50%;
       transform: translateX(-50%);
       opacity: 0;
@@ -156,6 +156,12 @@
       font-size: 11px;
       line-height: 1.3;
       word-wrap: break-word;
+    }
+    
+    /* Flip below */
+    .tooltiptext.bottom {
+      bottom: auto;
+      top: 110%;
     }
 
     .item-card:hover .tooltiptext {
@@ -270,10 +276,19 @@
       const tooltips = document.querySelectorAll('.tooltiptext');
       tooltips.forEach(tooltip => {
         const rect = tooltip.getBoundingClientRect();
+    
+        // Reset position
+        tooltip.classList.remove('bottom');
         tooltip.style.transform = 'translateX(-50%)';
         tooltip.style.left = '50%';
         tooltip.style.right = 'auto';
-
+    
+        // Flip below if tooltip would go above the visible area
+        if (rect.top < 0) {
+          tooltip.classList.add('bottom');
+        }
+    
+        // Adjust horizontal overflow
         if (rect.left < 0) {
           tooltip.style.left = '10px';
           tooltip.style.transform = 'none';
