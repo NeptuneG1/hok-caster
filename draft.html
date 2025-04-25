@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Honor of Kings Draft</title>
   <style>
     body {
@@ -13,8 +13,7 @@
     }
     .sidebar {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 220px;
       height: 100vh;
       background: linear-gradient(to bottom, #0f0f14, #1a1b23);
@@ -84,13 +83,6 @@
       font-size: 0.75rem;
       margin-top: 6px;
     }
-    .counter-info {
-      margin-top: 2rem;
-      text-align: center;
-      background: #1e1e1e;
-      padding: 1rem;
-      border-radius: 10px;
-    }
     .modal {
       display: none;
       position: fixed;
@@ -113,13 +105,18 @@
       max-height: 90vh;
       overflow-y: auto;
     }
+    .modal-filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
     .modal-filters select {
       background: #2b2b2b;
       color: #fff;
       border: 1px solid #666;
       border-radius: 5px;
       padding: 4px 8px;
-      }
+    }
     .close-btn, .clear-btn {
       float: right;
       color: #ff7733;
@@ -162,15 +159,25 @@
       font-size: 11px;
     }
     .strategy-area {
-      margin-top: 20px;
+      margin: 30px auto;
       padding: 1rem;
       background: #2a2a2a;
       border-radius: 10px;
       font-size: 0.9rem;
       color: #ffcd91;
       max-width: 1000px;
-      margin-left: auto;
-      margin-right: auto;
+      scroll-margin-top: 100px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .strategy-area img {
+      width: 80px;
+      height: auto;
+      border-radius: 8px;
+    }
+    .strategy-text {
+      flex: 1;
     }
   </style>
 </head>
@@ -193,38 +200,52 @@
         <div class="hero-section" id="team2"></div>
       </div>
     </div>
-    <div class="counter-info" id="counterInfo">Click a hero slot to select</div>
   </div>
 
-  <!-- Add filter dropdowns inside modal -->
-<div id="heroModal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    <span class="clear-btn" onclick="clearCurrentSlot()">Clear</span>
-  <div class="modal-filters">
-    <select id="laneFilter" onchange="populateModal()">
-    <option value="">All Lanes</option>
-    </select>
-    <select id="roleFilter" onchange="populateModal()">
-    <option value="">All Roles</option>
-    </select>
+  <!-- Hero Picker Modal -->
+  <div id="heroModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <span class="clear-btn" onclick="clearCurrentSlot()">Clear</span>
+      <div class="modal-filters">
+        <select id="laneFilter" onchange="populateModal()">
+          <option value="">All Lanes</option>
+        </select>
+        <select id="roleFilter" onchange="populateModal()">
+          <option value="">All Roles</option>
+        </select>
+      </div>
+      <div class="hero-grid" id="heroGrid"></div>
+    </div>
   </div>
-  <div class="hero-grid" id="heroGrid"></div>
-</div>
-</div>
-<div class="strategy-area" id="strategyArea">Select a hero to see their strategy here...</div>
-</body>
+
+  <div class="strategy-area" id="strategyArea">
+    <img id="strategyImg" src="https://i.imgur.com/kkUX3a3.jpeg" />
+    <div class="strategy-text" id="strategyText">Select a hero to see their strategy here...</div>
+  </div>
+
   <script>
     const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hok-caster/main/data.json";
-    let heroData = [];
-    let usedHeroes = new Set();
-    let currentSlot = null;
+    let heroData = [], currentSlot = null;
 
     async function loadHeroes() {
       const res = await fetch(API_URL);
       heroData = await res.json();
+      populateFilterOptions();
       renderDraft();
       populateModal();
+    }
+
+    function populateFilterOptions() {
+      const lanes = new Set(), roles = new Set();
+      heroData.forEach(h => {
+        if (h.Lane) lanes.add(h.Lane);
+        if (h.PrimaryRole) roles.add(h.PrimaryRole);
+      });
+      const laneSelect = document.getElementById('laneFilter');
+      const roleSelect = document.getElementById('roleFilter');
+      lanes.forEach(l => laneSelect.innerHTML += `<option value="${l}">${l}</option>`);
+      roles.forEach(r => roleSelect.innerHTML += `<option value="${r}">${r}</option>`);
     }
 
     function renderDraft() {
@@ -241,15 +262,10 @@
     function createSlot(type) {
       const slot = document.createElement('div');
       slot.className = type === 'ban' ? 'ban-slot' : 'hero-card';
-
       const img = document.createElement('img');
       img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
       img.className = 'hero-image';
-      img.onclick = () => {
-        currentSlot = img;
-        openModal();
-      };
-
+      img.onclick = () => { currentSlot = img; openModal(); };
       slot.appendChild(img);
       if (type === 'pick') {
         const tip = document.createElement('div');
@@ -261,28 +277,31 @@
     }
 
     function openModal() {
-      document.getElementById('heroModal').style.display = 'block';
+      document.getElementById("heroModal").style.display = "block";
+      populateModal();
     }
 
     function closeModal() {
-      document.getElementById('heroModal').style.display = 'none';
+      document.getElementById("heroModal").style.display = "none";
       currentSlot = null;
     }
 
     function clearCurrentSlot() {
       if (!currentSlot) return;
-      usedHeroes.delete(currentSlot.dataset.hero);
       currentSlot.src = 'https://i.imgur.com/kkUX3a3.jpeg';
       currentSlot.dataset.hero = '';
       closeModal();
-      populateModal();
     }
 
     function populateModal() {
-      const grid = document.getElementById("heroGrid");
+      const lane = document.getElementById('laneFilter').value;
+      const role = document.getElementById('roleFilter').value;
+      const used = Array.from(document.querySelectorAll('.hero-image')).map(i => i.dataset.hero);
+      const grid = document.getElementById('heroGrid');
       grid.innerHTML = '';
+
       heroData.forEach(hero => {
-        const used = Array.from(document.querySelectorAll('.hero-image')).some(img => img.dataset.hero === hero.Hero);
+        if ((lane && hero.Lane !== lane) || (role && hero.PrimaryRole !== role)) return;
         const container = document.createElement('div');
         container.className = 'hero-grid-item';
 
@@ -290,34 +309,37 @@
         img.src = hero.ImageURL;
         img.alt = hero.Hero;
         img.title = hero.Hero;
-        img.className = 'hero-image';
 
-        if (used) {
+        const isUsed = used.includes(hero.Hero);
+        if (isUsed) {
           img.classList.add('disabled');
           const overlay = document.createElement('div');
           overlay.className = 'banned-overlay';
-          overlay.innerText = isHeroBanned(hero.Hero) ? 'BANNED' : 'PICKED';
+          overlay.innerText = 'USED';
           container.appendChild(overlay);
         } else {
           img.onclick = () => {
             currentSlot.src = hero.ImageURL;
             currentSlot.dataset.hero = hero.Hero;
-            usedHeroes.add(hero.Hero);
+            updateStrategy(hero);
             closeModal();
-            populateModal();
           };
         }
 
-        const label = document.createElement('div');
-        label.innerText = hero.Hero;
         container.appendChild(img);
-        container.appendChild(label);
+        container.appendChild(document.createElement('div')).innerText = hero.Hero;
         grid.appendChild(container);
       });
     }
 
-    function isHeroBanned(heroName) {
-      return Array.from(document.querySelectorAll('.ban-slot .hero-image')).some(img => img.dataset.hero === heroName);
+    function updateStrategy(hero) {
+      const area = document.getElementById("strategyArea");
+      const strategyBox = document.getElementById("strategyText");
+      const image = document.getElementById("strategyImg");
+      const strategy = (hero.Strategy || '').replace(/\\n/g, '<br>');
+      strategyBox.innerHTML = `<strong>${hero.Hero}</strong>:<br>${strategy}`;
+      image.src = hero.ImageURL || image.src;
+      area.scrollIntoView({ behavior: 'smooth' });
     }
 
     loadHeroes();
