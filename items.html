@@ -22,40 +22,22 @@
 
     .sidebar {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 220px;
-      background: linear-gradient(to bottom, #0f0f14, #1a1b23);
-      padding: 20px 15px;
-      box-sizing: border-box;
       height: 100vh;
+      background: linear-gradient(to bottom, #0f0f14, #1a1b23);
       border-right: 2px solid #ff7733;
+      padding: 20px;
       box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
-      overflow-y: auto;
-      z-index: 1000;
     }
-
     .sidebar h2 {
-      font-size: 20px;
-      margin-bottom: 25px;
       color: #ff7733;
-      text-shadow: 0 0 6px #ff7733aa;
     }
-
     .sidebar a {
       display: block;
-      color: #ddd;
+      margin: 10px 0;
+      color: #ccc;
       text-decoration: none;
-      margin-bottom: 15px;
-      padding: 10px 12px;
-      border-radius: 8px;
-      transition: background 0.2s, transform 0.2s;
-    }
-
-    .sidebar a:hover {
-      background-color: #33384a;
-      transform: translateX(5px);
-      color: #ff7733;
     }
 
     .main-content {
@@ -192,6 +174,7 @@
 <body>
   <div class="sidebar" id="sidebar">
     <h2>HOK Viewer</h2>
+    <a href="index.html">Dashboard</a>
     <a href="hero.html">Heroes</a>
     <a href="draft.html">Draft</a>
     <a href="match-view.html">Match Viewer</a>
