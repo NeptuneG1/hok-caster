@@ -1,294 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Honor of Kings Draft</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       background: #1c1f26;
       color: #f0f0f0;
       margin: 0;
       display: flex;
     }
-    h1 {
-      text-align: center;
-      color: #ffffff;
-      font-size: 2.5rem;
-      margin-top: 1rem;
-      font-weight: 600;
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 220px;
+      height: 100vh;
+      background: linear-gradient(to bottom, #0f0f14, #1a1b23);
+      border-right: 2px solid #ff7733;
+      padding: 20px;
+      box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
     }
-
+    .sidebar h2 { color: #ff7733; }
+    .sidebar a {
+      display: block; margin: 10px 0;
+      color: #ccc; text-decoration: none;
+    }
+    .main-content {
+      margin-left: 220px;
+      padding: 20px;
+      flex: 1;
+    }
+    h1 { text-align: center; margin-bottom: 30px; }
     .draft-wrapper {
       display: flex;
       justify-content: space-between;
       gap: 2rem;
     }
-
     .team-column {
       width: 48%;
       display: flex;
       flex-direction: column;
+      align-items: center;
     }
-
-    .team-column:first-child {
-      align-items: flex-start; /* Team 1: align left */
-      text-align: left;
-    }
-    
-    .team-column:last-child {
-      align-items: flex-end; /* Team 2: align right */
-      text-align: right;
-    }
-
-    .team-title {
-      text-align: center;
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-    }
-
     .ban-section, .hero-section {
       display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
+      gap: 10px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
+      justify-content: center;
     }
-
-    .ban-slot{
-      background-color: #e64216;
-      border: 1px solid #333;
-      border-radius: 0.75rem;
-      padding: 0.25rem;
-      width: 80px;
+    .hero-card, .ban-slot {
+      background: #1e1e1e;
+      border-radius: 10px;
+      padding: 8px;
+      width: 100px;
       text-align: center;
-      position: relative;
     }
-    
-    .hero-card {
-      background-color: #1e1e1e;
-      border: 1px solid #333;
-      border-radius: 0.75rem;
-      padding: 0.5rem;
-      width: 120px;
-      text-align: center;
-      position: relative;
+    .ban-slot {
+      background: rgba(255, 0, 0, 0.05);
+      border: 1px solid #ff5a5a;
     }
-
-    .ban-slot select, .hero-card select {
-      width: 100%;
-      background-color: #333;
-      color: white;
-      border: none;
-      border-radius: 0.3rem;
-      padding: 0.25rem;
-      font-size: 0.8rem;
-    }
-
     .hero-image {
       width: 100%;
-      height: auto;
-      border-radius: 0.5rem;
-      margin-bottom: 0.5rem;
+      border-radius: 6px;
+      cursor: pointer;
     }
-
     .tooltip {
       position: relative;
-      cursor: help;
-      margin-top: 0.3rem;
-    }
-
-    .tooltiptext {
-      visibility: hidden;
-      background-color: #333;
-      color: #fff;
-      text-align: left;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      position: absolute;
-      z-index: 1;
-      top: -10px;
-      left: 120%;
-      opacity: 0;
-      transition: opacity 0.3s;
-      width: 250px;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 6px;
       font-size: 0.75rem;
     }
-
-    .tooltip:hover .tooltiptext {
+    .tooltip-box {
+      visibility: hidden;
+      position: absolute;
+      background-color: #222;
+      color: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      z-index: 1000;
+      top: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 240px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+    }
+    .tooltip:hover .tooltip-box {
       visibility: visible;
       opacity: 1;
     }
-
-    .counter-info {
-      margin-top: 2rem;
-      text-align: center;
-      background-color: #1e1e1e;
+    .strategy-area {
+      margin: 30px auto;
       padding: 1rem;
-      border-radius: 1rem;
+      background: #2a2a2a;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: #ffcd91;
+      max-width: 1000px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
     }
-    /* Sidebar */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 220px;
-      background: linear-gradient(to bottom, #0f0f14, #1a1b23);
-      padding: 20px 15px;
-      box-sizing: border-box;
-      height: 100vh;
-      border-right: 2px solid #ff7733;
-      box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
-      overflow-y: auto; /* optional, adds scroll if content exceeds height */
-      z-index: 1000; /* stays above other elements */
-    }
-    
-    .sidebar h2 {
-      font-size: 20px;
-      margin-bottom: 25px;
-      color: #ff7733;
-      text-shadow: 0 0 6px #ff7733aa;
-    }
-    
-    .sidebar a {
-      display: block;
-      color: #ddd;
-      text-decoration: none;
-      margin-bottom: 15px;
-      padding: 10px 12px;
+    .strategy-area img {
+      width: 80px;
       border-radius: 8px;
-      transition: background 0.2s, transform 0.2s;
     }
-    
-    .sidebar a:hover {
-      background-color: #33384a;
-      transform: translateX(5px);
-      color: #ff7733;
-    }
-    /* Main content */
-    .main-content {
-      overflow-y: auto;
-      flex: 1;
-      padding: 25px;
-      box-sizing: border-box;
-      background: #262a33;
-      margin-left: 220px;
-    }
+    .strategy-text { flex: 1; }
   </style>
 </head>
 <body>
-  <div class="sidebar" id="sidebar">
+  <div class="sidebar">
     <h2>HOK Viewer</h2>
-    <a href="hero.html">Heroes</a>
-    <a href="items.html">Items</a>
-    <a href="match-view.html">Match Viewer</a>
-    <a href="map.html">Map</a>
+    <a href="#">Heroes</a>
+    <a href="#">Items</a>
+    <a href="#">Matches</a>
   </div>
-  <!-- Main content -->
   <div class="main-content">
     <h1>Honor of Kings Draft</h1>
     <div class="draft-wrapper">
       <div class="team-column">
-        <div class="team-title">Team Left</div>
         <div class="ban-section" id="team1Bans"></div>
         <div class="hero-section" id="team1"></div>
       </div>
       <div class="team-column">
-        <div class="team-title">Team Right</div>
         <div class="ban-section" id="team2Bans"></div>
         <div class="hero-section" id="team2"></div>
       </div>
     </div>
-    <div class="counter-info" id="counterInfo">Select a hero to view strategy information.</div>
+  </div>
+
+  <div class="strategy-area" id="strategyArea">
+    <img id="strategyImg" src="https://i.imgur.com/kkUX3a3.jpeg" />
+    <div class="strategy-text" id="strategyText">Select a hero to see their strategy here...</div>
+  </div>
+
   <script>
     const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hok-caster/main/data.json";
-    let heroData = [];
+    let heroData = [], currentSlot = null, currentSlotTooltip = null;
 
     async function loadHeroes() {
       const res = await fetch(API_URL);
       heroData = await res.json();
-      renderDraftUI();
-    }
-    function createHeroCard(teamId, slotIndex) {
-      const card = document.createElement('div');
-      card.className = 'hero-card';
-
-      const select = document.createElement('select');
-      select.innerHTML = '<option value="">Select Hero</option>' +
-        heroData.map(hero => `<option value="${hero.Hero}">${hero.Hero}</option>`).join('');
-
-      const img = document.createElement('img');
-      img.className = 'hero-image';
-      img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
-
-      const skillInfo = document.createElement('div');
-      skillInfo.className = 'tooltip';
-      skillInfo.textContent = "Skills";
-
-      const tooltip = document.createElement('div');
-      tooltip.className = 'tooltiptext';
-      skillInfo.appendChild(tooltip);
-
-      select.addEventListener('change', () => {
-        const selected = heroData.find(h => h.Hero === select.value);
-        if (selected) {
-          img.src = selected["ImageURL"] || img.src;
-          tooltip.innerHTML = '';
-          for (let i = 1; i <= 5; i++) {
-            const type = selected[`SkillType${i}`];
-            const name = selected[`SkillName${i}`];
-            let desc = selected[`SkillDesc${i}`];
-            if (desc) desc = desc.replace(/\n/g, '<br>'); // Replace \n with <br>
-            if (name) {
-              tooltip.innerHTML += `<strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}<br><br>`;
-            }
-          }
-      
-          let strategy = selected["Strategy"] || 'None';
-          strategy = strategy.replace(/\n/g, '<br>'); // Replace \n with <br>
-          document.getElementById('counterInfo').innerHTML = `<strong>${selected.Hero}</strong> strategy: ${strategy}`;
-        }
-      });
-      
-      card.appendChild(img);
-      card.appendChild(select);
-      card.appendChild(skillInfo);
-      return card;
+      renderDraft();
     }
 
-    function createBanSlot(containerId) {
-    const container = document.getElementById(containerId);
-    for (let i = 0; i < 4; i++) {
-      const slot = document.createElement('div');
-      slot.className = 'ban-slot';
-
-      const img = document.createElement('img');
-      img.className = 'hero-image';
-      img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
-      slot.appendChild(img);
-
-      const select = document.createElement('select');
-      select.innerHTML = '<option value="">Ban</option>' +
-        heroData.map(hero => `<option value="${hero.Hero}">${hero.Hero}</option>`).join('');
-
-      select.addEventListener('change', () => {
-        const selected = heroData.find(h => h.Hero === select.value);
-        img.src = selected?.["ImageURL"] || 'https://i.imgur.com/kkUX3a3.jpeg';
-      });
-
-      slot.appendChild(select);
-      container.appendChild(slot);
-    }
-  }
-
-    function renderDraftUI() {
-      for (let i = 0; i < 5; i++) {
-        document.getElementById('team1').appendChild(createHeroCard('team1', i));
-        document.getElementById('team2').appendChild(createHeroCard('team2', i));
+    function renderDraft() {
+      for (let i = 0; i < 4; i++) {
+        document.getElementById('team1Bans').appendChild(createSlot('ban'));
+        document.getElementById('team2Bans').appendChild(createSlot('ban'));
       }
-      createBanSlot('team1Bans');
-      createBanSlot('team2Bans');
+      for (let i = 0; i < 5; i++) {
+        document.getElementById('team1').appendChild(createSlot('pick'));
+        document.getElementById('team2').appendChild(createSlot('pick'));
+      }
     }
+
+    function createSlot(type) {
+      const slot = document.createElement('div');
+      slot.className = type === 'ban' ? 'ban-slot' : 'hero-card';
+      const img = document.createElement('img');
+      img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
+      img.className = 'hero-image';
+      img.onclick = () => {
+        currentSlot = img;
+        currentSlotTooltip = slot.querySelector('.tooltip-box');
+        openModal();
+      };
+      slot.appendChild(img);
+      if (type === 'pick') {
+        const tip = document.createElement('div');
+        tip.className = 'tooltip';
+        tip.innerHTML = 'Skills <div class="tooltip-box"></div>';
+        slot.appendChild(tip);
+      }
+      return slot;
+    }
+
+    function updateTooltipBox(hero, tooltipBox) {
+      if (!tooltipBox || !hero) return;
+      tooltipBox.innerHTML = '';
+      for (let i = 1; i <= 5; i++) {
+        const name = hero[`SkillName${i}`];
+        const desc = hero[`SkillDesc${i}`]?.replace(/\n/g, '<br>');
+        const type = hero[`SkillType${i}`];
+        const icon = hero[`SkillURL${i}`];
+        if (name && icon) {
+          tooltipBox.innerHTML += `
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+              <img src="${icon}" alt="${name}" style="width: 28px; height: 28px; border-radius: 4px;">
+              <div>
+                <strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}
+              </div>
+            </div>`;
+        }
+      }
+    }
+
+    function updateStrategy(hero) {
+      const area = document.getElementById("strategyArea");
+      const strategyBox = document.getElementById("strategyText");
+      const image = document.getElementById("strategyImg");
+      const strategy = (hero.Strategy || '').replace(/\n/g, '<br>');
+      strategyBox.innerHTML = `<strong>${hero.Hero}</strong>:<br>${strategy}`;
+      image.src = hero.ImageURL || image.src;
+      area.scrollIntoView({ behavior: 'smooth' });
+      if (currentSlotTooltip) updateTooltipBox(hero, currentSlotTooltip);
+    }
+
+    function openModal() {
+      alert("Hero modal would open here.");
+    }
+
     loadHeroes();
   </script>
 </body>
