@@ -113,6 +113,13 @@
       max-height: 90vh;
       overflow-y: auto;
     }
+    .modal-filters select {
+      background: #2b2b2b;
+      color: #fff;
+      border: 1px solid #666;
+      border-radius: 5px;
+      padding: 4px 8px;
+      }
     .close-btn, .clear-btn {
       float: right;
       color: #ff7733;
@@ -189,15 +196,24 @@
     <div class="counter-info" id="counterInfo">Click a hero slot to select</div>
   </div>
 
-  <div id="heroModal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModal()">&times;</span>
-      <span class="clear-btn" onclick="clearCurrentSlot()">Clear</span>
-      <div class="hero-grid" id="heroGrid"></div>
-    </div>
+  <!-- Add filter dropdowns inside modal -->
+<div id="heroModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <span class="clear-btn" onclick="clearCurrentSlot()">Clear</span>
+  <div class="modal-filters">
+    <select id="laneFilter" onchange="populateModal()">
+    <option value="">All Lanes</option>
+    </select>
+    <select id="roleFilter" onchange="populateModal()">
+    <option value="">All Roles</option>
+    </select>
   </div>
-  <!-- existing content remains unchanged -->
+  <div class="hero-grid" id="heroGrid"></div>
+</div>
+</div>
 <div class="strategy-area" id="strategyArea">Select a hero to see their strategy here...</div>
+</body>
   <script>
     const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hok-caster/main/data.json";
     let heroData = [];
