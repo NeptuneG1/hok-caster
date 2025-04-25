@@ -63,6 +63,8 @@
       box-sizing: border-box;
       background: #262a33;
       margin-left: 220px;
+      overflow: visible;
+      position: relative;
     }
 
     .controls-row {
@@ -117,10 +119,13 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
       gap: 8px;
+      overflow: visible; /* This is important */
+      position: relative; /* Helps stacking context */
     }
 
     .item-card {
       position: relative;
+      z-index: 2;
       background: none;
       border: none;
       padding: 0;
