@@ -275,18 +275,18 @@
       const search = document.getElementById("search").value.toLowerCase();
       const filterClass = document.getElementById("classFilter").value;
       const container = document.getElementById("items");
-
+    
       const filtered = allItems.filter(item =>
         item["Item Type"] === currentTab &&
         item.Item.toLowerCase().includes(search) &&
         (filterClass === "" || item.Class === filterClass)
       );
-
+    
       if (filtered.length === 0) {
         container.innerHTML = `<div>No matching items found.</div>`;
         return;
       }
-
+    
       container.innerHTML = `<div class="item-grid">` +
         filtered.map(item => `
           <div class="item-card">
@@ -302,7 +302,9 @@
             </div>
           </div>
         `).join('') + `</div>`;
-
+    }
+    
+    // MOVE THIS OUTSIDE renderItems()
     function switchTab(tabName) {
       currentTab = tabName;
       document.querySelectorAll(".toggle-button").forEach(btn => btn.classList.remove("active"));
