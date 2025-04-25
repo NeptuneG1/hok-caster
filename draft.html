@@ -293,17 +293,20 @@
     function createSlot(type) {
       const slot = document.createElement('div');
       slot.className = type === 'ban' ? 'ban-slot' : 'hero-card';
+    
       const img = document.createElement('img');
       img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
       img.className = 'hero-image';
       img.onclick = () => { currentSlot = img; openModal(); };
       slot.appendChild(img);
+    
       if (type === 'pick') {
         const tip = document.createElement('div');
         tip.className = 'tooltip';
-        tip.innerText = 'Skills';
+        tip.innerHTML = 'Skills <div class="tooltip-box"></div>';
         slot.appendChild(tip);
       }
+    
       return slot;
     }
 
@@ -371,14 +374,18 @@
       strategyBox.innerHTML = `<strong>${hero.Hero}</strong>:<br>${strategy}`;
       image.src = hero.ImageURL || image.src;
       area.scrollIntoView({ behavior: 'smooth' });
+
+      const card = [...document.querySelectorAll('.hero-card')].find(c => c.querySelector('.hero-image')?.dataset.hero === hero.Hero);
+      const tipBox = card?.querySelector('.tooltip-box');
+      if (tipBox) updateTooltipBox(hero, tipBox);
     }
-    
+
     function updateTooltipBox(hero, tooltipBox) {
       if (!tooltipBox || !hero) return;
       tooltipBox.innerHTML = '';
       for (let i = 1; i <= 5; i++) {
         const name = hero[`SkillName${i}`];
-        const desc = hero[`SkillDesc${i}`]?.replace(/\n/g, '<br>');
+        const desc = hero[`SkillDesc${i}`]?.replace(/\\n/g, '<br>');
         const type = hero[`SkillType${i}`];
         const icon = hero[`SkillURL${i}`];
         if (name && icon) {
@@ -392,35 +399,7 @@
         }
       }
     }
-    
-    function createSlot(type) {
-      const slot = document.createElement('div');
-      slot.className = type === 'ban' ? 'ban-slot' : 'hero-card';
-      const img = document.createElement('img');
-      img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
-      img.className = 'hero-image';
-      img.onclick = () => { currentSlot = img; openModal(); };
-      slot.appendChild(img);
-      if (type === 'pick') {
-        const tip = document.createElement('div');
-        tip.className = 'tooltip';
-        tip.innerHTML = 'Skills <div class="tooltip-box"></div>';
-        slot.appendChild(tip);
-      }
-      return slot;
-    }
-    
-    function updateSlotTooltip(heroName) {
-      const slots = document.querySelectorAll('.hero-card');
-      slots.forEach(slot => {
-        const img = slot.querySelector('.hero-image');
-        const tipBox = slot.querySelector('.tooltip-box');
-        if (img && tipBox && img.dataset.hero === heroName) {
-          const hero = heroData.find(h => h.Hero === heroName);
-          updateTooltipBox(hero, tipBox);
-        }
-      });
-    }
+  
     loadHeroes();
   </script>
 </body>
