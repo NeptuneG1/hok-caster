@@ -168,8 +168,8 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
       font-size: 11px;
       line-height: 1.3;
+      max-width: 90vw;
     }
-
     .item-card:hover .tooltiptext {
       visibility: visible;
       opacity: 1;
@@ -276,6 +276,36 @@
       document.getElementById(tabName).classList.add("active");
       renderItems();
     }
+
+    function adjustTooltips() {
+      const tooltips = document.querySelectorAll('.tooltiptext');
+      tooltips.forEach(tooltip => {
+        const rect = tooltip.getBoundingClientRect();
+    
+        // Reset transform first
+        tooltip.style.transform = 'translateX(-50%)';
+    
+        // Adjust if tooltip is off-screen left
+        if (rect.left < 0) {
+          tooltip.style.left = '10px';
+          tooltip.style.transform = 'none';
+        }
+    
+        // Adjust if tooltip is off-screen right
+        if (rect.right > window.innerWidth) {
+          tooltip.style.left = 'auto';
+          tooltip.style.right = '10px';
+          tooltip.style.transform = 'none';
+        }
+      });
+    }
+    
+    // Re-run the check when mouse hovers any item
+    document.addEventListener('mouseover', function (e) {
+      if (e.target.closest('.item-card')) {
+        setTimeout(adjustTooltips, 10); // delay to let tooltip render
+      }
+    });
 
     window.onload = loadItems;
   </script>
