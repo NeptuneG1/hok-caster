@@ -415,34 +415,35 @@
       function updateComparisonTable() {
       const statKeys = ['maxhealth','powerALT','physicalATK','magicalATK','mspd','ATKSPDbonus','critrate','critDMG','ATKrange','healthper5','manaper5'];
       const defaultLabels = ['Max Health','Max Mana','Physical ATK','Magical ATK','Move Speed','Atk Speed Bonus','Crit Rate','Crit DMG','Attack Range','HP Regen','Mana Regen'];
-    
-      const t1Heroes = Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero);
-      const t2Heroes = Array.from(document.querySelectorAll('#team2 .hero-image')).map(img => img.dataset.hero);
-    
+
+      const t1Heroes = ['Allain','Zhao Yun','Hou Yi','Diaochan','Zhang Fei'];
+      const t2Heroes = ['Agudo','Charlotte','Yuhuan','Han Xin','Donghuang'];
+
       const heroMap = {};
       for (const h of heroData) heroMap[h.Hero] = h;
-    
+
       const roles = new Set();
       heroData.forEach(h => {
         if (h.PrimaryRole) roles.add(h.PrimaryRole);
-        if (h.SecondaryRole) roles.add(h.SecondaryRole);
+        if (h.SecondaryRole && h.SecondaryRole !== h.PrimaryRole) roles.add(h.SecondaryRole);
       });
-    
+
       const tbody = document.getElementById('comparisonBody');
       tbody.innerHTML = '';
-    
+
       roles.forEach(role => {
-        const h1 = t1Heroes.map(h => heroMap[h]).find(h => h && (h.PrimaryRole === role || (h.PrimaryRole !== h.SecondaryRole && h.SecondaryRole === role)));
-        const h2 = t2Heroes.map(h => heroMap[h]).find(h => h && (h.PrimaryRole === role || (h.PrimaryRole !== h.SecondaryRole && h.SecondaryRole === role)));
+        const h1 = t1Heroes.map(h => heroMap[h]).find(h => h && (h.PrimaryRole === role || (h.SecondaryRole === role && h.SecondaryRole !== h.PrimaryRole)));
+        const h2 = t2Heroes.map(h => heroMap[h]).find(h => h && (h.PrimaryRole === role || (h.SecondaryRole === role && h.SecondaryRole !== h.PrimaryRole)));
+
         if (!h1 && !h2) return;
-    
+
         const row = document.createElement('tr');
         const labelCell = document.createElement('td');
         labelCell.style.padding = '8px';
         labelCell.style.border = '1px solid #444';
         labelCell.innerHTML = role;
         row.appendChild(labelCell);
-    
+
         [h1, h2].forEach(hero => {
           const cell = document.createElement('td');
           cell.style.padding = '8px';
@@ -462,18 +463,12 @@
           }
           row.appendChild(cell);
         });
-    
+
         tbody.appendChild(row);
       });
     }
-    
-    setInterval(() => {
-      const picked = document.querySelectorAll('.hero-card .hero-image[data-hero]').length;
-      if (picked >= 10) updateComparisonTable();
-    }, 1000);
 
     loadHeroes();
-    
   </script>
 </body>
 </html>
