@@ -209,21 +209,21 @@
 
         document.getElementById('teamFilter').addEventListener('change', e => {
           const selectedTeam = e.target.value;
-          const filteredMatches = matchList.filter(m => m.tournament === defaultTournament);
+          const filteredMatches = selectedTeam === 'all'
+            ? matchList
+            : matchList.filter(match => match.team1_name === selectedTeam || match.team2_name === selectedTeam);
+
           renderMatches(filteredMatches);
-          document.getElementById("teamStats").value = "all";
-          renderHeroStats(filteredMatches);
+          document.getElementById('teamStats').value = selectedTeam;
+          renderHeroStats(computeHeroStats(filteredMatches));
         });
 
         document.getElementById('playerSearch').addEventListener('input', e => {
           const name = e.target.value.toLowerCase();
           const selectedTeam = document.getElementById('teamFilter').value;
-          const filteredMatches = matchList.filter(
-            m =>
-              (selectedTeam === 'all' || m.team1_name === selectedTeam || m.team2_name === selectedTeam) &&
-              (m.tournament === tournamentSelect.value)
-          );
-
+          const filteredMatches = selectedTeam === 'all'
+            ? matchList
+            : matchList.filter(match => match.team1_name === selectedTeam || match.team2_name === selectedTeam);
 
           const pickCounts = {};
           filteredMatches.forEach(match => {
