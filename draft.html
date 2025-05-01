@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,6 +83,31 @@
     .tooltip {
       font-size: 0.75rem;
       margin-top: 6px;
+      position: relative;
+      cursor: pointer;
+    }
+    .tooltip-box {
+      visibility: hidden;
+      position: absolute;
+      background-color: #222;
+      color: #fff;
+      text-align: left;
+      padding: 10px;
+      border-radius: 8px;
+      z-index: 1000;
+      top: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: normal;
+      max-width: 450px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+    }
+    .tooltip:hover .tooltip-box {
+      visibility: visible;
+      opacity: 1;
     }
     .modal {
       display: none;
@@ -183,37 +209,6 @@
       flex-direction: column;
       gap: 10px;
     }
-    .tooltip {
-      position: relative;
-      cursor: pointer;
-      display: inline-block;
-      margin-top: 6px;
-    }
-    
-    .tooltip-box {
-      visibility: hidden;
-      position: absolute;
-      background-color: #222;
-      color: #fff;
-      text-align: left;
-      padding: 10px;
-      border-radius: 8px;
-      z-index: 1000;
-      top: 120%;
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: normal;
-      max-width: 450px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      font-size: 12px;
-      opacity: 0;
-      transition: opacity 0.2s ease-in-out;
-    }
-    
-    .tooltip:hover .tooltip-box {
-      visibility: visible;
-      opacity: 1;
-    }
   </style>
 </head>
 <body>
@@ -238,10 +233,23 @@
         <div class="hero-section" id="team2"></div>
       </div>
     </div>
+
+    <h2 style="text-align:center; margin-top: 40px;">Role & Lane Stat Comparison</h2>
+    <div id="comparisonTable" style="overflow-x: auto; margin-top: 20px;">
+      <table style="width:100%; border-collapse: collapse; background: #2a2a2a; color: #fff; font-size: 0.85rem;">
+        <thead>
+          <tr style="background: #1f1f1f;">
+            <th style="padding: 8px; border: 1px solid #444;">Lane / Role</th>
+            <th style="padding: 8px; border: 1px solid #444;">Team 1</th>
+            <th style="padding: 8px; border: 1px solid #444;">Team 2</th>
+          </tr>
+        </thead>
+        <tbody id="comparisonBody"></tbody>
+      </table>
+    </div>
   </div>
 
-  <!-- Hero Picker Modal -->
-  <div id="heroModal" class="modal">
+  <div class="modal" id="heroModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModal()">&times;</span>
       <span class="clear-btn" onclick="clearCurrentSlot()">Clear</span>
@@ -263,7 +271,7 @@
       Select a hero to see their strategy here...
     </div>
   </div>
-  
+
   <script>
     const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hok-caster/main/data.json";
     let heroData = [], currentSlot = null;
@@ -302,20 +310,17 @@
     function createSlot(type) {
       const slot = document.createElement('div');
       slot.className = type === 'ban' ? 'ban-slot' : 'hero-card';
-    
       const img = document.createElement('img');
       img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
       img.className = 'hero-image';
       img.onclick = () => { currentSlot = img; openModal(); };
       slot.appendChild(img);
-    
       if (type === 'pick') {
         const tip = document.createElement('div');
         tip.className = 'tooltip';
         tip.innerHTML = 'Skills <div class="tooltip-box"></div>';
         slot.appendChild(tip);
       }
-    
       return slot;
     }
 
@@ -374,7 +379,7 @@
         grid.appendChild(container);
       });
     }
-  
+
     function updateStrategy(hero) {
       const area = document.getElementById("strategyArea");
       const strategyBox = document.getElementById("strategyText");
@@ -390,7 +395,6 @@
     }
 
     function updateTooltipBox(hero, tooltipBox) {
-      if (!tooltipBox || !hero) return;
       tooltipBox.innerHTML = '';
       for (let i = 1; i <= 5; i++) {
         const name = hero[`SkillName${i}`];
@@ -408,8 +412,76 @@
         }
       }
     }
-  
+
+    function updateComparisonTable() {
+      const statKeys = ['maxhealth','powerALT','physicalATK','magicalATK','mspd','ATKSPDbonus','critrate','critDMG','ATKrange','healthper5','manaper5'];
+      const statLabels = ['Max Health','Max Mana','Physical ATK','Magical ATK','Move Speed','Atk Speed Bonus','Crit Rate','Crit DMG','Attack Range','HP Regen','Mana Regen'];
+
+      const t1Heroes = Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero);
+      const t2Heroes = Array.from(document.querySelectorAll('#team2 .hero-image')).map(img => img.dataset.hero);
+      const heroMap = {}; for (const h of heroData) heroMap[h.Hero] = h;
+      const roleMap = {};
+
+      for (let h of t1Heroes) {
+        const data = heroMap[h];
+        if (data) {
+          const key = data.PrimaryRole && data.SecondaryRole && data.PrimaryRole !== data.SecondaryRole ? `${data.PrimaryRole}/${data.SecondaryRole}` : (data.PrimaryRole || data.SecondaryRole);
+          if (!roleMap[key]) roleMap[key] = {};
+          roleMap[key].t1 = data;
+        }
+      }
+
+      for (let h of t2Heroes) {
+        const data = heroMap[h];
+        if (data) {
+          const key = data.PrimaryRole || data.SecondaryRole;
+          if (!roleMap[key]) roleMap[key] = {};
+          roleMap[key].t2 = data;
+        }
+      }
+
+      const tbody = document.getElementById('comparisonBody');
+      tbody.innerHTML = '';
+
+      Object.keys(roleMap).forEach(role => {
+        const h1 = roleMap[role].t1;
+        const h2 = roleMap[role].t2;
+        const row = document.createElement('tr');
+        const labelCell = document.createElement('td');
+        labelCell.style.padding = '8px';
+        labelCell.style.border = '1px solid #444';
+        labelCell.innerHTML = role;
+        row.appendChild(labelCell);
+
+        [h1, h2].forEach(hero => {
+          const cell = document.createElement('td');
+          cell.style.padding = '8px';
+          cell.style.border = '1px solid #444';
+          if (!hero) {
+            cell.innerText = '—';
+          } else {
+            const head = `<strong>${hero.Hero}</strong> (${hero.PrimaryRole})<br><br>`;
+            const content = statKeys.map((k, idx) => {
+              const label = statLabels[idx];
+              const val = hero[k] ?? 0;
+              return `<div><strong>${label}:</strong> ${val}</div>`;
+            }).join('');
+            cell.innerHTML = head + content;
+          }
+          row.appendChild(cell);
+        });
+
+        tbody.appendChild(row);
+      });
+    }
+    
+    setInterval(() => {
+      const picked = document.querySelectorAll('.hero-card .hero-image[data-hero]').length;
+      if (picked >= 10) updateComparisonTable();
+    }, 1000);
+
     loadHeroes();
+    
   </script>
 </body>
 </html>
