@@ -413,7 +413,7 @@
     }
 
     function updateComparisonTable() {
-      const statKeys = ['maxhealth','powerALT','physicalATK','magicalATK','physicalDEF','magicalDEF','mspd','phypierce','magpierce','ATKSPDbonus','critrate','critDMG','phylifesteal','maglifesteal','CDreduction','ATKrange','resistance','healthper5','manaper5'];
+      const statKeys = ['maxhealth','maxmana','physicalATK','magicalATK','physicalDEF','magicalDEF','mspd','phypierce','magpierce','ATKSPDbonus','critrate','critDMG','phylifesteal','maglifesteal','CDreduction','ATKrange','resistance','healthper5','manaper5'];
       const statLabels = ['Max Health','Max Mana','Physical ATK','Magical ATK','Physical DEF','Magical DEF','Move Speed','Phys Pierce','Magic Pierce','Atk Speed Bonus','Crit Rate','Crit DMG','Phys Lifesteal','Magic Lifesteal','CD Reduction','Attack Range','Resistance','HP Regen','Mana Regen'];
 
       const t1Heroes = Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero);
