@@ -415,44 +415,47 @@
       function updateComparisonTable() {
       const statKeys = ['maxhealth','powerALT','physicalATK','magicalATK','physicalDEF','magicalDEF','mspd','phypierce','magpierce','ATKSPDbonus','critrate','critDMG','phylifesteal','maglifesteal','CDreduction','ATKrange','resistance','healthper5','manaper5'];
       const defaultLabels = ['Max Health','Max Mana','Physical ATK','Magical ATK','Physical DEF','Magical DEF','Move Speed','Phys Pierce','Magic Pierce','Atk Speed Bonus','Crit Rate','Crit DMG','Phys Lifesteal','Magic Lifesteal','CD Reduction','Attack Range','Resistance','HP Regen','Mana Regen'];
-  
+    
       const t1Heroes = Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero);
       const t2Heroes = Array.from(document.querySelectorAll('#team2 .hero-image')).map(img => img.dataset.hero);
-  
+    
       const heroMap = {};
       for (const h of heroData) heroMap[h.Hero] = h;
-  
-      const roleMap = {};
+    
+      const labelMap = {};
       for (let h of t1Heroes) {
         const data = heroMap[h];
-        if (data && data.PrimaryRole) {
+        if (data) {
           const key = data.PrimaryRole;
-          roleMap[key] = roleMap[key] || {};
-          roleMap[key].t1 = data;
+            const altKey = data.SecondaryRole;
+            if (!labelMap[key] && altKey) labelMap[altKey] = labelMap[altKey] || {}, labelMap[altKey].t1 = data;
+            else labelMap[key] = labelMap[key] || {}, labelMap[key].t1 = data;
+          labelMap[key] = labelMap[key] || {};
+          labelMap[key].t1 = data;
         }
       }
       for (let h of t2Heroes) {
         const data = heroMap[h];
-        if (data && data.PrimaryRole) {
-          const key = data.PrimaryRole;
-          roleMap[key] = roleMap[key] || {};
-          roleMap[key].t2 = data;
+        if (data) {
+          const key = data.Lane || data.PrimaryRole;
+          labelMap[key] = labelMap[key] || {};
+          labelMap[key].t2 = data;
         }
       }
-  
+    
       const tbody = document.getElementById('comparisonBody');
       tbody.innerHTML = '';
-  
-      Object.keys(roleMap).forEach(key => {
-        const h1 = roleMap[key].t1;
-        const h2 = roleMap[key].t2;
+    
+      Object.keys(labelMap).forEach(key => {
+        const h1 = labelMap[key].t1;
+        const h2 = labelMap[key].t2;
         const row = document.createElement('tr');
         const labelCell = document.createElement('td');
         labelCell.style.padding = '8px';
         labelCell.style.border = '1px solid #444';
         labelCell.innerHTML = key;
         row.appendChild(labelCell);
-  
+    
         [h1, h2].forEach(hero => {
           const cell = document.createElement('td');
           cell.style.padding = '8px';
@@ -472,11 +475,11 @@
           }
           row.appendChild(cell);
         });
-  
+    
         tbody.appendChild(row);
       });
     }
-  
+    
     setInterval(() => {
       const picked = document.querySelectorAll('.hero-card .hero-image[data-hero]').length;
       if (picked >= 10) updateComparisonTable();
