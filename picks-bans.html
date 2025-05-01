@@ -473,8 +473,11 @@
     
     setInterval(() => {
       const picked = document.querySelectorAll('.hero-card .hero-image[data-hero]').length;
-      if (picked >= 10) updateComparisonTable();
+      if (picked >= 2) updateComparisonTable();
     }, 1000);
+
+    loadHeroes();
+    
   </script>
 </body>
 </html>
