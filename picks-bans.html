@@ -425,7 +425,13 @@
       for (let h of t1Heroes) {
         const data = heroMap[h];
         if (data) {
-          const key = data.PrimaryRole && data.SecondaryRole && data.PrimaryRole !== data.SecondaryRole ? `${data.PrimaryRole}/${data.SecondaryRole}` : (data.PrimaryRole || data.SecondaryRole);
+          const roles = [];
+if (data.PrimaryRole) roles.push(data.PrimaryRole);
+if (data.SecondaryRole && data.SecondaryRole !== data.PrimaryRole) roles.push(data.SecondaryRole);
+roles.forEach(role => {
+  if (!roleMap[role]) roleMap[role] = {};
+  roleMap[role].t1 = roleMap[role].t1 || data;
+});
           if (!roleMap[key]) roleMap[key] = {};
           roleMap[key].t1 = data;
         }
@@ -443,15 +449,11 @@
       const tbody = document.getElementById('comparisonBody');
       tbody.innerHTML = '';
 
-      Object.keys(roleMap).forEach(role => {
+      Object.keys(roleMap).forEach(role => { const row = document.createElement('tr');
         const h1 = roleMap[role].t1;
         const h2 = roleMap[role].t2;
         const row = document.createElement('tr');
-        const labelCell = document.createElement('td');
-        labelCell.style.padding = '8px';
-        labelCell.style.border = '1px solid #444';
-        labelCell.innerHTML = role;
-        row.appendChild(labelCell);
+        
 
         [h1, h2].forEach(hero => {
           const cell = document.createElement('td');
@@ -461,8 +463,10 @@
             cell.innerText = '—';
           } else {
             const head = `<strong>${hero.Hero}</strong> (${hero.PrimaryRole})<br><br>`;
+            const labels = [...statLabels];
+            if (hero.powerALT) labels[1] = 'Max ' + hero.powerALT;
             const content = statKeys.map((k, idx) => {
-              const label = statLabels[idx];
+              const label = labels[idx];
               const val = hero[k] ?? 0;
               return `<div><strong>${label}:</strong> ${val}</div>`;
             }).join('');
@@ -474,7 +478,7 @@
         tbody.appendChild(row);
       });
     }
-    
+
     setInterval(() => {
       const picked = document.querySelectorAll('.hero-card .hero-image[data-hero]').length;
       if (picked >= 10) updateComparisonTable();
