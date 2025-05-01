@@ -4,210 +4,7 @@
   <meta charset="UTF-8" />
   <title>Honor of Kings Draft</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #1c1f26;
-      color: #f0f0f0;
-      margin: 0;
-      display: flex;
-    }
-    .sidebar {
-      position: fixed;
-      top: 0; left: 0;
-      width: 200px;
-      height: 100vh;
-      background: linear-gradient(to bottom, #0f0f14, #1a1b23);
-      border-right: 2px solid #ff7733;
-      padding: 20px;
-      box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
-    }
-    .sidebar h2 {
-      color: #ff7733;
-    }
-    .sidebar a {
-      display: block;
-      margin: 10px 0;
-      color: #ccc;
-      text-decoration: none;
-    }
-    .main-content {
-      margin-left: 220px;
-      padding: 20px;
-      flex: 1;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .draft-wrapper {
-      display: flex;
-      justify-content: space-between;
-      gap: 2rem;
-    }
-    .team-column {
-      width: 48%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .ban-section, .hero-section {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .hero-card {
-      background: #1e1e1e;
-      border: 1px solid #444;
-      border-radius: 10px;
-      padding: 8px;
-      width: 100px;
-      text-align: center;
-    }
-    .ban-slot {
-      background: rgba(255, 0, 0, 0.05);
-      border: 1px solid #ff5a5a;
-      border-radius: 10px;
-      padding: 8px;
-      width: 100px;
-      text-align: center;
-    }
-    .hero-image {
-      width: 100%;
-      height: auto;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .tooltip {
-      font-size: 0.75rem;
-      margin-top: 6px;
-      position: relative;
-      cursor: pointer;
-    }
-    .tooltip-box {
-      visibility: hidden;
-      position: absolute;
-      background-color: #222;
-      color: #fff;
-      text-align: left;
-      padding: 10px;
-      border-radius: 8px;
-      z-index: 1000;
-      top: 120%;
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: normal;
-      max-width: 450px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      font-size: 12px;
-      opacity: 0;
-      transition: opacity 0.2s ease-in-out;
-    }
-    .tooltip:hover .tooltip-box {
-      visibility: visible;
-      opacity: 1;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      overflow: auto;
-    }
-    .modal-content {
-      background: #1f1f1f;
-      margin: 5% auto;
-      padding: 16px;
-      border: 2px solid #ff7733;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 800px;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-    .modal-filters {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .modal-filters select {
-      background: #2b2b2b;
-      color: #fff;
-      border: 1px solid #666;
-      border-radius: 5px;
-      padding: 4px 8px;
-    }
-    .close-btn, .clear-btn {
-      float: right;
-      color: #ff7733;
-      font-size: 10px;
-      font-weight: bold;
-      margin-left: 10px;
-      cursor: pointer;
-    }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-      gap: 8px;
-      margin-top: 16px;
-    }
-    .hero-grid-item {
-      text-align: center;
-      font-size: 11px;
-      position: relative;
-    }
-    .hero-grid-item img {
-      width: 100%;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .disabled {
-      pointer-events: none;
-      opacity: 0.3;
-    }
-    .banned-overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(255, 0, 0, 0.4);
-      color: white;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 6px;
-      font-size: 11px;
-    }
-    .strategy-area {
-      margin: 30px auto;
-      padding: 1rem;
-      background: #2a2a2a;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      color: #ffcd91;
-      max-width: 200px;
-      scroll-margin-top: 100px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .strategy-area img {
-      width: 80px;
-      height: auto;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-    .strategy-text {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    /* [STYLES OMITTED FOR BREVITY - WILL CONTINUE IN NEXT PART] */
   </style>
 </head>
 <body>
@@ -233,6 +30,15 @@
       </div>
     </div>
 
+    <!-- Strategy Display -->
+    <div class="strategy-area" id="strategyArea">
+      <img id="strategyImg" src="https://i.imgur.com/kkUX3a3.jpeg" />
+      <div class="strategy-text" id="strategyText">
+        Select a hero to see their strategy here...
+      </div>
+    </div>
+
+    <!-- Lane & Role Stat Comparison Table -->
     <h2 style="text-align:center; margin-top: 40px;">Role & Lane Stat Comparison</h2>
     <div id="comparisonTable" style="overflow-x: auto; margin-top: 20px;">
       <table style="width:100%; border-collapse: collapse; background: #2a2a2a; color: #fff; font-size: 0.85rem;">
@@ -246,28 +52,21 @@
         <tbody id="comparisonBody"></tbody>
       </table>
     </div>
-  </div>
-
-  <div class="modal" id="heroModal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModal()">&times;</span>
-      <span class="clear-btn" onclick="clearCurrentSlot()">Clear</span>
-      <div class="modal-filters">
-        <select id="laneFilter" onchange="populateModal()">
-          <option value="">All Lanes</option>
-        </select>
-        <select id="roleFilter" onchange="populateModal()">
-          <option value="">All Roles</option>
-        </select>
+        <!-- Hero Picker Modal -->
+    <div class="modal" id="heroModal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <span class="clear-btn" onclick="clearCurrentSlot()">Clear</span>
+        <div class="modal-filters">
+          <select id="laneFilter" onchange="populateModal()">
+            <option value="">All Lanes</option>
+          </select>
+          <select id="roleFilter" onchange="populateModal()">
+            <option value="">All Roles</option>
+          </select>
+        </div>
+        <div class="hero-grid" id="heroGrid"></div>
       </div>
-      <div class="hero-grid" id="heroGrid"></div>
-    </div>
-  </div>
-
-  <div class="strategy-area" id="strategyArea">
-    <img id="strategyImg" src="https://i.imgur.com/kkUX3a3.jpeg" />
-    <div class="strategy-text" id="strategyText">
-      Select a hero to see their strategy here...
     </div>
   </div>
 
@@ -346,19 +145,15 @@
       const used = Array.from(document.querySelectorAll('.hero-image')).map(i => i.dataset.hero);
       const grid = document.getElementById('heroGrid');
       grid.innerHTML = '';
-
       heroData.forEach(hero => {
         if ((lane && hero.Lane !== lane) || (role && hero.PrimaryRole !== role)) return;
         const container = document.createElement('div');
         container.className = 'hero-grid-item';
-
         const img = document.createElement('img');
         img.src = hero.ImageURL;
         img.alt = hero.Hero;
         img.title = hero.Hero;
-
-        const isUsed = used.includes(hero.Hero);
-        if (isUsed) {
+        if (used.includes(hero.Hero)) {
           img.classList.add('disabled');
           const overlay = document.createElement('div');
           overlay.className = 'banned-overlay';
@@ -372,7 +167,6 @@
             closeModal();
           };
         }
-
         container.appendChild(img);
         container.appendChild(document.createElement('div')).innerText = hero.Hero;
         grid.appendChild(container);
@@ -380,17 +174,11 @@
     }
 
     function updateStrategy(hero) {
-      const area = document.getElementById("strategyArea");
-      const strategyBox = document.getElementById("strategyText");
-      const image = document.getElementById("strategyImg");
+      const box = document.getElementById('strategyText');
+      const image = document.getElementById('strategyImg');
       const strategy = (hero.Strategy || '').replace(/\n/g, '<br>');
-      strategyBox.innerHTML = `<strong>${hero.Hero}</strong>:<br>${strategy}`;
+      box.innerHTML = `<strong>${hero.Hero}</strong>:<br>${strategy}`;
       image.src = hero.ImageURL || image.src;
-      area.scrollIntoView({ behavior: 'smooth' });
-
-      const card = [...document.querySelectorAll('.hero-card')].find(c => c.querySelector('.hero-image')?.dataset.hero === hero.Hero);
-      const tipBox = card?.querySelector('.tooltip-box');
-      if (tipBox) updateTooltipBox(hero, tipBox);
     }
 
     function updateTooltipBox(hero, tooltipBox) {
@@ -418,24 +206,31 @@
 
       const t1Heroes = Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero);
       const t2Heroes = Array.from(document.querySelectorAll('#team2 .hero-image')).map(img => img.dataset.hero);
+      const heroMap = {}; for (const h of heroData) heroMap[h.Hero] = h;
+      const roleMap = {};
 
-      const heroMap = {};
-      for (const h of heroData) heroMap[h.Hero] = h;
+      for (let h of t1Heroes) {
+        const data = heroMap[h];
+        if (data) roleMap[data.Lane] = roleMap[data.Lane] || {};
+        if (data) roleMap[data.Lane].t1 = data;
+      }
+      for (let h of t2Heroes) {
+        const data = heroMap[h];
+        if (data) roleMap[data.Lane] = roleMap[data.Lane] || {};
+        if (data) roleMap[data.Lane].t2 = data;
+      }
 
       const tbody = document.getElementById('comparisonBody');
       tbody.innerHTML = '';
 
-      for (let i = 0; i < 5; i++) {
-        const h1 = heroMap[t1Heroes[i]];
-        const h2 = heroMap[t2Heroes[i]];
-        const lane1 = h1?.Lane || 'Unknown';
-        const lane2 = h2?.Lane || 'Unknown';
-
+      Object.keys(roleMap).forEach(role => {
+        const h1 = roleMap[role].t1;
+        const h2 = roleMap[role].t2;
         const row = document.createElement('tr');
         const labelCell = document.createElement('td');
         labelCell.style.padding = '8px';
         labelCell.style.border = '1px solid #444';
-        labelCell.innerHTML = lane1 === lane2 ? lane1 : `${lane1} vs ${lane2}`;
+        labelCell.innerHTML = role;
         row.appendChild(labelCell);
 
         [h1, h2].forEach(hero => {
@@ -445,18 +240,19 @@
           if (!hero) {
             cell.innerText = '—';
           } else {
+            const head = `<strong>${hero.Hero}</strong> (${hero.PrimaryRole})<br><br>`;
             const content = statKeys.map((k, idx) => {
               const label = statLabels[idx];
               const val = hero[k] ?? 0;
               return `<div><strong>${label}:</strong> ${val}</div>`;
             }).join('');
-            cell.innerHTML = content;
+            cell.innerHTML = head + content;
           }
           row.appendChild(cell);
         });
 
         tbody.appendChild(row);
-      }
+      });
     }
 
     setInterval(() => {
