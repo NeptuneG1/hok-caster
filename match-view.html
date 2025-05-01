@@ -267,17 +267,30 @@
       const tournaments = new Set(matches.map(m => m.tournament));
       const defaultTournament = "MKL Spring 2025 - Regular Season"; //default tournament
       
-      tournaments.forEach(t => {
+       tournaments.forEach(t => {
         const option = document.createElement("option");
         option.value = t;
         option.textContent = t;
+        if (t === defaultTournament) {
+          option.selected = true;
+        }
         select.appendChild(option);
       });
+      
       select.addEventListener("change", () => {
         const selected = select.value;
-        const filtered = selected === "all" ? matchList : matchList.filter(m => m.tournament === selected);
+        const filtered = selected === "all"
+          ? matchList
+          : matchList.filter(m => m.tournament === selected);
         renderMatches(filtered);
       });
+    
+      // Trigger rendering with default if set
+      const selected = select.value;
+      const filtered = selected === "all"
+        ? matchList
+        : matchList.filter(m => m.tournament === selected);
+      renderMatches(filtered);
     }
 
     function populateTeamFilterDropdown(matches) {
