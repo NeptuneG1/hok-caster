@@ -102,9 +102,6 @@
 
       <button type="submit">Login</button>
 
-      <div class="footer-link">
-        <p>Don't have an account? <a href="#">Register</a></p>
-      </div>
     </form>
   </div>
 
@@ -113,30 +110,29 @@
     const SUPABASE_URL = 'https://wkndwveojsyrqzywqzzv.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndrbmR3dmVvanN5cnF6eXdxenp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA0NjIyODksImV4cCI6MjA1NjAzODI4OX0.jKSTvPHjaH84oLKjFSVrDkc_0dh7p32ZF9QNoCkD5h4';
 
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const form = document.getElementById('login-form');
-    const errorMsg = document.getElementById('error-msg');
+  const form = document.getElementById('login-form');
+  const errorMsg = document.getElementById('error-msg');
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      errorMsg.textContent = '';
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorMsg.textContent = '';
 
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
 
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      if (error) {
-        errorMsg.textContent = error.message;
-      } else {
-        // Redirect to dashboard if login succeeds
-        window.location.href = 'index.html';
-      }
+    const { data, error } = await client.auth.signInWithPassword({
+      email,
+      password
     });
+
+    if (error) {
+      errorMsg.textContent = error.message;
+    } else {
+      window.location.href = 'hero.html';
+    }
+  });
   </script>
 </body>
 </html>
