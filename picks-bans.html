@@ -423,13 +423,20 @@
 
       for (let h of t1Heroes) {
         const data = heroMap[h];
-        if (data) roleMap[data.Lane] = roleMap[data.Lane] || {};
-        if (data) roleMap[data.Lane].t1 = data;
+        if (data) {
+          const key = data.PrimaryRole && data.SecondaryRole && data.PrimaryRole !== data.SecondaryRole ? `${data.PrimaryRole}/${data.SecondaryRole}` : (data.PrimaryRole || data.SecondaryRole);
+          if (!roleMap[key]) roleMap[key] = {};
+          roleMap[key].t1 = data;
+        }
       }
+
       for (let h of t2Heroes) {
         const data = heroMap[h];
-        if (data) roleMap[data.Lane] = roleMap[data.Lane] || {};
-        if (data) roleMap[data.Lane].t2 = data;
+        if (data) {
+          const key = data.PrimaryRole || data.SecondaryRole;
+          if (!roleMap[key]) roleMap[key] = {};
+          roleMap[key].t2 = data;
+        }
       }
 
       const tbody = document.getElementById('comparisonBody');
