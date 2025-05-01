@@ -413,51 +413,59 @@
     }
 
     function updateComparisonTable() {
-    const statKeys = ['maxhealth','powerALT','physicalATK','magicalATK','mspd','ATKSPDbonus','critrate','critDMG','ATKrange','healthper5','manaper5'];
-    const statLabels = ['Max Health','Max Mana','Physical ATK','Magical ATK','Move Speed','Atk Speed Bonus','Crit Rate','Crit DMG','Attack Range','HP Regen','Mana Regen'];
-  
-    const t1Heroes = Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero);
-    const t2Heroes = Array.from(document.querySelectorAll('#team2 .hero-image')).map(img => img.dataset.hero);
-  
-    const heroMap = {};
-    for (const h of heroData) heroMap[h.Hero] = h;
-  
-    const tbody = document.getElementById('comparisonBody');
-    tbody.innerHTML = '';
-  
-    for (let i = 0; i < 5; i++) {
-      const h1 = heroMap[t1Heroes[i]];
-      const h2 = heroMap[t2Heroes[i]];
-      const lane1 = h1?.Lane || 'Unknown';
-      const lane2 = h2?.Lane || 'Unknown';
-  
-      const row = document.createElement('tr');
-      const labelCell = document.createElement('td');
-      labelCell.style.padding = '8px';
-      labelCell.style.border = '1px solid #444';
-      labelCell.innerHTML = lane1 === lane2 ? lane1 : `${lane1} vs ${lane2}`;
-      row.appendChild(labelCell);
-  
-      [h1, h2].forEach(hero => {
-        const cell = document.createElement('td');
-        cell.style.padding = '8px';
-        cell.style.border = '1px solid #444';
-        if (!hero) {
-          cell.innerText = '—';
-        } else {
-          const content = statKeys.map((k, idx) => {
-            const label = statLabels[idx];
-            const val = hero[k] ?? 0;
-            return `<div><strong>${label}:</strong> ${val}</div>`;
-          }).join('');
-          cell.innerHTML = content;
-        }
-        row.appendChild(cell);
+      const statKeys = ['maxhealth','powerALT','physicalATK','magicalATK','mspd','ATKSPDbonus','critrate','critDMG','ATKrange','healthper5','manaper5'];
+      const statLabels = ['Max Health','Max Mana','Physical ATK','Magical ATK','Move Speed','Atk Speed Bonus','Crit Rate','Crit DMG','Attack Range','HP Regen','Mana Regen'];
+
+      const t1Heroes = Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero);
+      const t2Heroes = Array.from(document.querySelectorAll('#team2 .hero-image')).map(img => img.dataset.hero);
+      const heroMap = {}; for (const h of heroData) heroMap[h.Hero] = h;
+      const roleMap = {};
+
+      for (let h of t1Heroes) {
+        const data = heroMap[h];
+        if (data) roleMap[data.Lane] = roleMap[data.Lane] || {};
+        if (data) roleMap[data.Lane].t1 = data;
+      }
+      for (let h of t2Heroes) {
+        const data = heroMap[h];
+        if (data) roleMap[data.Lane] = roleMap[data.Lane] || {};
+        if (data) roleMap[data.Lane].t2 = data;
+      }
+
+      const tbody = document.getElementById('comparisonBody');
+      tbody.innerHTML = '';
+
+      Object.keys(roleMap).forEach(role => {
+        const h1 = roleMap[role].t1;
+        const h2 = roleMap[role].t2;
+        const row = document.createElement('tr');
+        const labelCell = document.createElement('td');
+        labelCell.style.padding = '8px';
+        labelCell.style.border = '1px solid #444';
+        labelCell.innerHTML = role;
+        row.appendChild(labelCell);
+
+        [h1, h2].forEach(hero => {
+          const cell = document.createElement('td');
+          cell.style.padding = '8px';
+          cell.style.border = '1px solid #444';
+          if (!hero) {
+            cell.innerText = '—';
+          } else {
+            const head = `<strong>${hero.Hero}</strong> (${hero.PrimaryRole})<br><br>`;
+            const content = statKeys.map((k, idx) => {
+              const label = statLabels[idx];
+              const val = hero[k] ?? 0;
+              return `<div><strong>${label}:</strong> ${val}</div>`;
+            }).join('');
+            cell.innerHTML = head + content;
+          }
+          row.appendChild(cell);
+        });
+
+        tbody.appendChild(row);
       });
-  
-      tbody.appendChild(row);
     }
-  }
     
     setInterval(() => {
       const picked = document.querySelectorAll('.hero-card .hero-image[data-hero]').length;
