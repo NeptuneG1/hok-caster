@@ -426,7 +426,7 @@
       for (let h of t1Heroes) {
         const data = heroMap[h];
         if (data) {
-          const key = data.Lane || data.PrimaryRole;
+          const key = data.PrimaryRole || data.Lane;
           labelMap[key] = labelMap[key] || {};
           labelMap[key].t1 = data;
         }
