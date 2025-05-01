@@ -1,5 +1,3 @@
-the first column would be role, then do the matching
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -414,10 +412,10 @@ the first column would be role, then do the matching
       }
     }
 
-      function updateComparisonTable() {
-      const statKeys = ['maxhealth','powerALT','physicalATK','magicalATK','mspd','ATKSPDbonus','critrate','critDMG','ATKrange','healthper5','manaper5'];
-      const defaultLabels = ['Max Health','Max Mana','Physical ATK','Magical ATK','Move Speed','Atk Speed Bonus','Crit Rate','Crit DMG','Attack Range','HP Regen','Mana Regen'];
-      
+    function updateComparisonTable() {
+      const statKeys = ['maxhealth','powerALT','physicalATK','magicalATK','physicalDEF','magicalDEF','mspd','phypierce','magpierce','ATKSPDbonus','critrate','critDMG','phylifesteal','maglifesteal','CDreduction','ATKrange','resistance','healthper5','manaper5'];
+      const defaultLabels = ['Max Health','Max Mana','Physical ATK','Magical ATK','Physical DEF','Magical DEF','Move Speed','Phys Pierce','Magic Pierce','Atk Speed Bonus','Crit Rate','Crit DMG','Phys Lifesteal','Magic Lifesteal','CD Reduction','Attack Range','Resistance','HP Regen','Mana Regen'];
+    
       const t1Heroes = Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero);
       const t2Heroes = Array.from(document.querySelectorAll('#team2 .hero-image')).map(img => img.dataset.hero);
     
@@ -428,10 +426,7 @@ the first column would be role, then do the matching
       for (let h of t1Heroes) {
         const data = heroMap[h];
         if (data) {
-          const key = data.PrimaryRole;
-            const altKey = data.SecondaryRole;
-            if (!labelMap[key] && altKey) labelMap[altKey] = labelMap[altKey] || {}, labelMap[altKey].t1 = data;
-            else labelMap[key] = labelMap[key] || {}, labelMap[key].t1 = data;
+          const key = data.PrimaryRole || data.Lane;
           labelMap[key] = labelMap[key] || {};
           labelMap[key].t1 = data;
         }
