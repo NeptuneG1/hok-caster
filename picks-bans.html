@@ -14,24 +14,31 @@
     .sidebar {
       position: fixed;
       top: 0; left: 0;
-      width: 220px;
+      width: 200px;
       height: 100vh;
       background: linear-gradient(to bottom, #0f0f14, #1a1b23);
       border-right: 2px solid #ff7733;
       padding: 20px;
       box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
     }
-    .sidebar h2 { color: #ff7733; }
+    .sidebar h2 {
+      color: #ff7733;
+    }
     .sidebar a {
-      display: block; margin: 10px 0;
-      color: #ccc; text-decoration: none;
+      display: block;
+      margin: 10px 0;
+      color: #ccc;
+      text-decoration: none;
     }
     .main-content {
       margin-left: 220px;
       padding: 20px;
       flex: 1;
     }
-    h1 { text-align: center; margin-bottom: 30px; }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
     .draft-wrapper {
       display: flex;
       justify-content: space-between;
@@ -50,8 +57,9 @@
       flex-wrap: wrap;
       justify-content: center;
     }
-    .hero-card, .ban-slot {
+    .hero-card {
       background: #1e1e1e;
+      border: 1px solid #444;
       border-radius: 10px;
       padding: 8px;
       width: 100px;
@@ -60,31 +68,37 @@
     .ban-slot {
       background: rgba(255, 0, 0, 0.05);
       border: 1px solid #ff5a5a;
+      border-radius: 10px;
+      padding: 8px;
+      width: 100px;
+      text-align: center;
     }
     .hero-image {
       width: 100%;
+      height: auto;
       border-radius: 6px;
       cursor: pointer;
     }
     .tooltip {
+      font-size: 0.75rem;
+      margin-top: 6px;
       position: relative;
       cursor: pointer;
-      display: inline-block;
-      margin-top: 6px;
-      font-size: 0.75rem;
     }
     .tooltip-box {
       visibility: hidden;
       position: absolute;
       background-color: #222;
       color: #fff;
+      text-align: left;
       padding: 10px;
       border-radius: 8px;
       z-index: 1000;
       top: 120%;
       left: 50%;
       transform: translateX(-50%);
-      max-width: 240px;
+      white-space: normal;
+      max-width: 450px;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
       font-size: 12px;
       opacity: 0;
@@ -94,6 +108,81 @@
       visibility: visible;
       opacity: 1;
     }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      overflow: auto;
+    }
+    .modal-content {
+      background: #1f1f1f;
+      margin: 5% auto;
+      padding: 16px;
+      border: 2px solid #ff7733;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .modal-filters select {
+      background: #2b2b2b;
+      color: #fff;
+      border: 1px solid #666;
+      border-radius: 5px;
+      padding: 4px 8px;
+    }
+    .close-btn, .clear-btn {
+      float: right;
+      color: #ff7733;
+      font-size: 10px;
+      font-weight: bold;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .hero-grid-item {
+      text-align: center;
+      font-size: 11px;
+      position: relative;
+    }
+    .hero-grid-item img {
+      width: 100%;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .disabled {
+      pointer-events: none;
+      opacity: 0.3;
+    }
+    .banned-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(255, 0, 0, 0.4);
+      color: white;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      font-size: 11px;
+    }
     .strategy-area {
       margin: 30px auto;
       padding: 1rem;
@@ -101,24 +190,35 @@
       border-radius: 10px;
       font-size: 0.9rem;
       color: #ffcd91;
-      max-width: 1000px;
+      max-width: 200px;
+      scroll-margin-top: 100px;
+      text-align: center;
       display: flex;
-      gap: 20px;
-      align-items: flex-start;
+      flex-direction: column;
+      align-items: center;
     }
     .strategy-area img {
       width: 80px;
+      height: auto;
       border-radius: 8px;
+      margin-bottom: 10px;
     }
-    .strategy-text { flex: 1; }
+    .strategy-text {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="sidebar">
     <h2>HOK Viewer</h2>
-    <a href="#">Heroes</a>
-    <a href="#">Items</a>
-    <a href="#">Matches</a>
+    <a href="index.html">Dashboard</a>
+    <a href="hero.html">Hero Skills</a>
+    <a href="items.html">Items</a>
+    <a href="draft.html">Draft</a>
+    <a href="match-view.html">Match Viewer</a>
+    <a href="map.html">Map</a>
   </div>
   <div class="main-content">
     <h1>Honor of Kings Draft</h1>
@@ -132,21 +232,67 @@
         <div class="hero-section" id="team2"></div>
       </div>
     </div>
+
+    <h2 style="text-align:center; margin-top: 40px;">Role & Lane Stat Comparison</h2>
+    <div id="comparisonTable" style="overflow-x: auto; margin-top: 20px;">
+      <table style="width:100%; border-collapse: collapse; background: #2a2a2a; color: #fff; font-size: 0.85rem;">
+        <thead>
+          <tr style="background: #1f1f1f;">
+            <th style="padding: 8px; border: 1px solid #444;">Lane / Role</th>
+            <th style="padding: 8px; border: 1px solid #444;">Team 1</th>
+            <th style="padding: 8px; border: 1px solid #444;">Team 2</th>
+          </tr>
+        </thead>
+        <tbody id="comparisonBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal" id="heroModal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <span class="clear-btn" onclick="clearCurrentSlot()">Clear</span>
+      <div class="modal-filters">
+        <select id="laneFilter" onchange="populateModal()">
+          <option value="">All Lanes</option>
+        </select>
+        <select id="roleFilter" onchange="populateModal()">
+          <option value="">All Roles</option>
+        </select>
+      </div>
+      <div class="hero-grid" id="heroGrid"></div>
+    </div>
   </div>
 
   <div class="strategy-area" id="strategyArea">
     <img id="strategyImg" src="https://i.imgur.com/kkUX3a3.jpeg" />
-    <div class="strategy-text" id="strategyText">Select a hero to see their strategy here...</div>
+    <div class="strategy-text" id="strategyText">
+      Select a hero to see their strategy here...
+    </div>
   </div>
 
   <script>
     const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hok-caster/main/data.json";
-    let heroData = [], currentSlot = null, currentSlotTooltip = null;
+    let heroData = [], currentSlot = null;
 
     async function loadHeroes() {
       const res = await fetch(API_URL);
       heroData = await res.json();
+      populateFilterOptions();
       renderDraft();
+      populateModal();
+    }
+
+    function populateFilterOptions() {
+      const lanes = new Set(), roles = new Set();
+      heroData.forEach(h => {
+        if (h.Lane) lanes.add(h.Lane);
+        if (h.PrimaryRole) roles.add(h.PrimaryRole);
+      });
+      const laneSelect = document.getElementById('laneFilter');
+      const roleSelect = document.getElementById('roleFilter');
+      lanes.forEach(l => laneSelect.innerHTML += `<option value="${l}">${l}</option>`);
+      roles.forEach(r => roleSelect.innerHTML += `<option value="${r}">${r}</option>`);
     }
 
     function renderDraft() {
@@ -166,11 +312,7 @@
       const img = document.createElement('img');
       img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
       img.className = 'hero-image';
-      img.onclick = () => {
-        currentSlot = img;
-        currentSlotTooltip = slot.querySelector('.tooltip-box');
-        openModal();
-      };
+      img.onclick = () => { currentSlot = img; openModal(); };
       slot.appendChild(img);
       if (type === 'pick') {
         const tip = document.createElement('div');
@@ -181,12 +323,81 @@
       return slot;
     }
 
+    function openModal() {
+      document.getElementById("heroModal").style.display = "block";
+      populateModal();
+    }
+
+    function closeModal() {
+      document.getElementById("heroModal").style.display = "none";
+      currentSlot = null;
+    }
+
+    function clearCurrentSlot() {
+      if (!currentSlot) return;
+      currentSlot.src = 'https://i.imgur.com/kkUX3a3.jpeg';
+      currentSlot.dataset.hero = '';
+      closeModal();
+    }
+
+    function populateModal() {
+      const lane = document.getElementById('laneFilter').value;
+      const role = document.getElementById('roleFilter').value;
+      const used = Array.from(document.querySelectorAll('.hero-image')).map(i => i.dataset.hero);
+      const grid = document.getElementById('heroGrid');
+      grid.innerHTML = '';
+
+      heroData.forEach(hero => {
+        if ((lane && hero.Lane !== lane) || (role && hero.PrimaryRole !== role)) return;
+        const container = document.createElement('div');
+        container.className = 'hero-grid-item';
+
+        const img = document.createElement('img');
+        img.src = hero.ImageURL;
+        img.alt = hero.Hero;
+        img.title = hero.Hero;
+
+        const isUsed = used.includes(hero.Hero);
+        if (isUsed) {
+          img.classList.add('disabled');
+          const overlay = document.createElement('div');
+          overlay.className = 'banned-overlay';
+          overlay.innerText = 'USED';
+          container.appendChild(overlay);
+        } else {
+          img.onclick = () => {
+            currentSlot.src = hero.ImageURL;
+            currentSlot.dataset.hero = hero.Hero;
+            updateStrategy(hero);
+            closeModal();
+          };
+        }
+
+        container.appendChild(img);
+        container.appendChild(document.createElement('div')).innerText = hero.Hero;
+        grid.appendChild(container);
+      });
+    }
+
+    function updateStrategy(hero) {
+      const area = document.getElementById("strategyArea");
+      const strategyBox = document.getElementById("strategyText");
+      const image = document.getElementById("strategyImg");
+      const strategy = (hero.Strategy || '').replace(/\n/g, '<br>');
+      strategyBox.innerHTML = `<strong>${hero.Hero}</strong>:<br>${strategy}`;
+      image.src = hero.ImageURL || image.src;
+      area.scrollIntoView({ behavior: 'smooth' });
+
+      const card = [...document.querySelectorAll('.hero-card')].find(c => c.querySelector('.hero-image')?.dataset.hero === hero.Hero);
+      const tipBox = card?.querySelector('.tooltip-box');
+      if (tipBox) updateTooltipBox(hero, tipBox);
+    }
+
     function updateTooltipBox(hero, tooltipBox) {
-      if (!tooltipBox || !hero) return;
       tooltipBox.innerHTML = '';
       for (let i = 1; i <= 5; i++) {
         const name = hero[`SkillName${i}`];
-        const desc = hero[`SkillDesc${i}`]?.replace(/\n/g, '<br>');
+        const desc = hero[`SkillDesc${i}`]?.replace(/\\n/g, '<br>');
         const type = hero[`SkillType${i}`];
         const icon = hero[`SkillURL${i}`];
         if (name && icon) {
@@ -201,20 +412,57 @@
       }
     }
 
-    function updateStrategy(hero) {
-      const area = document.getElementById("strategyArea");
-      const strategyBox = document.getElementById("strategyText");
-      const image = document.getElementById("strategyImg");
-      const strategy = (hero.Strategy || '').replace(/\n/g, '<br>');
-      strategyBox.innerHTML = `<strong>${hero.Hero}</strong>:<br>${strategy}`;
-      image.src = hero.ImageURL || image.src;
-      area.scrollIntoView({ behavior: 'smooth' });
-      if (currentSlotTooltip) updateTooltipBox(hero, currentSlotTooltip);
+    function updateComparisonTable() {
+      const statKeys = ['maxhealth','powerALT','physicalATK','magicalATK','physicalDEF','magicalDEF','mspd','phypierce','magpierce','ATKSPDbonus','critrate','critDMG','phylifesteal','maglifesteal','CDreduction','ATKrange','resistance','healthper5','manaper5'];
+      const statLabels = ['Max Health','Max Mana','Physical ATK','Magical ATK','Physical DEF','Magical DEF','Move Speed','Phys Pierce','Magic Pierce','Atk Speed Bonus','Crit Rate','Crit DMG','Phys Lifesteal','Magic Lifesteal','CD Reduction','Attack Range','Resistance','HP Regen','Mana Regen'];
+
+      const t1Heroes = Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero);
+      const t2Heroes = Array.from(document.querySelectorAll('#team2 .hero-image')).map(img => img.dataset.hero);
+
+      const heroMap = {};
+      for (const h of heroData) heroMap[h.Hero] = h;
+
+      const tbody = document.getElementById('comparisonBody');
+      tbody.innerHTML = '';
+
+      for (let i = 0; i < 5; i++) {
+        const h1 = heroMap[t1Heroes[i]];
+        const h2 = heroMap[t2Heroes[i]];
+        const lane1 = h1?.Lane || 'Unknown';
+        const lane2 = h2?.Lane || 'Unknown';
+
+        const row = document.createElement('tr');
+        const labelCell = document.createElement('td');
+        labelCell.style.padding = '8px';
+        labelCell.style.border = '1px solid #444';
+        labelCell.innerHTML = lane1 === lane2 ? lane1 : `${lane1} vs ${lane2}`;
+        row.appendChild(labelCell);
+
+        [h1, h2].forEach(hero => {
+          const cell = document.createElement('td');
+          cell.style.padding = '8px';
+          cell.style.border = '1px solid #444';
+          if (!hero) {
+            cell.innerText = '—';
+          } else {
+            const content = statKeys.map((k, idx) => {
+              const label = statLabels[idx];
+              const val = hero[k] ?? 0;
+              return `<div><strong>${label}:</strong> ${val}</div>`;
+            }).join('');
+            cell.innerHTML = content;
+          }
+          row.appendChild(cell);
+        });
+
+        tbody.appendChild(row);
+      }
     }
 
-    function openModal() {
-      alert("Hero modal would open here.");
-    }
+    setInterval(() => {
+      const picked = document.querySelectorAll('.hero-card .hero-image[data-hero]').length;
+      if (picked >= 10) updateComparisonTable();
+    }, 1000);
 
     loadHeroes();
   </script>
