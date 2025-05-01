@@ -1,3 +1,5 @@
+the first column would be role, then do the matching
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -415,35 +417,47 @@
       function updateComparisonTable() {
       const statKeys = ['maxhealth','powerALT','physicalATK','magicalATK','mspd','ATKSPDbonus','critrate','critDMG','ATKrange','healthper5','manaper5'];
       const defaultLabels = ['Max Health','Max Mana','Physical ATK','Magical ATK','Move Speed','Atk Speed Bonus','Crit Rate','Crit DMG','Attack Range','HP Regen','Mana Regen'];
-
+      
       const t1Heroes = Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero);
       const t2Heroes = Array.from(document.querySelectorAll('#team2 .hero-image')).map(img => img.dataset.hero);
-
+    
       const heroMap = {};
       for (const h of heroData) heroMap[h.Hero] = h;
-
-      const roles = new Set();
-      heroData.forEach(h => {
-        if (h.PrimaryRole) roles.add(h.PrimaryRole);
-        if (h.SecondaryRole && h.SecondaryRole !== h.PrimaryRole) roles.add(h.SecondaryRole);
-      });
-
+    
+      const labelMap = {};
+      for (let h of t1Heroes) {
+        const data = heroMap[h];
+        if (data) {
+          const key = data.PrimaryRole;
+            const altKey = data.SecondaryRole;
+            if (!labelMap[key] && altKey) labelMap[altKey] = labelMap[altKey] || {}, labelMap[altKey].t1 = data;
+            else labelMap[key] = labelMap[key] || {}, labelMap[key].t1 = data;
+          labelMap[key] = labelMap[key] || {};
+          labelMap[key].t1 = data;
+        }
+      }
+      for (let h of t2Heroes) {
+        const data = heroMap[h];
+        if (data) {
+          const key = data.Lane || data.PrimaryRole;
+          labelMap[key] = labelMap[key] || {};
+          labelMap[key].t2 = data;
+        }
+      }
+    
       const tbody = document.getElementById('comparisonBody');
       tbody.innerHTML = '';
-
-      roles.forEach(role => {
-        const h1 = t1Heroes.map(h => heroMap[h]).find(h => h && (h.PrimaryRole === role || (h.SecondaryRole === role && h.SecondaryRole !== h.PrimaryRole)));
-        const h2 = t2Heroes.map(h => heroMap[h]).find(h => h && (h.PrimaryRole === role || (h.SecondaryRole === role && h.SecondaryRole !== h.PrimaryRole)));
-
-        if (!h1 && !h2) return;
-
+    
+      Object.keys(labelMap).forEach(key => {
+        const h1 = labelMap[key].t1;
+        const h2 = labelMap[key].t2;
         const row = document.createElement('tr');
         const labelCell = document.createElement('td');
         labelCell.style.padding = '8px';
         labelCell.style.border = '1px solid #444';
-        labelCell.innerHTML = role;
+        labelCell.innerHTML = key;
         row.appendChild(labelCell);
-
+    
         [h1, h2].forEach(hero => {
           const cell = document.createElement('td');
           cell.style.padding = '8px';
@@ -463,12 +477,18 @@
           }
           row.appendChild(cell);
         });
-
+    
         tbody.appendChild(row);
       });
     }
+    
+    setInterval(() => {
+      const picked = document.querySelectorAll('.hero-card .hero-image[data-hero]').length;
+      if (picked >= 10) updateComparisonTable();
+    }, 1000);
 
     loadHeroes();
+    
   </script>
 </body>
 </html>
