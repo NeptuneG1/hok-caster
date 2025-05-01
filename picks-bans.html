@@ -424,7 +424,13 @@
       for (let h of t1Heroes) {
         const data = heroMap[h];
         if (data) {
-          const key = data.PrimaryRole && data.SecondaryRole && data.PrimaryRole !== data.SecondaryRole ? `${data.PrimaryRole}/${data.SecondaryRole}` : (data.PrimaryRole || data.SecondaryRole);
+          const roles = [];
+        if (data.PrimaryRole) roles.push(data.PrimaryRole);
+        if (data.SecondaryRole && data.SecondaryRole !== data.PrimaryRole) roles.push(data.SecondaryRole);
+        roles.forEach(role => {
+          if (!roleMap[role]) roleMap[role] = {};
+          roleMap[role].t1 = roleMap[role].t1 || data;
+        });
           if (!roleMap[key]) roleMap[key] = {};
           roleMap[key].t1 = data;
         }
