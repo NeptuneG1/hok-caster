@@ -422,38 +422,25 @@
       const heroMap = {};
       for (const h of heroData) heroMap[h.Hero] = h;
     
-      const labelMap = {};
-      for (let h of t1Heroes) {
-        const data = heroMap[h];
-        if (data) {
-          const key = data.PrimaryRole;
-            const altKey = data.SecondaryRole;
-            if (!labelMap[key] && altKey) labelMap[altKey] = labelMap[altKey] || {}, labelMap[altKey].t1 = data;
-            else labelMap[key] = labelMap[key] || {}, labelMap[key].t1 = data;
-          labelMap[key] = labelMap[key] || {};
-          labelMap[key].t1 = data;
-        }
-      }
-      for (let h of t2Heroes) {
-        const data = heroMap[h];
-        if (data) {
-          const key = data.Lane || data.PrimaryRole;
-          labelMap[key] = labelMap[key] || {};
-          labelMap[key].t2 = data;
-        }
-      }
+      const roles = new Set();
+      heroData.forEach(h => {
+        if (h.PrimaryRole) roles.add(h.PrimaryRole);
+        if (h.SecondaryRole) roles.add(h.SecondaryRole);
+      });
     
       const tbody = document.getElementById('comparisonBody');
       tbody.innerHTML = '';
     
-      Object.keys(labelMap).forEach(key => {
-        const h1 = labelMap[key].t1;
-        const h2 = labelMap[key].t2;
+      roles.forEach(role => {
+        const h1 = t1Heroes.map(h => heroMap[h]).find(h => h && (h.PrimaryRole === role || (h.PrimaryRole !== h.SecondaryRole && h.SecondaryRole === role)));
+        const h2 = t2Heroes.map(h => heroMap[h]).find(h => h && (h.PrimaryRole === role || (h.PrimaryRole !== h.SecondaryRole && h.SecondaryRole === role)));
+        if (!h1 && !h2) return;
+    
         const row = document.createElement('tr');
         const labelCell = document.createElement('td');
         labelCell.style.padding = '8px';
         labelCell.style.border = '1px solid #444';
-        labelCell.innerHTML = key;
+        labelCell.innerHTML = role;
         row.appendChild(labelCell);
     
         [h1, h2].forEach(hero => {
