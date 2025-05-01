@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Honor of Kings Draft</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -273,6 +274,19 @@
   </div>
 
   <script>
+
+    const SUPABASE_URL = 'https://wkndwveojsyrqzywqzzv.supabase.co'; // Replace with your Supabase URL
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndrbmR3dmVvanN5cnF6eXdxenp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA0NjIyODksImV4cCI6MjA1NjAzODI4OX0.jKSTvPHjaH84oLKjFSVrDkc_0dh7p32ZF9QNoCkD5h4'; // Replace with your anon/public key
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    client.auth.getSession().then(({ data: { session } }) => {
+      if (!session) {
+        window.location.href = 'index.html';
+      } else {
+        loadHeroes();
+      }
+    });
+    
     const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hok-caster/main/data.json";
     let heroData = [], currentSlot = null;
 
@@ -479,8 +493,6 @@
       const picked = document.querySelectorAll('.hero-card .hero-image[data-hero]').length;
       if (picked >= 10) updateComparisonTable();
     }, 1000);
-
-    loadHeroes();
     
   </script>
 </body>
