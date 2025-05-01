@@ -413,31 +413,40 @@
     }
 
     function updateComparisonTable() {
-      const statKeys = ['Hero','maxhealth','maxmana','physicalATK','magicalATK','physicalDEF','magicalDEF','mspd','phypierce','magpierce','ATKSPDbonus','critrate','critDMG','phylifesteal','maglifesteal','CDreduction','ATKrange','resistance','healthper5','manaper5'];
-      const statLabels = ['Hero','Max Health','Max Mana','Physical ATK','Magical ATK','Physical DEF','Magical DEF','Move Speed','Phys Pierce','Magic Pierce','Atk Speed Bonus','Crit Rate','Crit DMG','Phys Lifesteal','Magic Lifesteal','CD Reduction','Attack Range','Resistance','HP Regen','Mana Regen'];
-
+      const statKeys = ['maxhealth','powerALT','physicalATK','magicalATK','physicalDEF','magicalDEF','mspd','phypierce','magpierce','ATKSPDbonus','critrate','critDMG','phylifesteal','maglifesteal','CDreduction','ATKrange','resistance','healthper5','manaper5'];
+      const defaultLabels = ['Max Health','Max Mana','Physical ATK','Magical ATK','Physical DEF','Magical DEF','Move Speed','Phys Pierce','Magic Pierce','Atk Speed Bonus','Crit Rate','Crit DMG','Phys Lifesteal','Magic Lifesteal','CD Reduction','Attack Range','Resistance','HP Regen','Mana Regen'];
+    
       const t1Heroes = Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero);
       const t2Heroes = Array.from(document.querySelectorAll('#team2 .hero-image')).map(img => img.dataset.hero);
-
+    
       const heroMap = {};
       for (const h of heroData) heroMap[h.Hero] = h;
-
+    
+      const roleMap = {};
+      for (let h of t1Heroes) {
+        const data = heroMap[h];
+        if (data) roleMap[data.Lane] = roleMap[data.Lane] || {};
+        if (data) roleMap[data.Lane].t1 = data;
+      }
+      for (let h of t2Heroes) {
+        const data = heroMap[h];
+        if (data) roleMap[data.Lane] = roleMap[data.Lane] || {};
+        if (data) roleMap[data.Lane].t2 = data;
+      }
+    
       const tbody = document.getElementById('comparisonBody');
       tbody.innerHTML = '';
-
-      for (let i = 0; i < 5; i++) {
-        const h1 = heroMap[t1Heroes[i]];
-        const h2 = heroMap[t2Heroes[i]];
-        const lane1 = h1?.Lane || 'Unknown';
-        const lane2 = h2?.Lane || 'Unknown';
-
+    
+      Object.keys(roleMap).forEach(role => {
+        const h1 = roleMap[role].t1;
+        const h2 = roleMap[role].t2;
         const row = document.createElement('tr');
         const labelCell = document.createElement('td');
         labelCell.style.padding = '8px';
         labelCell.style.border = '1px solid #444';
-        labelCell.innerHTML = lane1 === lane2 ? lane1 : `${lane1} vs ${lane2}`;
+        labelCell.innerHTML = role;
         row.appendChild(labelCell);
-
+    
         [h1, h2].forEach(hero => {
           const cell = document.createElement('td');
           cell.style.padding = '8px';
@@ -445,26 +454,27 @@
           if (!hero) {
             cell.innerText = '—';
           } else {
+            const head = `<strong>${hero.Hero}</strong> (${hero.PrimaryRole})<br><br>`;
+            const labels = [...defaultLabels];
+            if (hero.powerALT) labels[1] = 'Max ' + hero.powerALT;
             const content = statKeys.map((k, idx) => {
-              const label = statLabels[idx];
+              const label = labels[idx];
               const val = hero[k] ?? 0;
               return `<div><strong>${label}:</strong> ${val}</div>`;
             }).join('');
-            cell.innerHTML = content;
+            cell.innerHTML = head + content;
           }
           row.appendChild(cell);
         });
-
+    
         tbody.appendChild(row);
-      }
+      });
     }
-
+    
     setInterval(() => {
       const picked = document.querySelectorAll('.hero-card .hero-image[data-hero]').length;
       if (picked >= 10) updateComparisonTable();
     }, 1000);
-
-    loadHeroes();
   </script>
 </body>
 </html>
