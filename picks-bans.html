@@ -416,8 +416,8 @@
       const statKeys = ['maxhealth','powerALT','physicalATK','magicalATK','mspd','ATKSPDbonus','critrate','critDMG','ATKrange','healthper5','manaper5'];
       const defaultLabels = ['Max Health','Max Mana','Physical ATK','Magical ATK','Move Speed','Atk Speed Bonus','Crit Rate','Crit DMG','Attack Range','HP Regen','Mana Regen'];
 
-      const t1Heroes = ['Allain','Zhao Yun','Hou Yi','Diaochan','Zhang Fei'];
-      const t2Heroes = ['Agudo','Charlotte','Yuhuan','Han Xin','Donghuang'];
+      const t1Heroes = Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero);
+      const t2Heroes = Array.from(document.querySelectorAll('#team2 .hero-image')).map(img => img.dataset.hero);
 
       const heroMap = {};
       for (const h of heroData) heroMap[h.Hero] = h;
