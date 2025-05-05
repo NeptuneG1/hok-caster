@@ -1,491 +1,264 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Honor of Kings Draft</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delta Force</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #1c1f26;
-      color: #f0f0f0;
+    * {
+      box-sizing: border-box;
       margin: 0;
-      display: flex;
+      padding: 0;
     }
-    .sidebar {
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: #0a0a0a;
+      color: #00ffc8;
+      overflow: hidden;
+    }
+
+    /* Preloader */
+    #preloader {
       position: fixed;
-      top: 0; left: 0;
-      width: 200px;
-      height: 100vh;
-      background: linear-gradient(to bottom, #0f0f14, #1a1b23);
-      border-right: 2px solid #ff7733;
-      padding: 20px;
-      box-shadow: 2px 0 10px rgba(255, 119, 51, 0.3);
-    }
-    .sidebar h2 {
-      color: #ff7733;
-    }
-    .sidebar a {
-      display: block;
-      margin: 10px 0;
-      color: #ccc;
-      text-decoration: none;
-    }
-    .main-content {
-      margin-left: 220px;
-      padding: 20px;
-      flex: 1;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .draft-wrapper {
-      display: flex;
-      justify-content: space-between;
-      gap: 2rem;
-    }
-    .team-column {
-      width: 48%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .ban-section, .hero-section {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .hero-card {
-      background: #1e1e1e;
-      border: 1px solid #444;
-      border-radius: 10px;
-      padding: 8px;
-      width: 100px;
-      text-align: center;
-    }
-    .ban-slot {
-      background: rgba(255, 0, 0, 0.05);
-      border: 1px solid #ff5a5a;
-      border-radius: 10px;
-      padding: 8px;
-      width: 100px;
-      text-align: center;
-    }
-    .hero-image {
-      width: 100%;
-      height: auto;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .tooltip {
-      font-size: 0.75rem;
-      margin-top: 6px;
-      position: relative;
-      cursor: pointer;
-    }
-    .tooltip-box {
-      visibility: hidden;
-      position: absolute;
-      background-color: #222;
-      color: #fff;
-      text-align: left;
-      padding: 10px;
-      border-radius: 8px;
-      z-index: 1000;
-      top: 120%;
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: normal;
-      max-width: 450px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      font-size: 12px;
-      opacity: 0;
-      transition: opacity 0.2s ease-in-out;
-    }
-    .tooltip:hover .tooltip-box {
-      visibility: visible;
-      opacity: 1;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      overflow: auto;
-    }
-    .modal-content {
-      background: #1f1f1f;
-      margin: 5% auto;
-      padding: 16px;
-      border: 2px solid #ff7733;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 800px;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-    .modal-filters {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .modal-filters select {
-      background: #2b2b2b;
-      color: #fff;
-      border: 1px solid #666;
-      border-radius: 5px;
-      padding: 4px 8px;
-    }
-    .close-btn, .clear-btn {
-      float: right;
-      color: #ff7733;
-      font-size: 10px;
-      font-weight: bold;
-      margin-left: 10px;
-      cursor: pointer;
-    }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-      gap: 8px;
-      margin-top: 16px;
-    }
-    .hero-grid-item {
-      text-align: center;
-      font-size: 11px;
-      position: relative;
-    }
-    .hero-grid-item img {
-      width: 100%;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .disabled {
-      pointer-events: none;
-      opacity: 0.3;
-    }
-    .banned-overlay {
-      position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(255, 0, 0, 0.4);
-      color: white;
-      font-weight: bold;
+      background: #000;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 6px;
-      font-size: 11px;
+      z-index: 10000;
+      flex-direction: column;
     }
-    .strategy-area {
-      margin: 30px auto;
-      padding: 1rem;
-      background: #2a2a2a;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      color: #ffcd91;
-      max-width: 200px;
-      scroll-margin-top: 100px;
+
+    #preloader .loader {
+      border: 6px solid rgba(0, 255, 200, 0.2);
+      border-top: 6px solid #00ffc8;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1.2s linear infinite;
+    }
+
+    #preloader p {
+      margin-top: 20px;
+      color: #00ffc8;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .background {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(#111 40%, #000 100%);
+      z-index: -2;
+    }
+
+    .lines {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background-image: 
+        linear-gradient(45deg, rgba(0,255,200,0.05) 1px, transparent 1px),
+        linear-gradient(-45deg, rgba(0,255,200,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: moveLines 30s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes moveLines {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-60px, -60px); }
+    }
+
+    header {
       text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      padding: 60px 20px 20px;
     }
-    .strategy-area img {
-      width: 80px;
-      height: auto;
-      border-radius: 8px;
+
+    header h1 {
+      font-size: 4rem;
+      color: #00ffc8;
+      letter-spacing: 4px;
+      text-shadow: 0 0 10px #00ffc8, 0 0 20px #007060;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .card {
+      background: rgba(0, 255, 200, 0.05);
+      border: 1px solid #00ffc8;
+      border-radius: 10px;
+      padding: 20px;
+      width: 250px;
+      text-align: center;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 15px rgba(0,255,200,0.2);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(0,255,200,0.6);
+    }
+
+    .card h2 {
+      font-size: 1.4rem;
       margin-bottom: 10px;
+      color: #00ffc8;
     }
-    .strategy-text {
+
+    .card p {
+      font-size: 0.9rem;
+      color: #bffef3;
+    }
+
+    /* Login Overlay */
+    .login-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .login-box {
+      background: rgba(0, 255, 200, 0.05);
+      border: 1px solid #00ffc8;
+      padding: 30px;
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0, 255, 200, 0.3);
+      width: 300px;
+      text-align: center;
+    }
+
+    .login-box h2 {
+      color: #00ffc8;
+      margin-bottom: 20px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      background: #000;
+      border: 1px solid #00ffc8;
+      color: #00ffc8;
+      border-radius: 5px;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      background: #00ffc8;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2.5rem;
+      }
+
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h2>HOK Viewer</h2>
-    <a href="index.html">Dashboard</a>
-    <a href="hero.html">Hero Skills</a>
-    <a href="items.html">Items</a>
-    <a href="draft.html">Draft</a>
-    <a href="match-view.html">Match Viewer</a>
-    <a href="map.html">Map</a>
-  </div>
-  <div class="main-content">
-    <h1>Honor of Kings Draft</h1>
-    <div class="draft-wrapper">
-      <div class="team-column">
-        <div class="ban-section" id="team1Bans"></div>
-        <div class="hero-section" id="team1"></div>
-      </div>
-      <div class="team-column">
-        <div class="ban-section" id="team2Bans"></div>
-        <div class="hero-section" id="team2"></div>
-      </div>
-    </div>
 
-    <h2 style="text-align:center; margin-top: 40px;">Role & Lane Stat Comparison</h2>
-    <div id="comparisonTable" style="overflow-x: auto; margin-top: 20px;">
-      <table style="width:100%; border-collapse: collapse; background: #2a2a2a; color: #fff; font-size: 0.85rem;">
-        <thead>
-          <tr style="background: #1f1f1f;">
-            <th style="padding: 8px; border: 1px solid #444;">Lane / Role</th>
-            <th style="padding: 8px; border: 1px solid #444;">Team 1</th>
-            <th style="padding: 8px; border: 1px solid #444;">Team 2</th>
-          </tr>
-        </thead>
-        <tbody id="comparisonBody"></tbody>
-      </table>
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="loader"></div>
+    <p>Initializing Protocol...</p>
+  </div>
+
+  <!-- Login Overlay -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+      <h2>Login</h2>
+      <input type="text" placeholder="Username" id="username">
+      <input type="password" placeholder="Password" id="password">
+      <button onclick="closeLogin()">Enter</button>
     </div>
   </div>
 
-  <div class="modal" id="heroModal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModal()">&times;</span>
-      <span class="clear-btn" onclick="clearCurrentSlot()">Clear</span>
-      <div class="modal-filters">
-        <select id="laneFilter" onchange="populateModal()">
-          <option value="">All Lanes</option>
-        </select>
-        <select id="roleFilter" onchange="populateModal()">
-          <option value="">All Roles</option>
-        </select>
-      </div>
-      <div class="hero-grid" id="heroGrid"></div>
+  <!-- Animated Background -->
+  <div class="background">
+    <div class="lines"></div>
+  </div>
+
+  <header>
+    <h1>DELTA FORCE</h1>
+  </header>
+
+  <div class="container">
+    <div class="card" onmouseover="playHover()">
+      <h2>Campaign</h2>
+      <p>Enter a series of missions across hostile terrain.</p>
+    </div>
+    <div class="card" onmouseover="playHover()">
+      <h2>Multiplayer</h2>
+      <p>Join forces or go head-to-head in real-time battles.</p>
+    </div>
+    <div class="card" onmouseover="playHover()">
+      <h2>Loadout</h2>
+      <p>Customize your weapons, gadgets, and operators.</p>
+    </div>
+    <div class="card" onmouseover="playHover()">
+      <h2>Intel</h2>
+      <p>Review objectives, mission logs, and enemy profiles.</p>
     </div>
   </div>
 
-  <div class="strategy-area" id="strategyArea">
-    <img id="strategyImg" src="https://i.imgur.com/kkUX3a3.jpeg" />
-    <div class="strategy-text" id="strategyText">
-      Select a hero to see their strategy here...
-    </div>
-  </div>
+  <!-- Hover Sound -->
+  <audio id="hoverSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_c755479b53.mp3" preload="auto"></audio>
 
   <script>
-    const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hok-caster/main/data.json";
-    let heroData = [], currentSlot = null;
+    // Preloader fade out
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('preloader').style.display = 'none';
+      }, 1000);
+    });
 
-    async function loadHeroes() {
-      const res = await fetch(API_URL);
-      heroData = await res.json();
-      populateFilterOptions();
-      renderDraft();
-      populateModal();
+    // Hover sound
+    function playHover() {
+      const snd = document.getElementById('hoverSound');
+      snd.currentTime = 0;
+      snd.play();
     }
 
-    function populateFilterOptions() {
-      const lanes = new Set(), roles = new Set();
-      heroData.forEach(h => {
-        if (h.Lane) lanes.add(h.Lane);
-        if (h.PrimaryRole) roles.add(h.PrimaryRole);
-      });
-      const laneSelect = document.getElementById('laneFilter');
-      const roleSelect = document.getElementById('roleFilter');
-      lanes.forEach(l => laneSelect.innerHTML += `<option value="${l}">${l}</option>`);
-      roles.forEach(r => roleSelect.innerHTML += `<option value="${r}">${r}</option>`);
+    // Close login overlay
+    function closeLogin() {
+      document.getElementById('loginOverlay').style.display = 'none';
     }
-
-    function renderDraft() {
-      for (let i = 0; i < 4; i++) {
-        document.getElementById('team1Bans').appendChild(createSlot('ban'));
-        document.getElementById('team2Bans').appendChild(createSlot('ban'));
-      }
-      for (let i = 0; i < 5; i++) {
-        document.getElementById('team1').appendChild(createSlot('pick'));
-        document.getElementById('team2').appendChild(createSlot('pick'));
-      }
-    }
-
-    function createSlot(type) {
-      const slot = document.createElement('div');
-      slot.className = type === 'ban' ? 'ban-slot' : 'hero-card';
-      const img = document.createElement('img');
-      img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
-      img.className = 'hero-image';
-      img.onclick = () => { currentSlot = img; openModal(); };
-      slot.appendChild(img);
-      if (type === 'pick') {
-        const tip = document.createElement('div');
-        tip.className = 'tooltip';
-        tip.innerHTML = 'Skills <div class="tooltip-box"></div>';
-        slot.appendChild(tip);
-      }
-      return slot;
-    }
-
-    function openModal() {
-      document.getElementById("heroModal").style.display = "block";
-      populateModal();
-    }
-
-    function closeModal() {
-      document.getElementById("heroModal").style.display = "none";
-      currentSlot = null;
-    }
-
-    function clearCurrentSlot() {
-      if (!currentSlot) return;
-      currentSlot.src = 'https://i.imgur.com/kkUX3a3.jpeg';
-      currentSlot.dataset.hero = '';
-      closeModal();
-    }
-
-    function populateModal() {
-      const lane = document.getElementById('laneFilter').value;
-      const role = document.getElementById('roleFilter').value;
-      const used = Array.from(document.querySelectorAll('.hero-image')).map(i => i.dataset.hero);
-      const grid = document.getElementById('heroGrid');
-      grid.innerHTML = '';
-
-      heroData.forEach(hero => {
-        if ((lane && hero.Lane !== lane) || (role && hero.PrimaryRole !== role)) return;
-        const container = document.createElement('div');
-        container.className = 'hero-grid-item';
-
-        const img = document.createElement('img');
-        img.src = hero.ImageURL;
-        img.alt = hero.Hero;
-        img.title = hero.Hero;
-
-        const isUsed = used.includes(hero.Hero);
-        if (isUsed) {
-          img.classList.add('disabled');
-          const overlay = document.createElement('div');
-          overlay.className = 'banned-overlay';
-          overlay.innerText = 'USED';
-          container.appendChild(overlay);
-        } else {
-          img.onclick = () => {
-            currentSlot.src = hero.ImageURL;
-            currentSlot.dataset.hero = hero.Hero;
-            updateStrategy(hero);
-            closeModal();
-          };
-        }
-
-        container.appendChild(img);
-        container.appendChild(document.createElement('div')).innerText = hero.Hero;
-        grid.appendChild(container);
-      });
-    }
-
-    function updateStrategy(hero) {
-      const area = document.getElementById("strategyArea");
-      const strategyBox = document.getElementById("strategyText");
-      const image = document.getElementById("strategyImg");
-      const strategy = (hero.Strategy || '').replace(/\n/g, '<br>');
-      strategyBox.innerHTML = `<strong>${hero.Hero}</strong>:<br>${strategy}`;
-      image.src = hero.ImageURL || image.src;
-      area.scrollIntoView({ behavior: 'smooth' });
-
-      const card = [...document.querySelectorAll('.hero-card')].find(c => c.querySelector('.hero-image')?.dataset.hero === hero.Hero);
-      const tipBox = card?.querySelector('.tooltip-box');
-      if (tipBox) updateTooltipBox(hero, tipBox);
-    }
-
-    function updateTooltipBox(hero, tooltipBox) {
-      tooltipBox.innerHTML = '';
-      for (let i = 1; i <= 5; i++) {
-        const name = hero[`SkillName${i}`];
-        const desc = hero[`SkillDesc${i}`]?.replace(/\\n/g, '<br>');
-        const type = hero[`SkillType${i}`];
-        const icon = hero[`SkillURL${i}`];
-        if (name && icon) {
-          tooltipBox.innerHTML += `
-            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
-              <img src="${icon}" alt="${name}" style="width: 28px; height: 28px; border-radius: 4px;">
-              <div>
-                <strong>${type || 'Skill'}: ${name}</strong><br>${desc || 'No description'}
-              </div>
-            </div>`;
-        }
-      }
-    }
-
-    function updateComparisonTable() {
-      const statKeys = ['maxhealth','powerALT','physicalATK','magicalATK','mspd','ATKSPDbonus','critrate','critDMG','ATKrange','healthper5','manaper5'];
-      const statLabels = ['Max Health','Max Mana','Physical ATK','Magical ATK','Move Speed','Atk Speed Bonus','Crit Rate','Crit DMG','Attack Range','HP Regen','Mana Regen'];
-
-      const t1Heroes = Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero);
-      const t2Heroes = Array.from(document.querySelectorAll('#team2 .hero-image')).map(img => img.dataset.hero);
-      const heroMap = {}; for (const h of heroData) heroMap[h.Hero] = h;
-      const roleMap = {};
-
-      for (let h of t1Heroes) {
-        const data = heroMap[h];
-        if (data) {
-          const roles = [];
-if (data.PrimaryRole) roles.push(data.PrimaryRole);
-if (data.SecondaryRole && data.SecondaryRole !== data.PrimaryRole) roles.push(data.SecondaryRole);
-roles.forEach(role => {
-  if (!roleMap[role]) roleMap[role] = {};
-  roleMap[role].t1 = roleMap[role].t1 || data;
-});
-          if (!roleMap[key]) roleMap[key] = {};
-          roleMap[key].t1 = data;
-        }
-      }
-
-      for (let h of t2Heroes) {
-        const data = heroMap[h];
-        if (data) {
-          const key = data.PrimaryRole || data.SecondaryRole;
-          if (!roleMap[key]) roleMap[key] = {};
-          roleMap[key].t2 = data;
-        }
-      }
-
-      const tbody = document.getElementById('comparisonBody');
-      tbody.innerHTML = '';
-
-      Object.keys(roleMap).forEach(role => { const row = document.createElement('tr');
-        const h1 = roleMap[role].t1;
-        const h2 = roleMap[role].t2;
-        const row = document.createElement('tr');
-        
-
-        [h1, h2].forEach(hero => {
-          const cell = document.createElement('td');
-          cell.style.padding = '8px';
-          cell.style.border = '1px solid #444';
-          if (!hero) {
-            cell.innerText = '—';
-          } else {
-            const head = `<strong>${hero.Hero}</strong> (${hero.PrimaryRole})<br><br>`;
-            const labels = [...statLabels];
-            if (hero.powerALT) labels[1] = 'Max ' + hero.powerALT;
-            const content = statKeys.map((k, idx) => {
-              const label = labels[idx];
-              const val = hero[k] ?? 0;
-              return `<div><strong>${label}:</strong> ${val}</div>`;
-            }).join('');
-            cell.innerHTML = head + content;
-          }
-          row.appendChild(cell);
-        });
-
-        tbody.appendChild(row);
-      });
-    }
-
-    setInterval(() => {
-      const picked = document.querySelectorAll('.hero-card .hero-image[data-hero]').length;
-      if (picked >= 10) updateComparisonTable();
-    }, 1000);
-
-    loadHeroes();
-    
   </script>
+
 </body>
 </html>
