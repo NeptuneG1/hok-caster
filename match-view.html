@@ -210,9 +210,12 @@
 
         document.getElementById('teamFilter').addEventListener('change', e => {
           const selectedTeam = e.target.value;
-          const filteredMatches = selectedTeam === 'all'
-            ? matchList
-            : matchList.filter(match => match.team1_name === selectedTeam || match.team2_name === selectedTeam);
+          const selectedTournament = document.getElementById('tournamentSelect').value;
+          const filteredMatches = matchList.filter(match => {
+            const matchesTeam = selectedTeam === 'all' || match.team1_name === selectedTeam || match.team2_name === selectedTeam;
+            const matchesTournament = selectedTournament === 'all' || match.tournament === selectedTournament;
+            return matchesTeam && matchesTournament;
+          });
 
           renderMatches(filteredMatches);
           document.getElementById('teamStats').value = selectedTeam;
