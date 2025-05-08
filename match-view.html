@@ -379,14 +379,18 @@
       });
       return stats;
     }
-    function renderHeroStats(stats) {
+    function renderHeroStats() {
       const container = document.getElementById('stats');
       container.innerHTML = '';
-      const selectedTeam = document.getElementById('teamStats').value;
     
-      const filteredMatches = selectedTeam === 'all' ? matchList : matchList.filter(
-        m => m.team1_name === selectedTeam || m.team2_name === selectedTeam
-      );
+      const selectedTeam = document.getElementById('teamStats').value;
+      const selectedTournament = document.getElementById('tournamentSelect').value;
+    
+      const filteredMatches = matchList.filter(m => {
+        const matchesTeam = selectedTeam === 'all' || m.team1_name === selectedTeam || m.team2_name === selectedTeam;
+        const matchesTournament = selectedTournament === 'all' || m.tournament === selectedTournament;
+        return matchesTeam && matchesTournament;
+      });
     
       const localStats = computeHeroStats(filteredMatches);
     
