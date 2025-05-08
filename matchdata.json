@@ -2,7 +2,7 @@
   {
     "refnum": 1,
     "tournament": "MKL 2025 Qualifiers",
-    "date": "March 22, 2025",
+    "date": "2025-03-22",
     "stage": "UB Semifinals",
     "format": "BO5",
     "game": 1,
@@ -56,7 +56,7 @@
   {
     "refnum": 2,
     "tournament": "MKL 2025 Qualifiers",
-    "date": "March 22, 2025",
+    "date": "2025-03-22",
     "stage": "UB Semifinals",
     "format": "BO5",
     "game": 2,
@@ -110,7 +110,7 @@
   {
     "refnum": 3,
     "tournament": "MKL 2025 Qualifiers",
-    "date": "March 22, 2025",
+    "date": "2025-03-22",
     "stage": "UB Semifinals",
     "format": "BO5",
     "game": 3,
@@ -164,7 +164,7 @@
   {
     "refnum": 4,
     "tournament": "MKL 2025 Qualifiers",
-    "date": "March 22, 2025",
+    "date": "2025-03-22",
     "stage": "UB Semifinals",
     "format": "BO5",
     "game": 4,
@@ -218,7 +218,7 @@
   {
     "refnum": 5,
     "tournament": "MKL 2025 Qualifiers",
-    "date": "March 22, 2025",
+    "date": "2025-03-22",
     "stage": "UB Semifinals",
     "format": "BO5",
     "game": 1,
@@ -272,7 +272,7 @@
   {
     "refnum": 6,
     "tournament": "MKL 2025 Qualifiers",
-    "date": "March 22, 2025",
+    "date": "2025-03-22",
     "stage": "UB Semifinals",
     "format": "BO5",
     "game": 2,
@@ -326,7 +326,7 @@
   {
     "refnum": 7,
     "tournament": "MKL 2025 Qualifiers",
-    "date": "March 22, 2025",
+    "date": "2025-03-22",
     "stage": "UB Semifinals",
     "format": "BO5",
     "game": 3,
@@ -380,7 +380,7 @@
   {
     "refnum": 8,
     "tournament": "MKL 2025 Qualifiers",
-    "date": "March 22, 2025",
+    "date": "2025-03-22",
     "stage": "UB Semifinals",
     "format": "BO5",
     "game": 4,
@@ -434,7 +434,7 @@
   {
     "refnum": 9,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 18, 2025",
+    "date": "2025-04-18",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -488,7 +488,7 @@
   {
     "refnum": 10,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 18, 2025",
+    "date": "2025-04-18",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -542,7 +542,7 @@
   {
     "refnum": 11,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 18, 2025",
+    "date": "2025-04-18",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 3,
@@ -596,7 +596,7 @@
   {
     "refnum": 12,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 18, 2025",
+    "date": "2025-04-18",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -650,7 +650,7 @@
   {
     "refnum": 13,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 18, 2025",
+    "date": "2025-04-18",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -704,7 +704,7 @@
   {
     "refnum": 14,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 18, 2025",
+    "date": "2025-04-18",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -758,7 +758,7 @@
   {
     "refnum": 15,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 18, 2025",
+    "date": "2025-04-18",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -812,7 +812,7 @@
   {
     "refnum": 16,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 19, 2025",
+    "date": "2025-04-19",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -866,7 +866,7 @@
   {
     "refnum": 17,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 19, 2025",
+    "date": "2025-04-19",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -920,7 +920,7 @@
   {
     "refnum": 18,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 19, 2025",
+    "date": "2025-04-19",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 3,
@@ -974,7 +974,7 @@
   {
     "refnum": 19,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 19, 2025",
+    "date": "2025-04-19",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -1028,7 +1028,7 @@
   {
     "refnum": 20,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 19, 2025",
+    "date": "2025-04-19",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -1082,7 +1082,7 @@
   {
     "refnum": 21,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 19, 2025",
+    "date": "2025-04-19",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -1136,7 +1136,7 @@
   {
     "refnum": 22,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 19, 2025",
+    "date": "2025-04-19",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -1190,7 +1190,7 @@
   {
     "refnum": 23,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 19, 2025",
+    "date": "2025-04-19",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -1244,7 +1244,7 @@
   {
     "refnum": 24,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 19, 2025",
+    "date": "2025-04-19",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -1298,7 +1298,7 @@
   {
     "refnum": 25,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 19, 2025",
+    "date": "2025-04-19",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 3,
@@ -1352,7 +1352,7 @@
   {
     "refnum": 26,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 20, 2025",
+    "date": "2025-04-20",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -1406,7 +1406,7 @@
   {
     "refnum": 27,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 20, 2025",
+    "date": "2025-04-20",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -1460,7 +1460,7 @@
   {
     "refnum": 28,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 20, 2025",
+    "date": "2025-04-20",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -1514,7 +1514,7 @@
   {
     "refnum": 29,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 20, 2025",
+    "date": "2025-04-20",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -1568,7 +1568,7 @@
   {
     "refnum": 30,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 20, 2025",
+    "date": "2025-04-20",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -1622,7 +1622,7 @@
   {
     "refnum": 31,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 20, 2025",
+    "date": "2025-04-20",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -1676,7 +1676,7 @@
   {
     "refnum": 32,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 25, 2025",
+    "date": "2025-04-25",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -1730,7 +1730,7 @@
   {
     "refnum": 33,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 25, 2025",
+    "date": "2025-04-25",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -1784,7 +1784,7 @@
   {
     "refnum": 34,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 25, 2025",
+    "date": "2025-04-25",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -1838,7 +1838,7 @@
   {
     "refnum": 35,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 25, 2025",
+    "date": "2025-04-25",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -1892,7 +1892,7 @@
   {
     "refnum": 36,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 25, 2025",
+    "date": "2025-04-25",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -1946,7 +1946,7 @@
   {
     "refnum": 37,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 25, 2025",
+    "date": "2025-04-25",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -2000,7 +2000,7 @@
   {
     "refnum": 38,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 26, 2025",
+    "date": "2025-04-26",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -2054,7 +2054,7 @@
   {
     "refnum": 39,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 26, 2025",
+    "date": "2025-04-26",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -2108,7 +2108,7 @@
   {
     "refnum": 40,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 26, 2025",
+    "date": "2025-04-26",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 3,
@@ -2162,7 +2162,7 @@
   {
     "refnum": 41,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 26, 2025",
+    "date": "2025-04-26",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -2216,7 +2216,7 @@
   {
     "refnum": 42,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 26, 2025",
+    "date": "2025-04-26",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -2270,7 +2270,7 @@
   {
     "refnum": 43,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 26, 2025",
+    "date": "2025-04-26",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -2324,7 +2324,7 @@
   {
     "refnum": 44,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 26, 2025",
+    "date": "2025-04-26",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -2378,7 +2378,7 @@
   {
     "refnum": 45,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 27, 2025",
+    "date": "2025-04-27",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -2432,7 +2432,7 @@
   {
     "refnum": 46,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 27, 2025",
+    "date": "2025-04-27",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -2486,7 +2486,7 @@
   {
     "refnum": 47,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 27, 2025",
+    "date": "2025-04-27",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -2540,7 +2540,7 @@
   {
     "refnum": 48,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 27, 2025",
+    "date": "2025-04-27",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -2594,7 +2594,7 @@
   {
     "refnum": 49,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "April 27, 2025",
+    "date": "2025-04-27",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -2648,7 +2648,7 @@
   {
     "refnum": 50,
     "tournament": "Spring 2025 - Regular Season",
-    "date": "April 27, 2025",
+    "date": "2025-04-27",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -2702,7 +2702,7 @@
   {
     "refnum": 51,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 02, 2025",
+    "date": "2025-05-02",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -2756,7 +2756,7 @@
   {
     "refnum": 52,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 02, 2025",
+    "date": "2025-05-02",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -2810,7 +2810,7 @@
   {
     "refnum": 53,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 02, 2025",
+    "date": "2025-05-02",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 3,
@@ -2864,7 +2864,7 @@
   {
     "refnum": 54,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 02, 2025",
+    "date": "2025-05-02",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -2918,7 +2918,7 @@
   {
     "refnum": 55,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 02, 2025",
+    "date": "2025-05-02",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -2972,7 +2972,7 @@
   {
     "refnum": 56,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 02, 2025",
+    "date": "2025-05-02",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -3026,7 +3026,7 @@
   {
     "refnum": 57,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 02, 2025",
+    "date": "2025-05-02",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -3080,7 +3080,7 @@
   {
     "refnum": 58,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 03, 2025",
+    "date": "2025-05-03",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -3134,7 +3134,7 @@
   {
     "refnum": 59,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 03, 2025",
+    "date": "2025-05-03",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -3188,7 +3188,7 @@
   {
     "refnum": 60,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 03, 2025",
+    "date": "2025-05-03",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -3242,7 +3242,7 @@
   {
     "refnum": 61,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 03, 2025",
+    "date": "2025-05-03",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -3296,7 +3296,7 @@
   {
     "refnum": 62,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 03, 2025",
+    "date": "2025-05-03",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -3350,7 +3350,7 @@
   {
     "refnum": 63,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 03, 2025",
+    "date": "2025-05-03",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -3404,7 +3404,7 @@
   {
     "refnum": 64,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 04, 2025",
+    "date": "2025-05-04",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -3458,7 +3458,7 @@
   {
     "refnum": 65,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 04, 2025",
+    "date": "2025-05-04",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -3512,7 +3512,7 @@
   {
     "refnum": 66,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 04, 2025",
+    "date": "2025-05-04",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -3566,7 +3566,7 @@
   {
     "refnum": 67,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 04, 2025",
+    "date": "2025-05-04",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -3620,7 +3620,7 @@
   {
     "refnum": 68,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 04, 2025",
+    "date": "2025-05-04",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 3,
@@ -3674,7 +3674,7 @@
   {
     "refnum": 69,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 04, 2025",
+    "date": "2025-05-04",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 1,
@@ -3728,7 +3728,7 @@
   {
     "refnum": 70,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 04, 2025",
+    "date": "2025-05-04",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 2,
@@ -3782,7 +3782,7 @@
   {
     "refnum": 71,
     "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "May 04, 2025",
+    "date": "2025-05-04",
     "stage": "Knockout Stage",
     "format": "BO3",
     "game": 3,
