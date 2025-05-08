@@ -315,6 +315,7 @@
       container.innerHTML = '';
       data.forEach(match => {
         container.innerHTML += `<div class="match">
+          <small style="color: #ccc;">${match.date || 'No date'}</small>
           <h3>${match.matchup} – G${match.game}</h3>
           <div class="team-row">
             <div class="team">
