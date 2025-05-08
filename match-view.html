@@ -192,6 +192,7 @@
         ]);
         heroList = await heroRes.json();
         matchList = await matchRes.json();
+        matchList.reverse(); // Most recent match appears first
         populateTournamentDropdown(matchList);
         populateTeamFilterDropdown(matchList);
         populateTeamStatsDropdown(matchList);
