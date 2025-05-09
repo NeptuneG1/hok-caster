@@ -82,6 +82,7 @@
     <label for="teamSelect">Team:</label>
     <select id="teamSelect"><option value="all">All</option></select>
   </div>
+  <div id="playerPicks" style="max-width: 1200px; margin: 1.5rem auto;"></div>
 
   <div class="columns">
     <div class="column" id="pickColumn"><h2>Most Picked</h2></div>
@@ -106,6 +107,48 @@ function getFilteredMatches() {
     (tournament === 'all' || m.tournament === tournament) &&
     (team === 'all' || m.team1_name === team || m.team2_name === team)
   );
+}
+function renderPlayerPicks() {
+  const team = document.getElementById('teamSelect').value;
+  const tournament = document.getElementById('tournamentSelect').value;
+  const container = document.getElementById('playerPicks');
+  container.innerHTML = '';
+
+  if (team === 'all') return;
+
+  const filtered = matchList.filter(m =>
+    (tournament === 'all' || m.tournament === tournament) &&
+    (m.team1_name === team || m.team2_name === team)
+  );
+
+  const playerMap = {};
+
+  filtered.forEach(match => {
+    for (let i = 1; i <= 5; i++) {
+      const side = match.team1_name === team ? 'team1' : match.team2_name === team ? 'team2' : null;
+      if (!side) continue;
+      const player = match[`${side}_player${i}`];
+      const hero = match[`${side}_hero${i}`];
+      if (!playerMap[player]) playerMap[player] = {};
+      playerMap[player][hero] = (playerMap[player][hero] || 0) + 1;
+    }
+  });
+
+  container.innerHTML = `<h2 style="text-align:center;">Player Picks (${team})</h2>` +
+    Object.entries(playerMap).map(([player, heroes]) => `
+      <div style="margin-bottom:1.2rem;">
+        <strong style="color:#ffc107;">${player}</strong><br>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;">
+          ${Object.entries(heroes).map(([hero, count]) => {
+            const img = getHeroImage(hero);
+            return `<div style="text-align:center;font-size:0.8rem;">
+              <img src="${img}" alt="${hero}" style="width:40px;height:40px;border-radius:6px;"><br>
+              ${hero} (${count})
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    `).join('');
 }
 
 function computeHeroStats(matches) {
@@ -162,11 +205,12 @@ function renderStats() {
   renderColumn("pickColumn", "Pick", sortedPicks);
   renderColumn("banColumn", "Ban", sortedBans);
   renderColumn("winColumn", "Win", sortedWins);
+  renderPlayerPicks();
 }
 
 function renderColumn(id, label, data) {
   const col = document.getElementById(id);
-  col.innerHTML = `<h2>Most ${label}ed</h2>` + data.map(d => `
+  col.innerHTML = `<h2>Most ${label}</h2>` + data.map(d => `
     <div class="hero-card">
       <img src="${d.img}" alt="${d.hero}">
       <div class="hero-info">
@@ -203,6 +247,7 @@ async function fetchData() {
 
   renderStats();
 }
+
 
 fetchData();
 </script>
