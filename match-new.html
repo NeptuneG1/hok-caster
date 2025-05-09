@@ -42,8 +42,7 @@
     .filter-section,
     #teamPlayers,
     #playerPicks,
-    #pickStats, #banStats, #winStats,
-    #matches {
+    #pickStats, #banStats, #winStats {
       margin: 1.5rem auto;
       max-width: 1200px;
     }
@@ -97,13 +96,19 @@
     <a href="map.html">Map</a>
   </div>
   <div class="main-content">
-    <h1>Match Viewer</h1>
+    <h1>Hero Stats Dashboard</h1>
 
     <div class="filter-section" style="text-align:center">
       <label for="tournamentSelect">Tournament:</label>
       <select id="tournamentSelect"><option value="all">All</option></select>
       <label for="teamFilter" style="margin-left:2rem">Team:</label>
       <select id="teamFilter"><option value="all">All</option></select>
+      <label for="sortStats" style="margin-left:2rem">Sort by:</label>
+      <select id="sortStats">
+        <option value="win">Win %</option>
+        <option value="pick">Pick %</option>
+        <option value="ban">Ban %</option>
+      </select>
     </div>
 
     <div id="teamPlayers" style="text-align:center;"></div>
@@ -114,25 +119,16 @@
       <div id="playerPicks"></div>
     </div>
 
-    <h2>Hero Stats</h2>
-    <div style="text-align:center; margin-bottom: 1rem;">
-      <label for="sortStats">Sort by:</label>
-      <select id="sortStats">
-        <option value="win">Win %</option>
-        <option value="pick">Pick %</option>
-        <option value="ban">Ban %</option>
-      </select>
-    </div>
-
+    <h2>Most Picked Heroes</h2>
     <div class="stat-grid" id="pickStats"></div>
+    <h2>Most Banned Heroes</h2>
     <div class="stat-grid" id="banStats"></div>
+    <h2>Highest Win Rate Heroes</h2>
     <div class="stat-grid" id="winStats"></div>
-
-    <h2>Match List</h2>
-    <div id="matches"></div>
   </div>
 <script>
-    const SUPABASE_URL = 'https://wkndwveojsyrqzywqzzv.supabase.co'; // ← Replace with your Supabase URL
+  // fetchData and render functions stay the same, remove renderMatches()
+   const SUPABASE_URL = 'https://wkndwveojsyrqzywqzzv.supabase.co'; // ← Replace with your Supabase URL
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndrbmR3dmVvanN5cnF6eXdxenp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA0NjIyODksImV4cCI6MjA1NjAzODI4OX0.jKSTvPHjaH84oLKjFSVrDkc_0dh7p32ZF9QNoCkD5h4'; // ← Replace with your Supabase anon key
     const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -351,44 +347,6 @@ function renderWinStats() {
       </div>`;
   });
 }
-function renderMatches(data) {
-  const container = document.getElementById('matches');
-  container.innerHTML = '';
-
-  data.forEach(match => {
-    container.innerHTML += `
-      <div class="match">
-        <h3>${match.matchup} – G${match.game}</h3>
-        <small style="color:#ccc;">${match.date || 'No date'}</small>
-        <div class="team-row">
-          <div class="team">
-            <strong>${match.team1_name} (${match.team1_score})</strong>
-            <div class="heroes">
-              ${[1, 2, 3, 4, 5].map(i =>
-                createHeroCard(match[`team1_hero${i}`], match[`team1_player${i}`], match[`team1_kda${i}`], match.team1_MVP === i)
-              ).join('')}
-            </div>
-            <div class="bans">
-              ${[1, 2, 3, 4].map(i => createBanCard(match[`team1_ban${i}`])).join('')}
-            </div>
-          </div>
-          <div class="team">
-            <strong>${match.team2_name} (${match.team2_score})</strong>
-            <div class="heroes">
-              ${[1, 2, 3, 4, 5].map(i =>
-                createHeroCard(match[`team2_hero${i}`], match[`team2_player${i}`], match[`team2_kda${i}`], match.team2_MVP === i)
-              ).join('')}
-            </div>
-            <div class="bans">
-              ${[1, 2, 3, 4].map(i => createBanCard(match[`team2_ban${i}`])).join('')}
-            </div>
-          </div>
-        </div>
-        <p><strong>Winner:</strong> ${match.winner}</p>
-      </div>
-    `;
-  });
-}
 
 function createHeroCard(heroName, player, kda, isMVP) {
   const hero = getHeroData(heroName);
@@ -405,10 +363,7 @@ function createBanCard(heroName) {
     <div>${heroName}</div>
   </div>`;
 }
-
-// Kick off data fetching after DOM is ready
-window.addEventListener('DOMContentLoaded', fetchData);
-
+  window.addEventListener('DOMContentLoaded', fetchData);
 </script>
 </body>
 </html>
