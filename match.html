@@ -165,6 +165,8 @@
       </select>
     </div>
     <div id="matches"></div>
+    
+    <div id="teamPlayers" style="margin-top: 1rem; text-align: center;"></div>
 
     <h2 style="margin-top: 2rem;">Hero Stats</h2>
     <div style="text-align: center; margin-bottom: 1rem;">
@@ -230,18 +232,46 @@
         });
 
         document.getElementById('teamFilter').addEventListener('change', e => {
-          const selectedTeam = e.target.value;
-          const selectedTournament = document.getElementById('tournamentSelect').value;
-          const filteredMatches = matchList.filter(match => {
-            const matchesTeam = selectedTeam === 'all' || match.team1_name === selectedTeam || match.team2_name === selectedTeam;
-            const matchesTournament = selectedTournament === 'all' || match.tournament === selectedTournament;
-            return matchesTeam && matchesTournament;
-          });
-
-          renderMatches(filteredMatches);
-          document.getElementById('teamStats').value = selectedTeam;
-          renderHeroStats(computeHeroStats(filteredMatches));
+        const selectedTeam = e.target.value;
+        const selectedTournament = document.getElementById('tournamentSelect').value;
+      
+        const filteredMatches = matchList.filter(match => {
+          const matchesTeam = selectedTeam === 'all' || match.team1_name === selectedTeam || match.team2_name === selectedTeam;
+          const matchesTournament = selectedTournament === 'all' || match.tournament === selectedTournament;
+          return matchesTeam && matchesTournament;
         });
+      
+        renderMatches(filteredMatches);
+        document.getElementById('teamStats').value = selectedTeam;
+        renderHeroStats(computeHeroStats(filteredMatches));
+      
+        // ✅ Show clickable player names
+        const playerSet = new Set();
+        filteredMatches.forEach(match => {
+          for (let i = 1; i <= 5; i++) {
+            if (match.team1_name === selectedTeam) playerSet.add(match[`team1_player${i}`]);
+            if (match.team2_name === selectedTeam) playerSet.add(match[`team2_player${i}`]);
+          }
+        });
+      
+        const playerListHTML = Array.from(playerSet).sort().map(name => {
+          return `<span class="clickable-player" onclick="selectPlayer('${name}')" style="
+            display: inline-block;
+            margin: 5px 6px;
+            padding: 4px 10px;
+            background: #333c4a;
+            border-radius: 20px;
+            color: #4fc3f7;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: 1px solid #4fc3f7;
+          ">${name}</span>`;
+        }).join('');
+      
+        document.getElementById('teamPlayers').innerHTML = selectedTeam !== 'all'
+          ? `<strong>Players from ${selectedTeam}:</strong><br>${playerListHTML}`
+          : '';
+      });
 
         document.getElementById('playerSearch').addEventListener('input', e => {
           const name = e.target.value.toLowerCase();
@@ -489,6 +519,12 @@
   });
 
 }
+function selectPlayer(name) {
+  const input = document.getElementById('playerSearch');
+  input.value = name;
+  input.dispatchEvent(new Event('input')); // triggers filtering
+}
+    
 </script>
 </body>
 </html>
