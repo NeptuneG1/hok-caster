@@ -167,7 +167,13 @@
     <div id="matches"></div>
     
     <div id="teamPlayers" style="margin-top: 1rem; text-align: center;"></div>
-
+    
+    <div style="text-align: center; margin-top: 2rem;">
+      <label for="playerSearch">Heroes picked by player: </label>
+      <input type="text" id="playerSearch" placeholder="Enter player name">
+      <div id="playerPicks"></div>
+    </div>
+    
     <h2 style="margin-top: 2rem;">Hero Stats</h2>
     <div style="text-align: center; margin-bottom: 1rem;">
       <label for="sortStats">Sort by: </label>
@@ -184,11 +190,6 @@
     </div>
     <div id="stats"></div>
 
-    <div style="text-align: center; margin-top: 2rem;">
-      <label for="playerSearch">Heroes picked by player: </label>
-      <input type="text" id="playerSearch" placeholder="Enter player name">
-      <div id="playerPicks"></div>
-    </div>
   </div>
   <script>
     const SUPABASE_URL = 'https://wkndwveojsyrqzywqzzv.supabase.co'; // ← Replace with your Supabase URL
