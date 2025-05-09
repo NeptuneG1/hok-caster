@@ -173,7 +173,10 @@
       <input type="text" id="playerSearch" placeholder="Enter player name">
       <div id="playerPicks"></div>
     </div>
-    
+
+    <h2 style="margin-top: 2rem;">Most Banned Heroes (Team Based)</h2>
+    <div id="banStats" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;"></div>
+      
     <h2 style="margin-top: 2rem;">Hero Stats</h2>
     <div style="text-align: center; margin-bottom: 1rem;">
       <label for="sortStats">Sort by: </label>
@@ -226,6 +229,7 @@
         document.getElementById('sortStats').addEventListener('change', e => {
           currentSort = e.target.value;
           renderHeroStats(heroStats);
+          renderBanStats();
         });
 
         document.getElementById('teamStats').addEventListener('change', () => {
@@ -245,6 +249,7 @@
         renderMatches(filteredMatches);
         document.getElementById('teamStats').value = selectedTeam;
         renderHeroStats(computeHeroStats(filteredMatches));
+        renderBanStats();
       
         // ✅ Show clickable player names
         const playerSet = new Set();
@@ -525,7 +530,46 @@ function selectPlayer(name) {
   input.value = name;
   input.dispatchEvent(new Event('input')); // triggers filtering
 }
-    
+
+function renderBanStats() {
+  const container = document.getElementById('banStats');
+  container.innerHTML = '';
+
+  const selectedTeam = document.getElementById('teamStats').value;
+  const selectedTournament = document.getElementById('tournamentSelect').value;
+
+  const filteredMatches = matchList.filter(match => {
+    const matchesTeam = selectedTeam === 'all' || match.team1_name === selectedTeam || match.team2_name === selectedTeam;
+    const matchesTournament = selectedTournament === 'all' || match.tournament === selectedTournament;
+    return matchesTeam && matchesTournament;
+  });
+
+  const stats = computeHeroStats(filteredMatches);
+  const matchCount = filteredMatches.length;
+
+  const sorted = Object.entries(stats).map(([hero, data]) => {
+    const banRate = data.bans / matchCount;
+    return { hero, image: getHeroData(hero).ImageURL, bans: data.bans, banRate };
+  }).filter(h => h.bans > 0)
+    .sort((a, b) => b.banRate - a.banRate);
+
+  sorted.forEach(({ hero, image, bans, banRate }) => {
+    const banRatePct = (banRate * 100).toFixed(1);
+    container.innerHTML += `
+      <div class="stat-card">
+        <img src="${image}" alt="${hero}">
+        <div class="bar-graph">
+          <div class="bar ban" style="width: ${banRatePct}%"></div>
+          <small>${hero}<br>
+          <span style="color: ${banRatePct > 20 ? '#f44336' : banRatePct < 5 ? '#4caf50' : '#ffc107'}">
+            Ban: ${banRatePct}% (${bans} bans)</span>
+          </small>
+        </div>
+      </div>
+    `;
+  });
+}
+
 </script>
 </body>
 </html>
