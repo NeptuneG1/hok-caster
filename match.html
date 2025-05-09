@@ -118,6 +118,27 @@
     .pick { background: #4caf50; }
     .ban { background: #f44336; }
     .win { background: #2196f3; }
+
+    .group-block {
+      background: #1e222d;
+      border: 1px solid #444;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 6px rgba(0,0,0,0.3);
+    }
+    .group-block h3 {
+      margin-top: 0;
+      color: #ffc107;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .group-hero-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
   </style>
 </head>
 <body>
@@ -426,39 +447,47 @@
 
 
   // Sort roles alphabetically, then sort heroes within each role
-  Object.entries(grouped).sort().forEach(([role, heroes]) => {
-      container.innerHTML += `<h3 style="color: #ffc107; border-bottom: 1px solid #444; margin-top: 2rem;">
-        Group: <span style="color: #fff;">${role}</span> (${heroes.length} heroes)
-      </h3>`;
-    heroes.sort((a, b) => {
-      if (currentSort === 'pick') return b.pickRate - a.pickRate;
-      if (currentSort === 'ban') return b.banRate - a.banRate;
-      return b.winRate - a.winRate;
-    }).forEach(hero => {
-      const pickRatePct = (hero.pickRate * 100).toFixed(1);
-      const banRatePct = (hero.banRate * 100).toFixed(1);
-      const winRatePct = (hero.winRate * 100).toFixed(1);
+ Object.entries(grouped).sort().forEach(([role, heroes]) => {
+  container.innerHTML += `
+    <div class="group-block">
+      <h3>Group: <span style="color: #fff;">${role}</span> (${heroes.length} heroes)</h3>
+      <div class="group-hero-grid">
+  `;
 
-      container.innerHTML += `
-        <div class="stat-card">
-          <img src="${hero.image}" alt="${hero.hero}">
-          <div class="bar-graph">
-            <div class="bar pick" style="width: ${pickRatePct}%"></div>
-            <div class="bar ban" style="width: ${banRatePct}%"></div>
-            <div class="bar win" style="width: ${winRatePct}%"></div>
-            <small>${hero.hero}<br>
-            <span style="color: ${pickRatePct > 30 ? '#4caf50' : pickRatePct < 10 ? '#f44336' : '#ffc107'}">
-              Pick: ${pickRatePct}% (${hero.picks} picks)</span><br>
-            <span style="color: ${banRatePct > 20 ? '#f44336' : banRatePct < 5 ? '#4caf50' : '#ffc107'}">
-              Ban: ${banRatePct}% (${hero.bans} bans)</span><br>
-            <span style="color: ${winRatePct > 60 ? '#4caf50' : winRatePct < 40 ? '#f44336' : '#ffc107'}">
-              Win: ${winRatePct}% (${hero.wins} wins out of ${hero.picks} picks)</span>
-            </small>
-          </div>
-        </div>`;
-    });
+  heroes.sort((a, b) => {
+    if (currentSort === 'pick') return b.pickRate - a.pickRate;
+    if (currentSort === 'ban') return b.banRate - a.banRate;
+    return b.winRate - a.winRate;
+  }).forEach(hero => {
+    const pickRatePct = (hero.pickRate * 100).toFixed(1);
+    const banRatePct = (hero.banRate * 100).toFixed(1);
+    const winRatePct = (hero.winRate * 100).toFixed(1);
+
+    container.innerHTML += `
+      <div class="stat-card">
+        <img src="${hero.image}" alt="${hero.hero}">
+        <div class="bar-graph">
+          <div class="bar pick" style="width: ${pickRatePct}%"></div>
+          <div class="bar ban" style="width: ${banRatePct}%"></div>
+          <div class="bar win" style="width: ${winRatePct}%"></div>
+          <small>${hero.hero}<br>
+          <span style="color: ${pickRatePct > 30 ? '#4caf50' : pickRatePct < 10 ? '#f44336' : '#ffc107'}">
+            Pick: ${pickRatePct}% (${hero.picks} picks)</span><br>
+          <span style="color: ${banRatePct > 20 ? '#f44336' : banRatePct < 5 ? '#4caf50' : '#ffc107'}">
+            Ban: ${banRatePct}% (${hero.bans} bans)</span><br>
+          <span style="color: ${winRatePct > 60 ? '#4caf50' : winRatePct < 40 ? '#f44336' : '#ffc107'}">
+            Win: ${winRatePct}% (${hero.wins} wins out of ${hero.picks} picks)</span>
+          </small>
+        </div>
+      </div>`;
   });
-}
+
+  // ✅ Close group grid and block
+  container.innerHTML += `
+      </div>
+    </div>`;
+});
+
     
   </script>
 </body>
