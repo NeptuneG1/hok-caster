@@ -115,6 +115,15 @@
     </div>
 
     <h2>Hero Stats</h2>
+    <div style="text-align:center; margin-bottom: 1rem;">
+      <label for="sortStats">Sort by:</label>
+      <select id="sortStats">
+        <option value="win">Win %</option>
+        <option value="pick">Pick %</option>
+        <option value="ban">Ban %</option>
+      </select>
+    </div>
+
     <div class="stat-grid" id="pickStats"></div>
     <div class="stat-grid" id="banStats"></div>
     <div class="stat-grid" id="winStats"></div>
@@ -397,6 +406,8 @@ function createBanCard(heroName) {
   </div>`;
 }
 
+// Kick off data fetching after DOM is ready
+window.addEventListener('DOMContentLoaded', fetchData);
 
 </script>
 </body>
