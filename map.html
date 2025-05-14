@@ -136,13 +136,26 @@
     }
     
     .hover-description {
+      visibility: hidden;
+      opacity: 0;
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      max-width: none;        /* ← removes the hard limit */
-      width: max-content;     /* ← makes width just fit the content */
+      background: #2b2f3b;
+      color: #ffd7c1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #ff7733;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      transition: opacity 0.2s;
+      z-index: 9999;
+      max-width: none;        /* ← no limit */
+      width: max-content;     /* ← fit content width */
       white-space: normal;
+      box-shadow: 0 0 10px rgba(255, 119, 51, 0.25);
     }
+
     
     @media (max-width: 768px) {
       .tooltip-right {
