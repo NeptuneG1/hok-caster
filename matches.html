@@ -78,21 +78,40 @@
       border-radius: 8px;
       margin-bottom: 2rem;
     }
+
+    .stat-section {
+      margin-bottom: 40px;
+    }
     
-    .role-column {
+    .stat-section h2 {
+      margin-left: 10px;
+      color: #ffc107;
+    }
+    
+    .role-grid {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px;
+      background: #2f3442;
+      border-radius: 8px;
+    }
+    
+    .role-grid .role-column {
       min-width: 180px;
+      flex-shrink: 0;
       background: #1f222e;
       border-radius: 8px;
-      padding: 10px;
-      flex-shrink: 0;
+      padding: 8px;
     }
     
     .role-column h3 {
       text-align: center;
-      color: #ffc107;
-      margin-bottom: 10px;
       font-size: 1rem;
+      color: #ffc107;
+      margin-bottom: 8px;
     }
+
 
   </style>
 </head>
@@ -316,11 +335,14 @@ function renderStats() {
 
 function renderGroupedColumn(id, label, groupedData) {
   const col = document.getElementById(id);
-  col.innerHTML = `<h2 style="text-align:left; padding-left:10px;">Most ${label}</h2>`;
-  col.innerHTML += `<div class="horizontal-section">`;
+  col.className = 'stat-section';
+  col.innerHTML = `<h2>Most ${label}</h2>`;
 
-  const sortedRoles = Object.entries(groupedData).sort(([a], [b]) => a.localeCompare(b));
-  sortedRoles.forEach(([role, list]) => {
+  const rolesSorted = Object.entries(groupedData).sort(([a], [b]) => a.localeCompare(b));
+
+  col.innerHTML += `<div class="role-grid">`;
+
+  rolesSorted.forEach(([role, list]) => {
     col.innerHTML += `
       <div class="role-column">
         <h3>${role}</h3>
@@ -344,8 +366,6 @@ function renderGroupedColumn(id, label, groupedData) {
 
   col.innerHTML += `</div>`;
 }
-
-
 
 async function fetchData() {
   const [heroRes, matchRes] = await Promise.all([fetch(heroAPI), fetch(matchAPI)]);
