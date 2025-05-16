@@ -264,12 +264,9 @@
       );
     
       const seriesByDate = {};
-    
       filtered.forEach(match => {
         const date = match.date;
-        if (!seriesByDate[date]) {
-          seriesByDate[date] = [];
-        }
+        if (!seriesByDate[date]) seriesByDate[date] = [];
         seriesByDate[date].push(match);
       });
     
@@ -297,8 +294,13 @@
           }
         });
     
+        const bgColor =
+          dayWins > 0 && dayLosses === 0 ? '#2e4d2e' : // all wins
+          dayLosses > 0 && dayWins === 0 ? '#4a2a2a' : // all losses
+          '#3b3f50'; // mixed
+    
         return `
-          <tr>
+          <tr style="background:${bgColor};">
             <td style="text-align:center; border:1px solid #444;">${date}</td>
             <td style="text-align:center; border:1px solid #444;">${[...opponents].join(', ')}</td>
             <td style="text-align:center; border:1px solid #444;">${dayWins}</td>
@@ -329,7 +331,6 @@
         </table>
       `;
     }
-
     
     function renderMatchHistory() {
       const container = document.getElementById('matchHistory');
