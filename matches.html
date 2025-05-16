@@ -249,70 +249,82 @@
     }
 
     function renderSeriesBreakdown() {
-  const container = document.getElementById('seriesBreakdown');
-  const selectedTeam = document.getElementById('teamSelect').value;
-  const selectedTournament = document.getElementById('tournamentSelect').value;
-
-  if (!selectedTeam || selectedTeam === 'all') {
-    container.innerHTML = '';
-    return;
-  }
-
-  const matches = matchList.filter(m =>
-    (m.team1_name === selectedTeam || m.team2_name === selectedTeam) &&
-    (selectedTournament === 'all' || m.tournament === selectedTournament)
-  );
-
-  let winCount = 0, lossCount = 0;
-  let breakdown = {
-    '2-0': 0,
-    '2-1': 0,
-    '0-2': 0,
-    '1-2': 0
-  };
-
-  matches.forEach(match => {
-    const isTeam1 = match.team1_name === selectedTeam;
-    const teamScore = isTeam1 ? match.team1_score : match.team2_score;
-    const opponentScore = isTeam1 ? match.team2_score : match.team1_score;
-
-    if (teamScore > opponentScore) {
-      winCount++;
-      if (teamScore === 2 && opponentScore === 0) breakdown['2-0']++;
-      if (teamScore === 2 && opponentScore === 1) breakdown['2-1']++;
-    } else {
-      lossCount++;
-      if (teamScore === 1 && opponentScore === 2) breakdown['1-2']++;
-      if (teamScore === 0 && opponentScore === 2) breakdown['0-2']++;
+      const container = document.getElementById('seriesBreakdown');
+      const selectedTeam = document.getElementById('teamSelect').value;
+      const selectedTournament = document.getElementById('tournamentSelect').value;
+    
+      if (!selectedTeam || selectedTeam === 'all') {
+        container.innerHTML = '';
+        return;
+      }
+    
+      const filtered = matchList.filter(m =>
+        (m.team1_name === selectedTeam || m.team2_name === selectedTeam) &&
+        (selectedTournament === 'all' || m.tournament === selectedTournament)
+      );
+    
+      const seriesByDate = {};
+    
+      filtered.forEach(match => {
+        const date = match.date;
+        if (!seriesByDate[date]) {
+          seriesByDate[date] = [];
+        }
+        seriesByDate[date].push(match);
+      });
+    
+      let totalWins = 0;
+      let totalLosses = 0;
+    
+      const rows = Object.entries(seriesByDate).map(([date, matches]) => {
+        let dayWins = 0;
+        let dayLosses = 0;
+    
+        matches.forEach(match => {
+          const isTeam1 = match.team1_name === selectedTeam;
+          const teamScore = isTeam1 ? match.team1_score : match.team2_score;
+          const oppScore = isTeam1 ? match.team2_score : match.team1_score;
+    
+          if (teamScore > oppScore) {
+            dayWins++;
+            totalWins++;
+          } else {
+            dayLosses++;
+            totalLosses++;
+          }
+        });
+    
+        return `
+          <tr>
+            <td style="text-align:center; border:1px solid #444;">${date}</td>
+            <td style="text-align:center; border:1px solid #444;">${dayWins}</td>
+            <td style="text-align:center; border:1px solid #444;">${dayLosses}</td>
+          </tr>
+        `;
+      });
+    
+      container.innerHTML = `
+        <h2 style="text-align:center;">${selectedTeam} Series Summary by Date</h2>
+        <table style="width:100%; border-collapse: collapse; background:#2f3442; color:#f0f0f0; font-size: 0.95rem;">
+          <thead>
+            <tr style="background:#3b3f50;">
+              <th style="padding:8px; border:1px solid #444;">Date</th>
+              <th style="padding:8px; border:1px solid #444;">Wins</th>
+              <th style="padding:8px; border:1px solid #444;">Losses</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows.join('')}
+            <tr style="background:#1e1f26;font-weight:bold;">
+              <td style="text-align:center; border:1px solid #444;">Total</td>
+              <td style="text-align:center; border:1px solid #444;">${totalWins}</td>
+              <td style="text-align:center; border:1px solid #444;">${totalLosses}</td>
+            </tr>
+          </tbody>
+        </table>
+      `;
     }
-  });
 
-  container.innerHTML = `
-    <h2 style="text-align:center;">${selectedTeam} Series Summary</h2>
-    <table style="width:100%; border-collapse: collapse; background:#2f3442; color:#f0f0f0; font-size: 0.95rem;">
-      <thead>
-        <tr style="background:#3b3f50;">
-          <th style="padding:8px; border:1px solid #444;">Total Wins</th>
-          <th style="padding:8px; border:1px solid #444;">Total Losses</th>
-          <th style="padding:8px; border:1px solid #444;">2-0</th>
-          <th style="padding:8px; border:1px solid #444;">2-1</th>
-          <th style="padding:8px; border:1px solid #444;">1-2</th>
-          <th style="padding:8px; border:1px solid #444;">0-2</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="text-align:center; border:1px solid #444;">${winCount}</td>
-          <td style="text-align:center; border:1px solid #444;">${lossCount}</td>
-          <td style="text-align:center; border:1px solid #444;">${breakdown['2-0']}</td>
-          <td style="text-align:center; border:1px solid #444;">${breakdown['2-1']}</td>
-          <td style="text-align:center; border:1px solid #444;">${breakdown['1-2']}</td>
-          <td style="text-align:center; border:1px solid #444;">${breakdown['0-2']}</td>
-        </tr>
-      </tbody>
-    </table>
-  `;
-}
     
     function renderMatchHistory() {
       const container = document.getElementById('matchHistory');
