@@ -42,8 +42,9 @@
     }
     /* Using a grid layout for role columns */
     .role-columns {
-      display: grid; /* ✅ switch from flex to grid */
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* ✅ now this works */
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      width: 100%; /* ✅ Ensures it can grow horizontally */
       gap: 16px;
       padding: 16px;
       background: #2f3442;
