@@ -42,13 +42,23 @@
     }
     /* Using a grid layout for role columns */
     .role-columns {
-      display: flex;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      display: grid; /* ✅ switch from flex to grid */
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* ✅ now this works */
       gap: 16px;
       padding: 16px;
       background: #2f3442;
       border-radius: 10px;
-      overflow-x: auto;
+    }
+    @media (max-width: 768px) {
+      .role-columns {
+        overflow-x: auto;
+        display: flex;
+        flex-wrap: nowrap;
+      }
+      .role-column {
+        min-width: 180px;
+        flex-shrink: 0;
+      }
     }
 
     .role-column {
