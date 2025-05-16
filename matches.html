@@ -183,41 +183,49 @@ function computeHeroStats(matches) {
 
 function renderMatchHistory() {
   const container = document.getElementById('matchHistory');
-  const soulMatches = matchList.filter(m => m.team1_name === 'Soul Esports' || m.team2_name === 'Soul Esports');
+  const selectedTeam = document.getElementById('teamSelect').value;
+  if (!selectedTeam || selectedTeam === 'all') {
+    container.innerHTML = '';
+    return;
+  }
+
+  const teamMatches = matchList.filter(m => m.team1_name === selectedTeam || m.team2_name === selectedTeam);
 
   container.innerHTML = `
-    <h2 style="text-align:center;">Soul Esports Match History</h2>
+    <h2 style="text-align:center;">${selectedTeam} Match History</h2>
     <table style="width:100%; border-collapse: collapse; background:#2f3442; color:#f0f0f0; font-size: 0.95rem;">
       <thead>
         <tr style="background:#3b3f50;">
           <th style="padding:8px; border:1px solid #444;">Opponent</th>
           <th style="padding:8px; border:1px solid #444;">Score</th>
           <th style="padding:8px; border:1px solid #444;">Player 1</th>
-          <th style="padding:8px; border:1px solid #444;">Stats</th>
+          <th style="padding:8px; border:1px solid #444;">Hero</th>
           <th style="padding:8px; border:1px solid #444;">Player 2</th>
-          <th style="padding:8px; border:1px solid #444;">Stats</th>
+          <th style="padding:8px; border:1px solid #444;">Hero</th>
           <th style="padding:8px; border:1px solid #444;">Player 3</th>
-          <th style="padding:8px; border:1px solid #444;">Stats</th>
+          <th style="padding:8px; border:1px solid #444;">Hero</th>
           <th style="padding:8px; border:1px solid #444;">Player 4</th>
-          <th style="padding:8px; border:1px solid #444;">Stats</th>
+          <th style="padding:8px; border:1px solid #444;">Hero</th>
           <th style="padding:8px; border:1px solid #444;">Player 5</th>
-          <th style="padding:8px; border:1px solid #444;">Stats</th>
+          <th style="padding:8px; border:1px solid #444;">Hero</th>
         </tr>
       </thead>
       <tbody>
-        ${soulMatches.map(match => {
-          const isTeam1 = match.team1_name === 'Soul Esports';
+        ${teamMatches.map(match => {
+          const isTeam1 = match.team1_name === selectedTeam;
           const opponent = isTeam1 ? match.team2_name : match.team1_name;
-          const score = isTeam1 ? `${match.team1_score}-${match.team2_score}` : `${match.team2_score}-${match.team1_score}`;
+          const score = isTeam1
+            ? `${match.team1_score}-${match.team2_score}`
+            : `${match.team2_score}-${match.team1_score}`;
           const isWin = (isTeam1 && match.winner === match.team1_name) || (!isTeam1 && match.winner === match.team2_name);
           const bgColor = isWin ? '#2e4d2e' : '#4a2a2a';
 
           const players = [];
           for (let i = 1; i <= 5; i++) {
-            const playerName = match[`${isTeam1 ? 'team1' : 'team2'}_player${i}`] || '';
-            const hero = match[`${isTeam1 ? 'team1' : 'team2'}_hero${i}`] || '';
-            const stats = hero ? `${hero}` : '';
-            players.push({ name: playerName, stats });
+            const prefix = isTeam1 ? 'team1' : 'team2';
+            const player = match[`${prefix}_player${i}`] || '';
+            const hero = match[`${prefix}_hero${i}`] || '';
+            players.push({ name: player, hero });
           }
 
           return `
@@ -226,7 +234,7 @@ function renderMatchHistory() {
               <td style="padding:6px; border:1px solid #444;">${score}</td>
               ${players.map(p => `
                 <td style="padding:6px; border:1px solid #444;">${p.name}</td>
-                <td style="padding:6px; border:1px solid #444;">${p.stats}</td>
+                <td style="padding:6px; border:1px solid #444;">${p.hero}</td>
               `).join('')}
             </tr>
           `;
@@ -235,7 +243,6 @@ function renderMatchHistory() {
     </table>
   `;
 }
-
   
 function renderStats() {
   const matches = getFilteredMatches();
