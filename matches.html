@@ -24,30 +24,49 @@
       margin: 0 10px;
       padding: 5px 10px;
     }
-    .columns {
-      display: flex;
-      justify-content: space-around;
-      padding: 20px;
-      gap: 20px;
-      flex-wrap: wrap;
+    #playerPicks {
+      max-width: 1200px;
+      margin: 1.5rem auto;
     }
-    .column {
-      background: #2f3442;
-      border-radius: 8px;
-      padding: 15px;
-      flex: 1;
-      min-width: 300px;
-      max-width: 400px;
+    #matchHistory {
+      max-width: 900px;
+      margin: 2rem auto;
     }
-    .column h2 {
-      text-align: center;
-      margin-bottom: 10px;
+    /* STAT SECTIONS (Pick / Ban / Win) */
+    .stat-section {
+      margin-bottom: 40px;
+    }
+    .stat-section h2 {
+      margin-left: 10px;
       color: #ffc107;
     }
+    /* Using a grid layout for role columns */
+    .role-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      padding: 16px;
+      background: #2f3442;
+      border-radius: 10px;
+      overflow-x: auto;
+    }
+    .role-column {
+      background: #1f222e;
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .role-column h3 {
+      text-align: center;
+      font-size: 1rem;
+      color: #ffc107;
+      margin-bottom: 10px;
+    }
+    /* Hero card styling for the stat sections */
     .hero-card {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
       margin: 10px 0;
       background: #1f222e;
       padding: 8px;
@@ -58,60 +77,34 @@
       height: 40px;
       border-radius: 5px;
     }
+    .hero-info {
+      text-align: center;
+    }
+    .hero-info small {
+      font-size: 0.85rem;
+      display: block;
+    }
     .bar {
       height: 6px;
       background: red;
       border-radius: 4px;
       margin-top: 2px;
     }
-    .hero-info small {
-      font-size: 0.85rem;
-      display: block;
-    }
-    
-    .horizontal-section {
-      overflow-x: auto;
-      padding: 20px;
-      display: flex;
-      gap: 20px;
+    /* Match history table styling */
+    #matchHistory table {
+      width: 100%;
+      border-collapse: collapse;
       background: #2f3442;
-      border-radius: 8px;
-      margin-bottom: 2rem;
+      color: #f0f0f0;
+      font-size: 0.9rem;
     }
-
-    .stat-section {
-      margin-bottom: 40px;
+    #matchHistory th, #matchHistory td {
+      padding: 8px;
+      border: 1px solid #444;
     }
-    
-    .stat-section h2 {
-      margin-left: 10px;
-      color: #ffc107;
+    #matchHistory thead tr {
+      background: #3b3f50;
     }
-    
-    .role-columns {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      padding: 16px;
-      background: #2f3442;
-      border-radius: 10px;
-      overflow-x: auto;
-    }
-    
-    .role-column {
-      background: #1f222e;
-      border-radius: 8px;
-      padding: 10px;
-    }
-    
-    .role-column h3 {
-      text-align: center;
-      font-size: 1rem;
-      color: #ffc107;
-      margin-bottom: 10px;
-    }
-
-
   </style>
 </head>
 <body>
@@ -122,274 +115,281 @@
   <div class="filters">
     <label for="tournamentSelect">Tournament:</label>
     <select id="tournamentSelect"><option value="all">All</option></select>
-
     <label for="teamSelect">Team:</label>
     <select id="teamSelect"><option value="all">All</option></select>
   </div>
-  <div id="playerPicks" style="max-width: 1200px; margin: 1.5rem auto;"></div>
-  
-  <div id="matchHistory" style="max-width: 900px; margin: 2rem auto;"></div>
-  
-  <div class="columns">
-    <div class="column" id="pickColumn"><h2>Most Picked</h2></div>
-    <div class="column" id="banColumn"><h2>Most Banned</h2></div>
-    <div class="column" id="winColumn"><h2>Highest Win Rate</h2></div>
-  </div>
 
-<script>
-const heroAPI = "https://neptuneg1.github.io/hok-caster/data.json";
-const matchAPI = "https://neptuneg1.github.io/hok-caster/matchdata.json";
-let heroList = [], matchList = [];
+  <div id="playerPicks"></div>
+  <div id="matchHistory"></div>
 
-function getHeroImage(name) {
-  const hero = heroList.find(h => h.Hero.toLowerCase() === name.toLowerCase());
-  return hero?.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg';
-}
+  <!-- Stat sections for Pick, Ban, Win -->
+  <div id="pickColumn" class="stat-section"></div>
+  <div id="banColumn" class="stat-section"></div>
+  <div id="winColumn" class="stat-section"></div>
 
-function getFilteredMatches() {
-  const tournament = document.getElementById('tournamentSelect').value;
-  const team = document.getElementById('teamSelect').value;
-  return matchList.filter(m =>
-    (tournament === 'all' || m.tournament === tournament) &&
-    (team === 'all' || m.team1_name === team || m.team2_name === team)
-  );
-}
-function renderPlayerPicks() {
-  const team = document.getElementById('teamSelect').value;
-  const tournament = document.getElementById('tournamentSelect').value;
-  const container = document.getElementById('playerPicks');
-  container.innerHTML = '';
+  <script>
+    const heroAPI = "https://neptuneg1.github.io/hok-caster/data.json";
+    const matchAPI = "https://neptuneg1.github.io/hok-caster/matchdata.json";
+    let heroList = [], matchList = [];
 
-  if (team === 'all') return;
-
-  const filtered = matchList.filter(m =>
-    (tournament === 'all' || m.tournament === tournament) &&
-    (m.team1_name === team || m.team2_name === team)
-  );
-
-  const playerMap = {};
-
-  filtered.forEach(match => {
-    for (let i = 1; i <= 5; i++) {
-      const side = match.team1_name === team ? 'team1' : match.team2_name === team ? 'team2' : null;
-      if (!side) continue;
-      const player = match[`${side}_player${i}`];
-      const hero = match[`${side}_hero${i}`];
-      if (!playerMap[player]) playerMap[player] = {};
-      playerMap[player][hero] = (playerMap[player][hero] || 0) + 1;
+    function getHeroImage(name) {
+      const hero = heroList.find(h => h.Hero.toLowerCase() === name.toLowerCase());
+      return hero ? hero.ImageURL : 'https://i.imgur.com/kkUX3a3.jpeg';
     }
-  });
 
-  container.innerHTML = `<h2 style="text-align:center;">Player Picks (${team})</h2>` +
-    Object.entries(playerMap).map(([player, heroes]) => `
-      <div style="margin-bottom:1.2rem;">
-        <strong style="color:#ffc107;">${player}</strong><br>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;">
-          ${Object.entries(heroes).map(([hero, count]) => {
-            const img = getHeroImage(hero);
-            return `<div style="text-align:center;font-size:0.8rem;">
-              <img src="${img}" alt="${hero}" style="width:40px;height:40px;border-radius:6px;"><br>
-              ${hero} (${count})
-            </div>`;
-          }).join('')}
-        </div>
-      </div>
-    `).join('');
-}
+    function getFilteredMatches() {
+      const tournament = document.getElementById('tournamentSelect').value;
+      const team = document.getElementById('teamSelect').value;
+      return matchList.filter(m =>
+        (tournament === 'all' || m.tournament === tournament) &&
+        (team === 'all' || m.team1_name === team || m.team2_name === team)
+      );
+    }
 
-function computeHeroStats(matches) {
-  const stats = {};
-  matches.forEach(match => {
-    const picks = [...Array(5).keys()].flatMap(i => [match[`team1_hero${i+1}`], match[`team2_hero${i+1}`]]);
-    const bans = [...Array(4).keys()].flatMap(i => [match[`team1_ban${i+1}`], match[`team2_ban${i+1}`]]);
-    const winners = match.winner === match.team1_name
-      ? [...Array(5).keys()].map(i => match[`team1_hero${i+1}`])
-      : [...Array(5).keys()].map(i => match[`team2_hero${i+1}`]);
+    function renderPlayerPicks() {
+      const team = document.getElementById('teamSelect').value;
+      const tournament = document.getElementById('tournamentSelect').value;
+      const container = document.getElementById('playerPicks');
+      container.innerHTML = '';
 
-    picks.forEach(h => {
-      if (!stats[h]) stats[h] = { picks: 0, bans: 0, wins: 0 };
-      stats[h].picks++;
-    });
+      if (team === 'all') return;
 
-    bans.forEach(h => {
-      if (!stats[h]) stats[h] = { picks: 0, bans: 0, wins: 0 };
-      stats[h].bans++;
-    });
+      const filtered = matchList.filter(m =>
+        (tournament === 'all' || m.tournament === tournament) &&
+        (m.team1_name === team || m.team2_name === team)
+      );
 
-    winners.forEach(h => {
-      if (!stats[h]) stats[h] = { picks: 0, bans: 0, wins: 0 };
-      stats[h].wins++;
-    });
-  });
+      const playerMap = {};
 
-  return stats;
-}
+      filtered.forEach(match => {
+        for (let i = 1; i <= 5; i++) {
+          const side = match.team1_name === team ? 'team1' : (match.team2_name === team ? 'team2' : null);
+          if (!side) continue;
+          const player = match[`${side}_player${i}`];
+          const hero = match[`${side}_hero${i}`];
+          if (!playerMap[player]) playerMap[player] = {};
+          playerMap[player][hero] = (playerMap[player][hero] || 0) + 1;
+        }
+      });
 
-function renderMatchHistory() {
-  const container = document.getElementById('matchHistory');
-  const selectedTeam = document.getElementById('teamSelect').value;
-  const selectedTournament = document.getElementById('tournamentSelect').value;
+      container.innerHTML = `<h2 style="text-align:center;">Player Picks (${team})</h2>` +
+        Object.entries(playerMap).map(([player, heroes]) => `
+          <div style="margin-bottom:1.2rem;">
+            <strong style="color:#ffc107;">${player}</strong><br>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;">
+              ${Object.entries(heroes).map(([hero, count]) => {
+                const img = getHeroImage(hero);
+                return `<div style="text-align:center;font-size:0.8rem;">
+                  <img src="${img}" alt="${hero}" style="width:40px;height:40px;border-radius:6px;"><br>
+                  ${hero} (${count})
+                </div>`;
+              }).join('')}
+            </div>
+          </div>
+        `).join('');
+    }
 
-  if (!selectedTeam || selectedTeam === 'all') {
-    container.innerHTML = '';
-    return;
-  }
-
-  const teamMatches = matchList.filter(m =>
-    (m.team1_name === selectedTeam || m.team2_name === selectedTeam) &&
-    (selectedTournament === 'all' || m.tournament === selectedTournament)
-  );
-
-  container.innerHTML = `
-    <h2 style="text-align:center;">${selectedTeam} Match History</h2>
-    <table style="width:100%; border-collapse: collapse; background:#2f3442; color:#f0f0f0; font-size: 0.9rem;">
-      <thead>
-        <tr style="background:#3b3f50;">
-          <th style="padding:8px; border:1px solid #444;">Opponent</th>
-          <th style="padding:8px; border:1px solid #444;">Score</th>
-          ${[1, 2, 3, 4, 5].map(i => `
-            <th style="padding:8px; border:1px solid #444;">Player ${i}</th>
-            <th style="padding:8px; border:1px solid #444;">Hero<br><small>K/D/A</small></th>
-          `).join('')}
-        </tr>
-      </thead>
-      <tbody>
-        ${teamMatches.map(match => {
-          const isTeam1 = match.team1_name === selectedTeam;
-          const opponent = isTeam1 ? match.team2_name : match.team1_name;
-          const score = isTeam1
-            ? `${match.team1_score}-${match.team2_score}`
-            : `${match.team2_score}-${match.team1_score}`;
-          const isWin = (isTeam1 && match.winner === match.team1_name) || (!isTeam1 && match.winner === match.team2_name);
-          const bgColor = isWin ? '#2e4d2e' : '#4a2a2a';
-
-          const players = [];
-          for (let i = 1; i <= 5; i++) {
-            const prefix = isTeam1 ? 'team1' : 'team2';
-            const player = match[`${prefix}_player${i}`] || '';
-            const hero = match[`${prefix}_hero${i}`] || '';
-            const kda = match[`${prefix}_kda${i}`] || '-';
-            players.push({ name: player, hero, kda });
+    function computeHeroStats(matches) {
+      const stats = {};
+      matches.forEach(match => {
+        // Compute picks for both teams
+        [...Array(5).keys()].forEach(i => {
+          let hero1 = match[`team1_hero${i+1}`];
+          let hero2 = match[`team2_hero${i+1}`];
+          if (hero1) {
+            if (!stats[hero1]) stats[hero1] = { picks: 0, bans: 0, wins: 0 };
+            stats[hero1].picks++;
           }
+          if (hero2) {
+            if (!stats[hero2]) stats[hero2] = { picks: 0, bans: 0, wins: 0 };
+            stats[hero2].picks++;
+          }
+        });
+        // Compute bans for both teams (assuming 4 bans per team)
+        [...Array(4).keys()].forEach(i => {
+          let ban1 = match[`team1_ban${i+1}`];
+          let ban2 = match[`team2_ban${i+1}`];
+          if (ban1) {
+            if (!stats[ban1]) stats[ban1] = { picks: 0, bans: 0, wins: 0 };
+            stats[ban1].bans++;
+          }
+          if (ban2) {
+            if (!stats[ban2]) stats[ban2] = { picks: 0, bans: 0, wins: 0 };
+            stats[ban2].bans++;
+          }
+        });
+        // Compute wins (winning team's heroes)
+        if (match.winner) {
+          let winningTeam = match.winner === match.team1_name ? 'team1' : 'team2';
+          [...Array(5).keys()].forEach(i => {
+            let hero = match[`${winningTeam}_hero${i+1}`];
+            if (hero) {
+              if (!stats[hero]) stats[hero] = { picks: 0, bans: 0, wins: 0 };
+              stats[hero].wins++;
+            }
+          });
+        }
+      });
+      return stats;
+    }
 
-          return `
-            <tr style="background:${bgColor};">
-              <td style="padding:6px; border:1px solid #444;">${opponent}</td>
-              <td style="padding:6px; border:1px solid #444;">${score}</td>
-              ${players.map(p => `
-                <td style="padding:6px; border:1px solid #444;">${p.name}</td>
-                <td style="padding:6px; border:1px solid #444;">
-                  ${p.hero}<br>
-                  <small style="color:#ccc;">${p.kda}</small>
-                </td>
+    function renderMatchHistory() {
+      const container = document.getElementById('matchHistory');
+      const selectedTeam = document.getElementById('teamSelect').value;
+      const selectedTournament = document.getElementById('tournamentSelect').value;
+
+      if (!selectedTeam || selectedTeam === 'all') {
+        container.innerHTML = '';
+        return;
+      }
+
+      const teamMatches = matchList.filter(m =>
+        (m.team1_name === selectedTeam || m.team2_name === selectedTeam) &&
+        (selectedTournament === 'all' || m.tournament === selectedTournament)
+      );
+
+      container.innerHTML = `
+        <h2 style="text-align:center;">${selectedTeam} Match History</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Opponent</th>
+              <th>Score</th>
+              ${[1,2,3,4,5].map(i => `
+                <th>Player ${i}</th>
+                <th>Hero<br><small>K/D/A</small></th>
               `).join('')}
             </tr>
-          `;
-        }).join('')}
-      </tbody>
-    </table>
-  `;
-}
-  
-function renderStats() {
-  const matches = getFilteredMatches();
-  const stats = computeHeroStats(matches);
-  const total = matches.length;
+          </thead>
+          <tbody>
+            ${teamMatches.map(match => {
+              const isTeam1 = match.team1_name === selectedTeam;
+              const opponent = isTeam1 ? match.team2_name : match.team1_name;
+              const score = isTeam1 ? `${match.team1_score}-${match.team2_score}` : `${match.team2_score}-${match.team1_score}`;
+              const isWin = (isTeam1 && match.winner === match.team1_name) || (!isTeam1 && match.winner === match.team2_name);
+              const bgColor = isWin ? '#2e4d2e' : '#4a2a2a';
 
-  const grouped = {
-    pick: {},
-    ban: {},
-    win: {}
-  };
+              let players = [];
+              for (let i = 1; i <= 5; i++) {
+                const prefix = isTeam1 ? 'team1' : 'team2';
+                const player = match[`${prefix}_player${i}`] || '';
+                const hero = match[`${prefix}_hero${i}`] || '';
+                const kda = match[`${prefix}_kda${i}`] || '-';
+                players.push({ name: player, hero, kda });
+              }
 
-  Object.entries(stats).forEach(([hero, v]) => {
-    const heroData = heroList.find(h => h.Hero.toLowerCase() === hero.toLowerCase());
-    const role = heroData?.PrimaryRole || 'Unknown';
-    const img = heroData?.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg';
-
-    if (v.picks > 0) {
-      if (!grouped.pick[role]) grouped.pick[role] = [];
-      grouped.pick[role].push({ hero, img, rate: v.picks / total, value: v.picks });
-    }
-
-    if (v.bans > 0) {
-      if (!grouped.ban[role]) grouped.ban[role] = [];
-      grouped.ban[role].push({ hero, img, rate: v.bans / total, value: v.bans });
-    }
-
-    if (v.picks >= 3) {
-      if (!grouped.win[role]) grouped.win[role] = [];
-      grouped.win[role].push({ hero, img, rate: v.wins / v.picks, value: `${v.wins}/${v.picks}` });
-    }
-  });
-
-  renderGroupedColumn("pickColumn", "Pick", grouped.pick);
-  renderGroupedColumn("banColumn", "Ban", grouped.ban);
-  renderGroupedColumn("winColumn", "Win", grouped.win);
-  renderPlayerPicks();
-  renderMatchHistory(); // ✅ Added
-}
-
-
-
-function renderGroupedColumn(id, label, groupedData) {
-  const col = document.getElementById(id);
-  col.className = 'stat-section';
-  col.innerHTML = `<h2>Most ${label}</h2><div class="role-columns">`;
-
-  Object.entries(groupedData)
-    .sort(([a], [b]) => a.localeCompare(b))
-    .forEach(([role, list]) => {
-      col.innerHTML += `
-        <div class="role-column">
-          <h3>${role}</h3>
-          ${list.sort((a, b) => b.rate - a.rate).slice(0, 10).map(d => `
-            <div class="hero-card" style="flex-direction: column; align-items: center;">
-              <img src="${d.img}" alt="${d.hero}">
-              <div class="hero-info" style="text-align:center;">
-                <small><strong>${d.hero}</strong></small>
-                <small style="color:${label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'}">
-                  ${label}: ${(d.rate * 100).toFixed(1)}% (${d.value})
-                </small>
-                <div class="bar" style="width:${(d.rate * 100).toFixed(1)}%; background: ${
-                  label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'
-                }"></div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
+              return `
+                <tr style="background:${bgColor};">
+                  <td>${opponent}</td>
+                  <td>${score}</td>
+                  ${players.map(p => `
+                    <td>${p.name}</td>
+                    <td>${p.hero}<br><small style="color:#ccc;">${p.kda}</small></td>
+                  `).join('')}
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
       `;
-    });
+    }
 
-  col.innerHTML += '</div>';
-}
+    function renderGroupedColumn(id, label, groupedData) {
+      const col = document.getElementById(id);
+      col.className = 'stat-section';
+      col.innerHTML = `<h2>Most ${label}</h2><div class="role-columns">`;
 
-async function fetchData() {
-  const [heroRes, matchRes] = await Promise.all([fetch(heroAPI), fetch(matchAPI)]);
-  heroList = await heroRes.json();
-  matchList = await matchRes.json();
-  matchList.reverse();
+      Object.entries(groupedData)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .forEach(([role, list]) => {
+          col.innerHTML += `
+            <div class="role-column">
+              <h3>${role}</h3>
+              ${list.sort((a, b) => b.rate - a.rate).slice(0, 10).map(d => `
+                <div class="hero-card">
+                  <img src="${d.img}" alt="${d.hero}">
+                  <div class="hero-info">
+                    <small><strong>${d.hero}</strong></small>
+                    <small style="color:${label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'}">
+                      ${label}: ${(d.rate * 100).toFixed(1)}% (${d.value})
+                    </small>
+                    <div class="bar" style="width:${(d.rate * 100).toFixed(1)}%; background: ${
+                      label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'
+                    }"></div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+        });
 
-  const tournaments = [...new Set(matchList.map(m => m.tournament))].sort();
-  const teams = [...new Set(matchList.flatMap(m => [m.team1_name, m.team2_name]))].sort();
+      col.innerHTML += '</div>';
+    }
 
-  tournaments.forEach(t => {
-    document.getElementById('tournamentSelect').innerHTML += `<option value="${t}">${t}</option>`;
-  });
+    function renderStats() {
+      const matches = getFilteredMatches();
+      const stats = computeHeroStats(matches);
+      const total = matches.length;
 
-  teams.forEach(t => {
-    document.getElementById('teamSelect').innerHTML += `<option value="${t}">${t}</option>`;
-  });
+      const grouped = {
+        pick: {},
+        ban: {},
+        win: {}
+      };
 
-  document.getElementById('tournamentSelect').addEventListener('change', renderStats);
-  document.getElementById('teamSelect').addEventListener('change', renderStats);
+      Object.entries(stats).forEach(([hero, v]) => {
+        const heroData = heroList.find(h => h.Hero.toLowerCase() === hero.toLowerCase());
+        const role = heroData?.PrimaryRole || 'Unknown';
+        const img = heroData?.ImageURL || 'https://i.imgur.com/kkUX3a3.jpeg';
 
-  renderStats();
-  renderMatchHistory();
-}
+        if (v.picks > 0) {
+          if (!grouped.pick[role]) grouped.pick[role] = [];
+          grouped.pick[role].push({ hero, img, rate: v.picks / total, value: v.picks });
+        }
 
+        if (v.bans > 0) {
+          if (!grouped.ban[role]) grouped.ban[role] = [];
+          grouped.ban[role].push({ hero, img, rate: v.bans / total, value: v.bans });
+        }
 
-fetchData();
-</script>
+        if (v.picks >= 3) {
+          if (!grouped.win[role]) grouped.win[role] = [];
+          grouped.win[role].push({ hero, img, rate: v.wins / v.picks, value: `${v.wins}/${v.picks}` });
+        }
+      });
+
+      renderGroupedColumn("pickColumn", "Pick", grouped.pick);
+      renderGroupedColumn("banColumn", "Ban", grouped.ban);
+      renderGroupedColumn("winColumn", "Win", grouped.win);
+      renderPlayerPicks();
+      renderMatchHistory();
+    }
+
+    async function fetchData() {
+      const [heroRes, matchRes] = await Promise.all([fetch(heroAPI), fetch(matchAPI)]);
+      heroList = await heroRes.json();
+      matchList = await matchRes.json();
+      matchList.reverse();
+
+      const tournaments = [...new Set(matchList.map(m => m.tournament))].sort();
+      const teams = [...new Set(matchList.flatMap(m => [m.team1_name, m.team2_name]))].sort();
+
+      tournaments.forEach(t => {
+        document.getElementById('tournamentSelect').innerHTML += `<option value="${t}">${t}</option>`;
+      });
+
+      teams.forEach(t => {
+        document.getElementById('teamSelect').innerHTML += `<option value="${t}">${t}</option>`;
+      });
+
+      document.getElementById('tournamentSelect').addEventListener('change', renderStats);
+      document.getElementById('teamSelect').addEventListener('change', renderStats);
+
+      renderStats();
+      renderMatchHistory();
+    }
+
+    fetchData();
+  </script>
 </body>
 </html>
