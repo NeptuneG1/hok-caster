@@ -311,33 +311,36 @@
     function renderGroupedColumn(id, label, groupedData) {
       const col = document.getElementById(id);
       col.className = 'stat-section';
-      col.innerHTML = `<h2>Most ${label}</h2><div class="role-columns">`;
-
-      Object.entries(groupedData)
+    
+      const header = `<h2>Most ${label}</h2>`;
+      const roleColumns = Object.entries(groupedData)
         .sort(([a], [b]) => a.localeCompare(b))
-        .forEach(([role, list]) => {
-          col.innerHTML += `
-            <div class="role-column">
-              <h3>${role}</h3>
-              ${list.sort((a, b) => b.rate - a.rate).slice(0, 10).map(d => `
-                <div class="hero-card">
-                  <img src="${d.img}" alt="${d.hero}">
-                  <div class="hero-info">
-                    <small><strong>${d.hero}</strong></small>
-                    <small style="color:${label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'}">
-                      ${label}: ${(d.rate * 100).toFixed(1)}% (${d.value})
-                    </small>
-                    <div class="bar" style="width:${(d.rate * 100).toFixed(1)}%; background: ${
-                      label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'
-                    }"></div>
-                  </div>
+        .map(([role, list]) => `
+          <div class="role-column">
+            <h3>${role}</h3>
+            ${list.sort((a, b) => b.rate - a.rate).slice(0, 10).map(d => `
+              <div class="hero-card">
+                <img src="${d.img}" alt="${d.hero}">
+                <div class="hero-info">
+                  <small><strong>${d.hero}</strong></small>
+                  <small style="color:${label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'}">
+                    ${label}: ${(d.rate * 100).toFixed(1)}% (${d.value})
+                  </small>
+                  <div class="bar" style="width:${(d.rate * 100).toFixed(1)}%; background: ${
+                    label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'
+                  }"></div>
                 </div>
-              `).join('')}
-            </div>
-          `;
-        });
-
-      col.innerHTML += '</div>';
+              </div>
+            `).join('')}
+          </div>
+        `).join('');
+    
+      col.innerHTML = `
+        ${header}
+        <div class="role-columns">
+          ${roleColumns}
+        </div>
+      `;
     }
 
     function renderStats() {
