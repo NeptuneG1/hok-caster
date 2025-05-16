@@ -263,37 +263,31 @@
         (selectedTournament === 'all' || m.tournament === selectedTournament)
       );
     
-      // Step 1: Group by (date + opponent)
       const grouped = {};
     
       filtered.forEach(match => {
         const date = match.date;
         const isTeam1 = match.team1_name === selectedTeam;
         const opponent = isTeam1 ? match.team2_name : match.team1_name;
-        const teamScore = isTeam1 ? match.team1_score : match.team2_score;
-        const oppScore = isTeam1 ? match.team2_score : match.team1_score;
-    
+        const didWin = match.winner === selectedTeam;
         const key = `${date}|${opponent}`;
     
         if (!grouped[key]) {
           grouped[key] = { date, opponent, win: 0, loss: 0 };
         }
     
-        if (teamScore > oppScore) {
+        if (didWin) {
           grouped[key].win++;
         } else {
           grouped[key].loss++;
         }
       });
     
-      // Step 2: Build table
       let totalSeriesWon = 0;
       let totalSeriesLost = 0;
     
       const rows = Object.values(grouped).map(({ date, opponent, win, loss }) => {
-        const bgColor =
-          win > loss ? '#2e4d2e' :
-          loss > win ? '#4a2a2a' : '#3b3f50';
+        const bgColor = win > loss ? '#2e4d2e' : loss > win ? '#4a2a2a' : '#3b3f50';
     
         if (win > loss) totalSeriesWon++;
         else if (loss > win) totalSeriesLost++;
@@ -331,29 +325,6 @@
       `;
     }
 
-    
-      container.innerHTML = `
-        <h2 style="text-align:center;">${selectedTeam} Series Summary by Date</h2>
-        <table style="width:100%; border-collapse: collapse; background:#2f3442; color:#f0f0f0; font-size: 0.95rem;">
-          <thead>
-            <tr style="background:#3b3f50;">
-              <th style="padding:8px; border:1px solid #444;">Date</th>
-              <th style="padding:8px; border:1px solid #444;">Opponent(s)</th>
-              <th style="padding:8px; border:1px solid #444;">Wins</th>
-              <th style="padding:8px; border:1px solid #444;">Losses</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rows.join('')}
-            <tr style="background:#1e1f26; font-weight:bold;">
-              <td colspan="2" style="text-align:center; border:1px solid #444;">Total</td>
-              <td style="text-align:center; border:1px solid #444;">${totalWins}</td>
-              <td style="text-align:center; border:1px solid #444;">${totalLosses}</td>
-            </tr>
-          </tbody>
-        </table>
-      `;
-    }
     
     function renderMatchHistory() {
       const container = document.getElementById('matchHistory');
