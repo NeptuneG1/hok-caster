@@ -184,12 +184,17 @@ function computeHeroStats(matches) {
 function renderMatchHistory() {
   const container = document.getElementById('matchHistory');
   const selectedTeam = document.getElementById('teamSelect').value;
+  const selectedTournament = document.getElementById('tournamentSelect').value;
+
   if (!selectedTeam || selectedTeam === 'all') {
     container.innerHTML = '';
     return;
   }
 
-  const teamMatches = matchList.filter(m => m.team1_name === selectedTeam || m.team2_name === selectedTeam);
+  const teamMatches = matchList.filter(m =>
+    (m.team1_name === selectedTeam || m.team2_name === selectedTeam) &&
+    (selectedTournament === 'all' || m.tournament === selectedTournament)
+  );
 
   container.innerHTML = `
     <h2 style="text-align:center;">${selectedTeam} Match History</h2>
@@ -243,6 +248,7 @@ function renderMatchHistory() {
     </table>
   `;
 }
+
   
 function renderStats() {
   const matches = getFilteredMatches();
@@ -280,7 +286,9 @@ function renderStats() {
   renderGroupedColumn("banColumn", "Ban", grouped.ban);
   renderGroupedColumn("winColumn", "Win", grouped.win);
   renderPlayerPicks();
+  renderMatchHistory(); // ✅ Added
 }
+
 
 
 function renderGroupedColumn(id, label, groupedData) {
