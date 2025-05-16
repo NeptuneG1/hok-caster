@@ -224,10 +224,7 @@ function renderMatchHistory() {
             const prefix = isTeam1 ? 'team1' : 'team2';
             const player = match[`${prefix}_player${i}`] || '';
             const hero = match[`${prefix}_hero${i}`] || '';
-            const kills = match[`${prefix}_kills${i}`] ?? '-';
-            const deaths = match[`${prefix}_deaths${i}`] ?? '-';
-            const assists = match[`${prefix}_assists${i}`] ?? '-';
-            const kda = `${kills}-${deaths}-${assists}`;
+            const kda = match[`${prefix}_kda${i}`] || '-';
             players.push({ name: player, hero, kda });
           }
 
@@ -249,8 +246,6 @@ function renderMatchHistory() {
     </table>
   `;
 }
-
-
   
 function renderStats() {
   const matches = getFilteredMatches();
