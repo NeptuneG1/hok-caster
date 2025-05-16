@@ -198,21 +198,15 @@ function renderMatchHistory() {
 
   container.innerHTML = `
     <h2 style="text-align:center;">${selectedTeam} Match History</h2>
-    <table style="width:100%; border-collapse: collapse; background:#2f3442; color:#f0f0f0; font-size: 0.95rem;">
+    <table style="width:100%; border-collapse: collapse; background:#2f3442; color:#f0f0f0; font-size: 0.9rem;">
       <thead>
         <tr style="background:#3b3f50;">
           <th style="padding:8px; border:1px solid #444;">Opponent</th>
           <th style="padding:8px; border:1px solid #444;">Score</th>
-          <th style="padding:8px; border:1px solid #444;">Player 1</th>
-          <th style="padding:8px; border:1px solid #444;">Hero</th>
-          <th style="padding:8px; border:1px solid #444;">Player 2</th>
-          <th style="padding:8px; border:1px solid #444;">Hero</th>
-          <th style="padding:8px; border:1px solid #444;">Player 3</th>
-          <th style="padding:8px; border:1px solid #444;">Hero</th>
-          <th style="padding:8px; border:1px solid #444;">Player 4</th>
-          <th style="padding:8px; border:1px solid #444;">Hero</th>
-          <th style="padding:8px; border:1px solid #444;">Player 5</th>
-          <th style="padding:8px; border:1px solid #444;">Hero</th>
+          ${[1, 2, 3, 4, 5].map(i => `
+            <th style="padding:8px; border:1px solid #444;">Player ${i}</th>
+            <th style="padding:8px; border:1px solid #444;">Hero<br><small>K/D/A</small></th>
+          `).join('')}
         </tr>
       </thead>
       <tbody>
@@ -230,7 +224,11 @@ function renderMatchHistory() {
             const prefix = isTeam1 ? 'team1' : 'team2';
             const player = match[`${prefix}_player${i}`] || '';
             const hero = match[`${prefix}_hero${i}`] || '';
-            players.push({ name: player, hero });
+            const kills = match[`${prefix}_kills${i}`] ?? '-';
+            const deaths = match[`${prefix}_deaths${i}`] ?? '-';
+            const assists = match[`${prefix}_assists${i}`] ?? '-';
+            const kda = `${kills}-${deaths}-${assists}`;
+            players.push({ name: player, hero, kda });
           }
 
           return `
@@ -239,7 +237,10 @@ function renderMatchHistory() {
               <td style="padding:6px; border:1px solid #444;">${score}</td>
               ${players.map(p => `
                 <td style="padding:6px; border:1px solid #444;">${p.name}</td>
-                <td style="padding:6px; border:1px solid #444;">${p.hero}</td>
+                <td style="padding:6px; border:1px solid #444;">
+                  ${p.hero}<br>
+                  <small style="color:#ccc;">${p.kda}</small>
+                </td>
               `).join('')}
             </tr>
           `;
@@ -248,6 +249,7 @@ function renderMatchHistory() {
     </table>
   `;
 }
+
 
   
 function renderStats() {
