@@ -68,6 +68,32 @@
       font-size: 0.85rem;
       display: block;
     }
+    
+    .horizontal-section {
+      overflow-x: auto;
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+      background: #2f3442;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+    
+    .role-column {
+      min-width: 180px;
+      background: #1f222e;
+      border-radius: 8px;
+      padding: 10px;
+      flex-shrink: 0;
+    }
+    
+    .role-column h3 {
+      text-align: center;
+      color: #ffc107;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
   </style>
 </head>
 <body>
@@ -290,26 +316,35 @@ function renderStats() {
 
 function renderGroupedColumn(id, label, groupedData) {
   const col = document.getElementById(id);
-  col.innerHTML = `<h2>Most ${label}</h2>`;
-  Object.entries(groupedData).sort().forEach(([role, list]) => {
-    col.innerHTML += `<h3 style="margin-top:1rem;color:#ffc107;">${role}</h3>`;
-    list.sort((a, b) => b.rate - a.rate).slice(0, 10).forEach(d => {
-      col.innerHTML += `
-        <div class="hero-card">
-          <img src="${d.img}" alt="${d.hero}">
-          <div class="hero-info">
-            <small><strong>${d.hero}</strong></small>
-            <small style="color:${label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'}">
-              ${label}: ${(d.rate * 100).toFixed(1)}% (${d.value})
-            </small>
-            <div class="bar" style="width:${(d.rate * 100).toFixed(1)}%; background: ${
-              label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'
-            }"></div>
+  col.innerHTML = `<h2 style="text-align:left; padding-left:10px;">Most ${label}</h2>`;
+  col.innerHTML += `<div class="horizontal-section">`;
+
+  const sortedRoles = Object.entries(groupedData).sort(([a], [b]) => a.localeCompare(b));
+  sortedRoles.forEach(([role, list]) => {
+    col.innerHTML += `
+      <div class="role-column">
+        <h3>${role}</h3>
+        ${list.sort((a, b) => b.rate - a.rate).slice(0, 10).map(d => `
+          <div class="hero-card" style="flex-direction: column; align-items: center;">
+            <img src="${d.img}" alt="${d.hero}">
+            <div class="hero-info" style="text-align:center;">
+              <small><strong>${d.hero}</strong></small>
+              <small style="color:${label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'}">
+                ${label}: ${(d.rate * 100).toFixed(1)}% (${d.value})
+              </small>
+              <div class="bar" style="width:${(d.rate * 100).toFixed(1)}%; background: ${
+                label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'
+              }"></div>
+            </div>
           </div>
-        </div>`;
-    });
+        `).join('')}
+      </div>
+    `;
   });
+
+  col.innerHTML += `</div>`;
 }
+
 
 
 async function fetchData() {
