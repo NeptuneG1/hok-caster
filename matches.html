@@ -279,11 +279,14 @@
       const rows = Object.entries(seriesByDate).map(([date, matches]) => {
         let dayWins = 0;
         let dayLosses = 0;
+        const opponents = new Set();
     
         matches.forEach(match => {
           const isTeam1 = match.team1_name === selectedTeam;
           const teamScore = isTeam1 ? match.team1_score : match.team2_score;
           const oppScore = isTeam1 ? match.team2_score : match.team1_score;
+          const opponent = isTeam1 ? match.team2_name : match.team1_name;
+          opponents.add(opponent);
     
           if (teamScore > oppScore) {
             dayWins++;
@@ -297,6 +300,7 @@
         return `
           <tr>
             <td style="text-align:center; border:1px solid #444;">${date}</td>
+            <td style="text-align:center; border:1px solid #444;">${[...opponents].join(', ')}</td>
             <td style="text-align:center; border:1px solid #444;">${dayWins}</td>
             <td style="text-align:center; border:1px solid #444;">${dayLosses}</td>
           </tr>
@@ -309,14 +313,15 @@
           <thead>
             <tr style="background:#3b3f50;">
               <th style="padding:8px; border:1px solid #444;">Date</th>
+              <th style="padding:8px; border:1px solid #444;">Opponent(s)</th>
               <th style="padding:8px; border:1px solid #444;">Wins</th>
               <th style="padding:8px; border:1px solid #444;">Losses</th>
             </tr>
           </thead>
           <tbody>
             ${rows.join('')}
-            <tr style="background:#1e1f26;font-weight:bold;">
-              <td style="text-align:center; border:1px solid #444;">Total</td>
+            <tr style="background:#1e1f26; font-weight:bold;">
+              <td colspan="2" style="text-align:center; border:1px solid #444;">Total</td>
               <td style="text-align:center; border:1px solid #444;">${totalWins}</td>
               <td style="text-align:center; border:1px solid #444;">${totalLosses}</td>
             </tr>
