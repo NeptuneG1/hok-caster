@@ -88,28 +88,27 @@
       color: #ffc107;
     }
     
-    .role-grid {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding: 10px;
+    .role-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      padding: 16px;
       background: #2f3442;
-      border-radius: 8px;
+      border-radius: 10px;
+      overflow-x: auto;
     }
     
-    .role-grid .role-column {
-      min-width: 180px;
-      flex-shrink: 0;
+    .role-column {
       background: #1f222e;
       border-radius: 8px;
-      padding: 8px;
+      padding: 10px;
     }
     
     .role-column h3 {
       text-align: center;
       font-size: 1rem;
       color: #ffc107;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
 
@@ -336,35 +335,33 @@ function renderStats() {
 function renderGroupedColumn(id, label, groupedData) {
   const col = document.getElementById(id);
   col.className = 'stat-section';
-  col.innerHTML = `<h2>Most ${label}</h2>`;
+  col.innerHTML = `<h2>Most ${label}</h2><div class="role-columns">`;
 
-  const rolesSorted = Object.entries(groupedData).sort(([a], [b]) => a.localeCompare(b));
-
-  col.innerHTML += `<div class="role-grid">`;
-
-  rolesSorted.forEach(([role, list]) => {
-    col.innerHTML += `
-      <div class="role-column">
-        <h3>${role}</h3>
-        ${list.sort((a, b) => b.rate - a.rate).slice(0, 10).map(d => `
-          <div class="hero-card" style="flex-direction: column; align-items: center;">
-            <img src="${d.img}" alt="${d.hero}">
-            <div class="hero-info" style="text-align:center;">
-              <small><strong>${d.hero}</strong></small>
-              <small style="color:${label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'}">
-                ${label}: ${(d.rate * 100).toFixed(1)}% (${d.value})
-              </small>
-              <div class="bar" style="width:${(d.rate * 100).toFixed(1)}%; background: ${
-                label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'
-              }"></div>
+  Object.entries(groupedData)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .forEach(([role, list]) => {
+      col.innerHTML += `
+        <div class="role-column">
+          <h3>${role}</h3>
+          ${list.sort((a, b) => b.rate - a.rate).slice(0, 10).map(d => `
+            <div class="hero-card" style="flex-direction: column; align-items: center;">
+              <img src="${d.img}" alt="${d.hero}">
+              <div class="hero-info" style="text-align:center;">
+                <small><strong>${d.hero}</strong></small>
+                <small style="color:${label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'}">
+                  ${label}: ${(d.rate * 100).toFixed(1)}% (${d.value})
+                </small>
+                <div class="bar" style="width:${(d.rate * 100).toFixed(1)}%; background: ${
+                  label === 'Win' ? '#2196f3' : label === 'Ban' ? '#f44336' : '#4caf50'
+                }"></div>
+              </div>
             </div>
-          </div>
-        `).join('')}
-      </div>
-    `;
-  });
+          `).join('')}
+        </div>
+      `;
+    });
 
-  col.innerHTML += `</div>`;
+  col.innerHTML += '</div>';
 }
 
 async function fetchData() {
