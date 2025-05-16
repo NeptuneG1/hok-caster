@@ -134,6 +134,7 @@
   </div>
 
   <div id="playerPicks"></div>
+  <div id="seriesBreakdown" style="max-width: 1200px; margin: 2rem auto;"></div>
   <div id="matchHistory"></div>
 
   <!-- Stat sections for Pick, Ban, Win -->
@@ -247,6 +248,63 @@
       return stats;
     }
 
+    function renderSeriesBreakdown() {
+      const container = document.getElementById('seriesBreakdown');
+      const selectedTeam = document.getElementById('teamSelect').value;
+      const selectedTournament = document.getElementById('tournamentSelect').value;
+    
+      if (!selectedTeam || selectedTeam === 'all') {
+        container.innerHTML = '';
+        return;
+      }
+    
+      const teamMatches = matchList.filter(m =>
+        (m.team1_name === selectedTeam || m.team2_name === selectedTeam) &&
+        (selectedTournament === 'all' || m.tournament === selectedTournament)
+      );
+    
+      container.innerHTML = `
+        <h2 style="text-align:center;">${selectedTeam} Game Breakdown</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Opponent</th>
+              <th>Series</th>
+              <th>Game 1</th>
+              <th>Game 2</th>
+              <th>Game 3</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${teamMatches.map(match => {
+              const isTeam1 = match.team1_name === selectedTeam;
+              const opponent = isTeam1 ? match.team2_name : match.team1_name;
+              const score = isTeam1
+                ? `${match.team1_score}-${match.team2_score}`
+                : `${match.team2_score}-${match.team1_score}`;
+    
+              const prefix = isTeam1 ? 'team1' : 'team2';
+              const results = [1, 2, 3].map(i => {
+                const winner = match[`game${i}_winner`];
+                if (!winner) return `<td>-</td>`;
+                const isWin = winner === selectedTeam;
+                return `<td style="color:${isWin ? '#66ff66' : '#ff6666'};">${isWin ? 'W' : 'L'}</td>`;
+              }).join('');
+    
+              return `
+                <tr style="background:#2f3442;">
+                  <td>${opponent}</td>
+                  <td><strong style="color:#ffc107;">${score}</strong></td>
+                  ${results}
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    
     function renderMatchHistory() {
       const container = document.getElementById('matchHistory');
       const selectedTeam = document.getElementById('teamSelect').value;
@@ -379,6 +437,7 @@
       renderGroupedColumn("banColumn", "Ban", grouped.ban);
       renderGroupedColumn("winColumn", "Win", grouped.win);
       renderPlayerPicks();
+      renderSeriesBreakdown();
       renderMatchHistory();
     }
 
@@ -403,6 +462,7 @@
       document.getElementById('teamSelect').addEventListener('change', renderStats);
 
       renderStats();
+      renderSeriesBreakdown();
       renderMatchHistory();
     }
 
