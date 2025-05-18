@@ -55,7 +55,10 @@
     "resistance": "0%",
     "healthper5": 50,
     "manaper5": 18,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Alessio",
@@ -113,7 +116,10 @@
     "resistance": "0%",
     "healthper5": 46,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Allain",
@@ -171,7 +177,10 @@
     "resistance": "0%",
     "healthper5": 51,
     "manaper5": 0,
-    "powerALT": "Fury"
+    "powerALT": "Fury",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Angela",
@@ -229,7 +238,10 @@
     "resistance": "0%",
     "healthper5": 47,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Arke",
@@ -287,7 +299,10 @@
     "resistance": "0%",
     "healthper5": 50,
     "manaper5": 0,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Arli",
@@ -345,7 +360,10 @@
     "resistance": "0%",
     "healthper5": 39,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Arthur",
@@ -403,7 +421,10 @@
     "resistance": "0%",
     "healthper5": 55,
     "manaper5": 0,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "The radiant knight leads the charge—simple, strong, and stunningly reliable!",
+    "Ban Reason": "Fast, tanky, and hard to punish—dominates solo lanes and early rotations.",
+    "Pick Reason": "Beginner-friendly and strong at diving backline carries."
   },
   {
     "Hero": "Ata",
@@ -461,7 +482,10 @@
     "resistance": "0%",
     "healthper5": 81,
     "manaper5": 0,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Athena",
@@ -519,7 +543,10 @@
     "resistance": "0%",
     "healthper5": 44,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Augran",
@@ -577,7 +604,10 @@
     "resistance": "0%",
     "healthper5": 51,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Bai Qi",
@@ -593,8 +623,8 @@
     "Status": "",
     "Lane": "ClashLane",
     "ImageURL": "https://i.imgur.com/ux8CVHc.jpeg",
-    "Strategy": "Bai Qi's most common skill combo is Ult-2-1. Try to hit as many enemies as possible with Skill 1 Skill 1 in order to recover more Health.",
-    "Description": "Bai Qi's most common skill combo is Ult-2-1. Try to hit as many enemies as possible with Skill 1 Skill 1 in order to recover more Health.",
+    "Strategy": "",
+    "Description": "",
     "Countered by": "",
     "SkillType1": "Passive",
     "SkillType2": "Active Skill 1",
@@ -635,7 +665,10 @@
     "resistance": "0%",
     "healthper5": 50,
     "manaper5": 0,
-    "powerALT": "Shadow Power"
+    "powerALT": "Shadow Power",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Biron",
@@ -693,7 +726,10 @@
     "resistance": "0%",
     "healthper5": 50,
     "manaper5": 0,
-    "powerALT": "Energy"
+    "powerALT": "Energy",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Butterfly",
@@ -751,7 +787,10 @@
     "resistance": "0%",
     "healthper5": 57,
     "manaper5": 0,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Cai Yan",
@@ -809,7 +848,10 @@
     "resistance": "0%",
     "healthper5": 38,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Chano",
@@ -867,7 +909,10 @@
     "resistance": "0%",
     "healthper5": 37,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Charlotte",
@@ -925,7 +970,10 @@
     "resistance": "0%",
     "healthper5": 50,
     "manaper5": 0,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Cirrus",
@@ -983,7 +1031,10 @@
     "resistance": "0%",
     "healthper5": 49,
     "manaper5": 0,
-    "powerALT": "Breath"
+    "powerALT": "Breath",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Consort Yu",
@@ -1041,7 +1092,10 @@
     "resistance": "0%",
     "healthper5": 36,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "Consort Yu plays the battlefield like a harp—graceful, lethal, and hard to catch!",
+    "Ban Reason": "Kiting and AoE damage are hard to handle without strong CC.",
+    "Pick Reason": "Mobile, sustained damage dealer who thrives in extended fights."
   },
   {
     "Hero": "Da Qiao",
@@ -1099,7 +1153,10 @@
     "resistance": "0%",
     "healthper5": 42,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Daji",
@@ -1157,7 +1214,10 @@
     "resistance": "0%",
     "healthper5": 46,
     "manaper5": 18,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Dharma",
@@ -1215,7 +1275,10 @@
     "resistance": "0%",
     "healthper5": 51,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Di Renjie",
@@ -1273,7 +1336,10 @@
     "resistance": "0%",
     "healthper5": 40,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Dian Wei",
@@ -1331,7 +1397,10 @@
     "resistance": "0%",
     "healthper5": 52,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Diaochan",
@@ -1389,7 +1458,10 @@
     "resistance": "0%",
     "healthper5": 43,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Dolia",
@@ -1447,7 +1519,10 @@
     "resistance": "0%",
     "healthper5": 45,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Donghuang",
@@ -1505,7 +1580,10 @@
     "resistance": "0%",
     "healthper5": 80,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "Donghuang commands the battlefield with iron will and unbreakable control!",
+    "Ban Reason": "His suppress ult can completely shut down key targets like marksmen or mages.",
+    "Pick Reason": "Offers one of the strongest anti-carry tools and is excellent for picks."
   },
   {
     "Hero": "Dr. Bian",
@@ -1563,7 +1641,10 @@
     "resistance": "0%",
     "healthper5": 43,
     "manaper5": 18,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Dun",
@@ -1621,7 +1702,10 @@
     "resistance": "0%",
     "healthper5": 84,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Dyadia",
@@ -1679,7 +1763,10 @@
     "resistance": "0%",
     "healthper5": 45,
     "manaper5": 18,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Erin",
@@ -1737,7 +1824,10 @@
     "resistance": "0%",
     "healthper5": 39,
     "manaper5": 0,
-    "powerALT": "Energy"
+    "powerALT": "Energy",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Fang",
@@ -1795,7 +1885,10 @@
     "resistance": "0%",
     "healthper5": 37,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Feyd",
@@ -1853,7 +1946,10 @@
     "resistance": "0%",
     "healthper5": 48,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Fuzi",
@@ -1911,7 +2007,10 @@
     "resistance": "0%",
     "healthper5": 51,
     "manaper5": 0,
-    "powerALT": "Admonition"
+    "powerALT": "Admonition",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Gan & Mo",
@@ -1969,7 +2068,10 @@
     "resistance": "0%",
     "healthper5": 45,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Gao",
@@ -2027,7 +2129,10 @@
     "resistance": "0%",
     "healthper5": 44,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Garo",
@@ -2085,7 +2190,10 @@
     "resistance": "0%",
     "healthper5": 39,
     "manaper5": 18,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Guan Yu",
@@ -2143,7 +2251,10 @@
     "resistance": "0%",
     "healthper5": 53,
     "manaper5": 0,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Guiguzi",
@@ -2201,7 +2312,10 @@
     "resistance": "0%",
     "healthper5": 47,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Han Xin",
@@ -2259,7 +2373,10 @@
     "resistance": "0%",
     "healthper5": 47,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "Han Xin dances through the jungle with flair—stylish, slippery, and savage!",
+    "Ban Reason": "Hard to lock down and enables early ganks that tilt lanes.",
+    "Pick Reason": "Elite mobility and strong jungle control make him a staple pick."
   },
   {
     "Hero": "Heino",
@@ -2317,7 +2434,10 @@
     "resistance": "0%",
     "healthper5": 46,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Hou Yi",
@@ -2375,7 +2495,10 @@
     "resistance": "0%",
     "healthper5": 41,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "Hou Yi rains fire from the heavens—unstoppable in the late game!",
+    "Ban Reason": "AoE auto attacks and anti-air utility make him oppressive when fed.",
+    "Pick Reason": "Amazing into dive comps thanks to knock-up and kiting."
   },
   {
     "Hero": "Huang Zhong",
@@ -2433,7 +2556,10 @@
     "resistance": "0%",
     "healthper5": 39,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "The turret master! Huang Zhong holds the line—and deletes anyone who steps too close!",
+    "Ban Reason": "Siege mode makes him untouchable behind tanks.",
+    "Pick Reason": "Great for defending objectives or setting up around Dragon/Dark Slayer."
   },
   {
     "Hero": "Jing",
@@ -2491,7 +2617,10 @@
     "resistance": "0%",
     "healthper5": 52,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Kaizer",
@@ -2549,7 +2678,10 @@
     "resistance": "0%",
     "healthper5": 44,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Kongming",
@@ -2607,7 +2739,10 @@
     "resistance": "0%",
     "healthper5": 46,
     "manaper5": 18,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Kui",
@@ -2665,7 +2800,10 @@
     "resistance": "0%",
     "healthper5": 79,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Lady Sun",
@@ -2723,7 +2861,10 @@
     "resistance": "0%",
     "healthper5": 40,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Lady Zhen",
@@ -2781,7 +2922,10 @@
     "resistance": "0%",
     "healthper5": 45,
     "manaper5": 18,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Lam",
@@ -2839,7 +2983,10 @@
     "resistance": "0%",
     "healthper5": 51,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "From the shadows comes Lam—slippery, lethal, and gone before you blink!",
+    "Ban Reason": "CC immunity during ult and high burst make him a nightmare for squishies.",
+    "Pick Reason": "Excellent for diving backlines and escaping cleanly."
   },
   {
     "Hero": "Li Bai",
@@ -2897,7 +3044,10 @@
     "resistance": "0%",
     "healthper5": 49,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Li Xin",
@@ -2955,7 +3105,10 @@
     "resistance": "0%",
     "healthper5": 52,
     "manaper5": 0,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Lian Po",
@@ -3013,7 +3166,10 @@
     "resistance": "0%",
     "healthper5": 78,
     "manaper5": 0,
-    "powerALT": "Battle Spirit"
+    "powerALT": "Battle Spirit",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Liang",
@@ -3071,7 +3227,10 @@
     "resistance": "0%",
     "healthper5": 43,
     "manaper5": 18,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Liu Bang",
@@ -3129,7 +3288,10 @@
     "resistance": "0%",
     "healthper5": 88,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Liu Bei",
@@ -3187,7 +3349,10 @@
     "resistance": "0%",
     "healthper5": 40,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Liu Shan",
@@ -3245,7 +3410,10 @@
     "resistance": "0%",
     "healthper5": 84,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Loong",
@@ -3303,7 +3471,10 @@
     "resistance": "0%",
     "healthper5": 44,
     "manaper5": 14,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Lu Bu",
@@ -3361,7 +3532,10 @@
     "resistance": "0%",
     "healthper5": 54,
     "manaper5": 0,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Luara",
@@ -3419,7 +3593,10 @@
     "resistance": "0%",
     "healthper5": 37,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Luban No.7",
@@ -3477,7 +3654,10 @@
     "resistance": "0%",
     "healthper5": 47,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Luna",
@@ -3535,7 +3715,10 @@
     "resistance": "0%",
     "healthper5": 52,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Mai Shiranui",
@@ -3593,7 +3776,10 @@
     "resistance": "0%",
     "healthper5": 46,
     "manaper5": 50,
-    "powerALT": "Energy"
+    "powerALT": "Energy",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Marco Polo",
@@ -3651,7 +3837,10 @@
     "resistance": "0%",
     "healthper5": 46,
     "manaper5": 50,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "Dashing gunslinger with style—Marco Polo sprays, shreds, and escapes like no other!",
+    "Ban Reason": "Early-game dominance and hybrid scaling make him oppressive in pro hands.",
+    "Pick Reason": "Great against tanks due to %HP true damage and mobility."
   },
   {
     "Hero": "Mayene",
@@ -3709,7 +3898,10 @@
     "resistance": "0%",
     "healthper5": 49,
     "manaper5": 0,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Meng Ya",
@@ -3767,7 +3959,10 @@
     "resistance": "0%",
     "healthper5": 40,
     "manaper5": 0,
-    "powerALT": "Heat"
+    "powerALT": "Heat",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Menki",
@@ -3825,7 +4020,10 @@
     "resistance": "0%",
     "healthper5": 76,
     "manaper5": 0,
-    "powerALT": "Mass"
+    "powerALT": "Mass",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Mi Yue",
@@ -3883,7 +4081,10 @@
     "resistance": "0%",
     "healthper5": 44,
     "manaper5": 0,
-    "powerALT": "Shadow Power"
+    "powerALT": "Shadow Power",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Milady",
@@ -3941,7 +4142,10 @@
     "resistance": "0%",
     "healthper5": 45,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Ming",
@@ -3999,7 +4203,10 @@
     "resistance": "0%",
     "healthper5": 46,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Mozi",
@@ -4057,7 +4264,10 @@
     "resistance": "0%",
     "healthper5": 76,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "Mozi locks the enemy in a cage of pain—control, area denial, and reliability!",
+    "Ban Reason": "His energy cage and poke are hard to deal with in narrow objectives.",
+    "Pick Reason": "Zones effectively, and his CC fits every comp."
   },
   {
     "Hero": "Mulan",
@@ -4115,7 +4325,10 @@
     "resistance": "0%",
     "healthper5": 54,
     "manaper5": 0,
-    "powerALT": "Spirit"
+    "powerALT": "Spirit",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Musashi",
@@ -4173,7 +4386,10 @@
     "resistance": "0%",
     "healthper5": 48,
     "manaper5": 0,
-    "powerALT": "Energy"
+    "powerALT": "Energy",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Nakoruru",
@@ -4231,7 +4447,10 @@
     "resistance": "0%",
     "healthper5": 47,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Nezha",
@@ -4289,7 +4508,10 @@
     "resistance": "0%",
     "healthper5": 52,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Nuwa",
@@ -4347,7 +4569,10 @@
     "resistance": "0%",
     "healthper5": 45,
     "manaper5": 19,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Pei",
@@ -4405,7 +4630,10 @@
     "resistance": "0%",
     "healthper5": 45,
     "manaper5": 50,
-    "powerALT": "Energy"
+    "powerALT": "Energy",
+    "Shoutcaster Intro": "Pei crashes in from above—one shot, one escape, one headache for your backline!",
+    "Ban Reason": "High burst mobility assassin with few counters in low-coordination comps.",
+    "Pick Reason": "Strong at punishing overextended carries."
   },
   {
     "Hero": "Prince of Lanling",
@@ -4463,7 +4691,10 @@
     "resistance": "0%",
     "healthper5": 52,
     "manaper5": 19,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "The silent blade of doom—Lanling assassinates before you know he's there!",
+    "Ban Reason": "His stealth and burst delete priority targets without warning.",
+    "Pick Reason": "Perfect for snowballing and dueling early-game junglers."
   },
   {
     "Hero": "Princess Frost",
@@ -4521,7 +4752,10 @@
     "resistance": "0%",
     "healthper5": 44,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Sakeer",
@@ -4579,7 +4813,10 @@
     "resistance": "0%",
     "healthper5": 47,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Shangguan",
@@ -4637,7 +4874,10 @@
     "resistance": "0%",
     "healthper5": 48,
     "manaper5": 18,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Shi",
@@ -4695,7 +4935,10 @@
     "resistance": "0%",
     "healthper5": 43,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Shouyue",
@@ -4753,7 +4996,10 @@
     "resistance": "0%",
     "healthper5": 39,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "The wolf-eyed sniper watches… and when he strikes, there’s no escape!",
+    "Ban Reason": "Long-range poke and stealth punishes immobile targets.",
+    "Pick Reason": "Strong lane control and backline pressure from afar."
   },
   {
     "Hero": "Sima Yi",
@@ -4811,7 +5057,10 @@
     "resistance": "0%",
     "healthper5": 45,
     "manaper5": 10,
-    "powerALT": "Energy"
+    "powerALT": "Energy",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Sun Bin",
@@ -4869,7 +5118,10 @@
     "resistance": "0%",
     "healthper5": 45,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Sun Ce",
@@ -4927,7 +5179,10 @@
     "resistance": "0%",
     "healthper5": 80,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Ukyo Tachibana",
@@ -4985,7 +5240,10 @@
     "resistance": "0%",
     "healthper5": 48,
     "manaper5": 0,
-    "powerALT": "Energy"
+    "powerALT": "Energy",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Wukong",
@@ -5043,7 +5301,10 @@
     "resistance": "0%",
     "healthper5": 50,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Wuyan",
@@ -5101,7 +5362,10 @@
     "resistance": "0%",
     "healthper5": 48,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Xiang Yu",
@@ -5159,7 +5423,10 @@
     "resistance": "0%",
     "healthper5": 76,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "The tyrant storms the lane—unmovable, unkillable, unrelenting!",
+    "Ban Reason": "Tanky, CC-heavy, and punishing in jungle fights.",
+    "Pick Reason": "Great for zoning and body-blocking damage for your squishies."
   },
   {
     "Hero": "Xiao Qiao",
@@ -5217,7 +5484,10 @@
     "resistance": "0%",
     "healthper5": 44,
     "manaper5": 18,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Xuance",
@@ -5275,7 +5545,10 @@
     "resistance": "0%",
     "healthper5": 51,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Yang Jian",
@@ -5333,7 +5606,10 @@
     "resistance": "0%",
     "healthper5": 51,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "The celestial warhound charges with fury—disruption, mobility, and damage in one!",
+    "Ban Reason": "Slippery fighter with a pet leap that punishes careless movement.",
+    "Pick Reason": "Great for team fight disruption and chasing squishies."
   },
   {
     "Hero": "Yao",
@@ -5391,7 +5667,10 @@
     "resistance": "0%",
     "healthper5": 49,
     "manaper5": 0,
-    "powerALT": "Energy"
+    "powerALT": "Energy",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Yaria",
@@ -5449,7 +5728,10 @@
     "resistance": "0%",
     "healthper5": 36,
     "manaper5": 16,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Ying",
@@ -5507,7 +5789,10 @@
     "resistance": "0%",
     "healthper5": 49,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "Ying flows like water—deceptive illusions lead you into death!",
+    "Ban Reason": "Can dodge skillshots and bait ultimates with clone-based kit.",
+    "Pick Reason": "Flexible assassin with outplay potential and mind games."
   },
   {
     "Hero": "Yixing",
@@ -5565,7 +5850,10 @@
     "resistance": "0%",
     "healthper5": 45,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Yuhuan",
@@ -5623,7 +5911,10 @@
     "resistance": "0%",
     "healthper5": 42,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Zhang Fei",
@@ -5681,7 +5972,10 @@
     "resistance": "0%",
     "healthper5": 86,
     "manaper5": 5,
-    "powerALT": "Madness"
+    "powerALT": "Madness",
+    "Shoutcaster Intro": "Zhang Fei roars into battle, bringing chaos and control to the frontline!",
+    "Ban Reason": "His transformation ultimate provides a massive shield and CC—hard to deal with in late-game team fights.",
+    "Pick Reason": "Great for peeling squishies and initiating team fights with game-changing ults."
   },
   {
     "Hero": "Zhou Yu",
@@ -5739,7 +6033,10 @@
     "resistance": "0%",
     "healthper5": 44,
     "manaper5": 17,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Zhuangzi",
@@ -5797,7 +6094,10 @@
     "resistance": "0%",
     "healthper5": 78,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Zilong",
@@ -5855,7 +6155,10 @@
     "resistance": "0%",
     "healthper5": 50,
     "manaper5": 15,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "",
+    "Ban Reason": "",
+    "Pick Reason": ""
   },
   {
     "Hero": "Ziya",
@@ -5913,6 +6216,9 @@
     "resistance": "0%",
     "healthper5": 42,
     "manaper5": 18,
-    "powerALT": "Mana"
+    "powerALT": "Mana",
+    "Shoutcaster Intro": "Ziya brings the storm—bursting enemies with chain lightning and arcane resets!",
+    "Ban Reason": "Dominates mid-lane with insane burst and cooldown resets—she snowballs fast.",
+    "Pick Reason": "Controls fights with AoE damage and massive poke pressure."
   }
 ]
