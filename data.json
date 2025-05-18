@@ -300,9 +300,9 @@
     "healthper5": 50,
     "manaper5": 0,
     "powerALT": "Mana",
-    "Shoutcaster Intro": "",
-    "Ban Reason": "",
-    "Pick Reason": ""
+    "Shoutcaster Intro": "The silent killer—A Ke never misses a chance to capitalize on chaos!",
+    "Ban Reason": "Extremely bursty and snowballs fast from a single kill.",
+    "Pick Reason": "Strong in pick comps and resets make her hard to punish."
   },
   {
     "Hero": "Arli",
@@ -361,9 +361,9 @@
     "healthper5": 39,
     "manaper5": 15,
     "powerALT": "Mana",
-    "Shoutcaster Intro": "",
-    "Ban Reason": "",
-    "Pick Reason": ""
+    "Shoutcaster Intro": "She dances through danger—dashing and darting with precision and grace!\"\nHybrid- \"Gongsun Li dances between danger and brilliance—both a beauty and a bombshell!",
+    "Ban Reason": "Mobility and outplay potential make her oppressive in high-skill hands.\nHybrid- Her mobility and mixed scaling make her unpredictable.",
+    "Pick Reason": "Hard to pin down and excellent at chasing down kills.\nHybrid - Excellent at poking and repositioning in skirmishes."
   },
   {
     "Hero": "Arthur",
@@ -1215,9 +1215,9 @@
     "healthper5": 46,
     "manaper5": 18,
     "powerALT": "Mana",
-    "Shoutcaster Intro": "",
-    "Ban Reason": "",
-    "Pick Reason": ""
+    "Shoutcaster Intro": "She blends into the mist—disorienting, punishing, and always one step ahead!",
+    "Ban Reason": "Difficult to track, counters many squishy mid/marksman comps.",
+    "Pick Reason": "Very strong against static backlines or immobile mages."
   },
   {
     "Hero": "Dharma",
@@ -1337,9 +1337,9 @@
     "healthper5": 40,
     "manaper5": 15,
     "powerALT": "Mana",
-    "Shoutcaster Intro": "",
-    "Ban Reason": "",
-    "Pick Reason": ""
+    "Shoutcaster Intro": "Justice is swift—Di Renjie cleanses, kites, and carries!",
+    "Ban Reason": "Built-in cleanse and mobility make him hard to CC or dive.",
+    "Pick Reason": "Consistent DPS and lane safety make him a reliable pick."
   },
   {
     "Hero": "Dian Wei",
@@ -1459,9 +1459,9 @@
     "healthper5": 43,
     "manaper5": 17,
     "powerALT": "Mana",
-    "Shoutcaster Intro": "",
-    "Ban Reason": "",
-    "Pick Reason": ""
+    "Shoutcaster Intro": "The frost queen of the battlefield—Diao Chan freezes entire teams with elegant destruction!\"\nMage- \"The ice queen slows your death—frozen, beautiful, and brutal.",
+    "Ban Reason": "Her freeze and invincibility make her difficult to punish in team fights.\nMage - Difficult to displace and punishes bad positioning.",
+    "Pick Reason": "Great for tight jungle fights and late-game scaling.\nMage - High utility in team fights and strong AoE presence."
   },
   {
     "Hero": "Dolia",
@@ -2740,9 +2740,9 @@
     "healthper5": 46,
     "manaper5": 18,
     "powerALT": "Mana",
-    "Shoutcaster Intro": "",
-    "Ban Reason": "",
-    "Pick Reason": ""
+    "Shoutcaster Intro": "Zhuge Liang rewrites the laws of battle with every reset—outsmart, outplay, outlast!",
+    "Ban Reason": "Reset-based snowballer—if he gets fed, it’s over.",
+    "Pick Reason": "One of the best mid-lane carries if ahead early."
   },
   {
     "Hero": "Kui",
@@ -2801,9 +2801,9 @@
     "healthper5": 79,
     "manaper5": 17,
     "powerALT": "Mana",
-    "Shoutcaster Intro": "",
-    "Ban Reason": "",
-    "Pick Reason": ""
+    "Shoutcaster Intro": "Zhong Kui drags souls and enemies alike—don’t blink or you’re gone!",
+    "Ban Reason": "His hook and silence combo can ruin the squishiest carries.",
+    "Pick Reason": "Great for pick comps and disrupting team formations."
   },
   {
     "Hero": "Lady Sun",
@@ -3533,9 +3533,9 @@
     "healthper5": 54,
     "manaper5": 0,
     "powerALT": "Mana",
-    "Shoutcaster Intro": "",
-    "Ban Reason": "",
-    "Pick Reason": ""
+    "Shoutcaster Intro": "Tank - \"Lü Bu doesn’t back down—he charges into the fray with steel and resolve!\"\n\"The Demon God of War descends—Lü Bu never backs down, and never dies!",
+    "Ban Reason": "Tank - His sustain and tenacity make him near-impossible to burst down.\nNear-immortal with lifesteal and CC resistance—he’s a raid boss in side lane.",
+    "Pick Reason": "Tank - Excellent for extended team fights and tower dives.\nExcellent for 1v1 duels and late-game frontline pressure."
   },
   {
     "Hero": "Luara",
@@ -3655,9 +3655,9 @@
     "healthper5": 47,
     "manaper5": 15,
     "powerALT": "Mana",
-    "Shoutcaster Intro": "",
-    "Ban Reason": "",
-    "Pick Reason": ""
+    "Shoutcaster Intro": "Tank - \"Luban’s got tech, power, and plenty of boom—even in the frontline!\"\n\"The cannon kid is no joke—Luban No.7 blasts through everything with absurd DPS!",
+    "Ban Reason": "Tank - Tank build with utility makes him unkillable in long fights.\nHighest DPS in the game if protected—melts tanks and towers alike.",
+    "Pick Reason": "Tank - Versatile and deceptive; still puts out damage while soaking hits.\nStrongest late-game hypercarry with insane turret pressure."
   },
   {
     "Hero": "Luna",
@@ -4265,9 +4265,9 @@
     "healthper5": 76,
     "manaper5": 15,
     "powerALT": "Mana",
-    "Shoutcaster Intro": "Mozi locks the enemy in a cage of pain—control, area denial, and reliability!",
-    "Ban Reason": "His energy cage and poke are hard to deal with in narrow objectives.",
-    "Pick Reason": "Zones effectively, and his CC fits every comp."
+    "Shoutcaster Intro": "Mozi locks the enemy in a cage of pain—control, area denial, and reliability!\"\nMage - \"Mozi calculates victory with lasers and energy prisons—don’t get caught!",
+    "Ban Reason": "His energy cage and poke are hard to deal with in narrow objectives.\nMage - The cage and laser combo can delete squishies and control objectives.",
+    "Pick Reason": "Zones effectively, and his CC fits every comp.\nMage - Great for sieging and zoning around towers or Dark Slayer."
   },
   {
     "Hero": "Mulan",
@@ -4753,9 +4753,9 @@
     "healthper5": 44,
     "manaper5": 17,
     "powerALT": "Mana",
-    "Shoutcaster Intro": "",
-    "Ban Reason": "",
-    "Pick Reason": ""
+    "Shoutcaster Intro": "Wang Zhaojun freezes the battlefield with a single note—beautiful and deadly!",
+    "Ban Reason": "AoE freeze and zoning ult make her deadly in choke points.",
+    "Pick Reason": "Great in jungle fights and for locking down mobile heroes."
   },
   {
     "Hero": "Sakeer",
@@ -4875,9 +4875,9 @@
     "healthper5": 48,
     "manaper5": 18,
     "powerALT": "Mana",
-    "Shoutcaster Intro": "",
-    "Ban Reason": "",
-    "Pick Reason": ""
+    "Shoutcaster Intro": "Aerial ace of assassination—Wan’er flies in with flair and fireworks!",
+    "Ban Reason": "Her ult can delete multiple squishies if unbanned.",
+    "Pick Reason": "High-risk, high-reward burst mage with flashy outplay potential."
   },
   {
     "Hero": "Shi",
@@ -6156,9 +6156,9 @@
     "healthper5": 50,
     "manaper5": 15,
     "powerALT": "Mana",
-    "Shoutcaster Intro": "",
-    "Ban Reason": "",
-    "Pick Reason": ""
+    "Shoutcaster Intro": "The dragon warrior charges fearlessly—Zhao Yun never stops once he starts!",
+    "Ban Reason": "Gap-closer, CC, and survivability rolled into one deadly package.",
+    "Pick Reason": "Amazing engage and sustain for dive-heavy comps."
   },
   {
     "Hero": "Ziya",
