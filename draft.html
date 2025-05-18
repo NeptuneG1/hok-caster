@@ -396,8 +396,15 @@
       const area = document.getElementById("strategyArea");
       const strategyBox = document.getElementById("strategyText");
       const image = document.getElementById("strategyImg");
-      const strategy = (hero.Strategy || '').replace(/\n/g, '<br>');
-      strategyBox.innerHTML = `<strong>${hero.Hero}</strong>:<br>${strategy}`;
+      const intro = hero['Shoutcaster Intro'] || 'No intro available.';
+      const ban = hero['Ban Reason'] || 'No ban reason.';
+      const pick = hero['Pick Reason'] || 'No pick reason.';
+      strategyBox.innerHTML = `
+        <strong>${hero.Hero}</strong><br><br>
+        <strong>Shoutcaster Intro:</strong><br>${intro.replace(/\n/g, '<br>')}<br><br>
+        <strong>Ban Reason:</strong><br>${ban.replace(/\n/g, '<br>')}<br><br>
+        <strong>Pick Reason:</strong><br>${pick.replace(/\n/g, '<br>')}
+      `;
       image.src = hero.ImageURL || image.src;
       area.scrollIntoView({ behavior: 'smooth' });
 
