@@ -5,60 +5,6 @@
     "date": "2025-04-18",
     "stage": "Knockout Stage",
     "format": "BO3",
-    "game": 1,
-    "matchup": "DTE vs AG",
-    "team1_score": 7,
-    "team2_score": 1,
-    "winner": "DTE Gaming",
-    "team1_name": "DTE Gaming",
-    "team2_name": "All Gamers Global",
-    "team1_hero1": "Dharma",
-    "team1_hero2": "Menki",
-    "team1_hero3": "Mai Shiranui",
-    "team1_hero4": "Marco Polo",
-    "team1_hero5": "Sun Bin",
-    "team2_hero1": "Charlotte",
-    "team2_hero2": "Agudo",
-    "team2_hero3": "Yuhuan",
-    "team2_hero4": "Loong",
-    "team2_hero5": "Zhang Fei",
-    "team1_ban1": "Luna",
-    "team1_ban2": "Pei",
-    "team1_ban3": "Biron",
-    "team1_ban4": "Mayene",
-    "team2_ban1": "Dyadia",
-    "team2_ban2": "Arli",
-    "team2_ban3": "Lady Sun",
-    "team2_ban4": "Di Renjie",
-    "team1_player1": "cm",
-    "team1_player2": "zunzun",
-    "team1_player3": "bb",
-    "team1_player4": "cece",
-    "team1_player5": "Hao",
-    "team2_player1": "Daohennnn",
-    "team2_player2": "YuLong",
-    "team2_player3": "pHy",
-    "team2_player4": "JD",
-    "team2_player5": "Saber",
-    "team1_kda1": "0/1/4",
-    "team1_kda2": "3/0/5",
-    "team1_kda3": "3/0/4",
-    "team1_kda4": "3/0/4",
-    "team1_kda5": "0/0/9",
-    "team2_kda1": "1/2/0",
-    "team2_kda2": "0/1/1",
-    "team2_kda3": "0/3/1",
-    "team2_kda4": "0/1/1",
-    "team2_kda5": "0/2/1",
-    "team1_MVP": 2,
-    "team2_MVP": 0
-  },
-  {
-    "refnum": 2,
-    "tournament": "MKL Spring 2025 - Regular Season",
-    "date": "2025-04-18",
-    "stage": "Knockout Stage",
-    "format": "BO3",
     "game": 2,
     "matchup": "DTE vs AG",
     "team1_score": 10,
@@ -108,7 +54,7 @@
     "team2_MVP": 2
   },
   {
-    "refnum": 3,
+    "refnum": 2,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-18",
     "stage": "Knockout Stage",
@@ -162,7 +108,7 @@
     "team2_MVP": 3
   },
   {
-    "refnum": 4,
+    "refnum": 3,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-18",
     "stage": "Knockout Stage",
@@ -216,7 +162,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 5,
+    "refnum": 4,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-18",
     "stage": "Knockout Stage",
@@ -270,7 +216,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 6,
+    "refnum": 5,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-18",
     "stage": "Knockout Stage",
@@ -324,7 +270,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 7,
+    "refnum": 6,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-18",
     "stage": "Knockout Stage",
@@ -378,7 +324,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 8,
+    "refnum": 7,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-19",
     "stage": "Knockout Stage",
@@ -432,7 +378,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 9,
+    "refnum": 8,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-19",
     "stage": "Knockout Stage",
@@ -486,7 +432,7 @@
     "team2_MVP": 1
   },
   {
-    "refnum": 10,
+    "refnum": 9,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-19",
     "stage": "Knockout Stage",
@@ -540,7 +486,7 @@
     "team2_MVP": 1
   },
   {
-    "refnum": 11,
+    "refnum": 10,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-19",
     "stage": "Knockout Stage",
@@ -594,7 +540,7 @@
     "team2_MVP": 4
   },
   {
-    "refnum": 12,
+    "refnum": 11,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-19",
     "stage": "Knockout Stage",
@@ -648,7 +594,7 @@
     "team2_MVP": 2
   },
   {
-    "refnum": 13,
+    "refnum": 12,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-19",
     "stage": "Knockout Stage",
@@ -702,7 +648,7 @@
     "team2_MVP": 2
   },
   {
-    "refnum": 14,
+    "refnum": 13,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-19",
     "stage": "Knockout Stage",
@@ -756,7 +702,7 @@
     "team2_MVP": 3
   },
   {
-    "refnum": 15,
+    "refnum": 14,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-19",
     "stage": "Knockout Stage",
@@ -810,7 +756,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 16,
+    "refnum": 15,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-19",
     "stage": "Knockout Stage",
@@ -864,7 +810,7 @@
     "team2_MVP": 4
   },
   {
-    "refnum": 17,
+    "refnum": 16,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-19",
     "stage": "Knockout Stage",
@@ -918,7 +864,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 18,
+    "refnum": 17,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-20",
     "stage": "Knockout Stage",
@@ -972,7 +918,7 @@
     "team2_MVP": 3
   },
   {
-    "refnum": 19,
+    "refnum": 18,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-20",
     "stage": "Knockout Stage",
@@ -1026,7 +972,7 @@
     "team2_MVP": 4
   },
   {
-    "refnum": 20,
+    "refnum": 19,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-20",
     "stage": "Knockout Stage",
@@ -1080,7 +1026,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 21,
+    "refnum": 20,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-20",
     "stage": "Knockout Stage",
@@ -1134,7 +1080,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 22,
+    "refnum": 21,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-20",
     "stage": "Knockout Stage",
@@ -1188,7 +1134,7 @@
     "team2_MVP": 3
   },
   {
-    "refnum": 23,
+    "refnum": 22,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-20",
     "stage": "Knockout Stage",
@@ -1242,7 +1188,7 @@
     "team2_MVP": 4
   },
   {
-    "refnum": 24,
+    "refnum": 23,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-25",
     "stage": "Knockout Stage",
@@ -1296,7 +1242,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 25,
+    "refnum": 24,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-25",
     "stage": "Knockout Stage",
@@ -1350,7 +1296,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 26,
+    "refnum": 25,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-25",
     "stage": "Knockout Stage",
@@ -1404,7 +1350,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 27,
+    "refnum": 26,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-25",
     "stage": "Knockout Stage",
@@ -1458,7 +1404,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 28,
+    "refnum": 27,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-25",
     "stage": "Knockout Stage",
@@ -1512,7 +1458,7 @@
     "team2_MVP": 2
   },
   {
-    "refnum": 29,
+    "refnum": 28,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-25",
     "stage": "Knockout Stage",
@@ -1566,7 +1512,7 @@
     "team2_MVP": 5
   },
   {
-    "refnum": 30,
+    "refnum": 29,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-26",
     "stage": "Knockout Stage",
@@ -1620,7 +1566,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 31,
+    "refnum": 30,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-26",
     "stage": "Knockout Stage",
@@ -1674,7 +1620,7 @@
     "team2_MVP": 5
   },
   {
-    "refnum": 32,
+    "refnum": 31,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-26",
     "stage": "Knockout Stage",
@@ -1728,7 +1674,7 @@
     "team2_MVP": 1
   },
   {
-    "refnum": 33,
+    "refnum": 32,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-26",
     "stage": "Knockout Stage",
@@ -1782,7 +1728,7 @@
     "team2_MVP": 1
   },
   {
-    "refnum": 34,
+    "refnum": 33,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-26",
     "stage": "Knockout Stage",
@@ -1836,7 +1782,7 @@
     "team2_MVP": 1
   },
   {
-    "refnum": 35,
+    "refnum": 34,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-26",
     "stage": "Knockout Stage",
@@ -1890,7 +1836,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 36,
+    "refnum": 35,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-26",
     "stage": "Knockout Stage",
@@ -1944,7 +1890,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 37,
+    "refnum": 36,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-27",
     "stage": "Knockout Stage",
@@ -1998,7 +1944,7 @@
     "team2_MVP": 3
   },
   {
-    "refnum": 38,
+    "refnum": 37,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-27",
     "stage": "Knockout Stage",
@@ -2052,7 +1998,7 @@
     "team2_MVP": 5
   },
   {
-    "refnum": 39,
+    "refnum": 38,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-27",
     "stage": "Knockout Stage",
@@ -2106,7 +2052,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 40,
+    "refnum": 39,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-27",
     "stage": "Knockout Stage",
@@ -2160,7 +2106,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 41,
+    "refnum": 40,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-27",
     "stage": "Knockout Stage",
@@ -2214,7 +2160,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 42,
+    "refnum": 41,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-04-27",
     "stage": "Knockout Stage",
@@ -2268,7 +2214,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 43,
+    "refnum": 42,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-02",
     "stage": "Knockout Stage",
@@ -2322,7 +2268,7 @@
     "team2_MVP": 4
   },
   {
-    "refnum": 44,
+    "refnum": 43,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-02",
     "stage": "Knockout Stage",
@@ -2376,7 +2322,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 45,
+    "refnum": 44,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-02",
     "stage": "Knockout Stage",
@@ -2430,7 +2376,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 46,
+    "refnum": 45,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-02",
     "stage": "Knockout Stage",
@@ -2484,7 +2430,7 @@
     "team2_MVP": 5
   },
   {
-    "refnum": 47,
+    "refnum": 46,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-02",
     "stage": "Knockout Stage",
@@ -2538,7 +2484,7 @@
     "team2_MVP": 5
   },
   {
-    "refnum": 48,
+    "refnum": 47,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-02",
     "stage": "Knockout Stage",
@@ -2592,7 +2538,7 @@
     "team2_MVP": 3
   },
   {
-    "refnum": 49,
+    "refnum": 48,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-02",
     "stage": "Knockout Stage",
@@ -2646,7 +2592,7 @@
     "team2_MVP": 2
   },
   {
-    "refnum": 50,
+    "refnum": 49,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-03",
     "stage": "Knockout Stage",
@@ -2700,7 +2646,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 51,
+    "refnum": 50,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-03",
     "stage": "Knockout Stage",
@@ -2754,7 +2700,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 52,
+    "refnum": 51,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-03",
     "stage": "Knockout Stage",
@@ -2808,7 +2754,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 53,
+    "refnum": 52,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-03",
     "stage": "Knockout Stage",
@@ -2862,7 +2808,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 54,
+    "refnum": 53,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-03",
     "stage": "Knockout Stage",
@@ -2916,7 +2862,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 55,
+    "refnum": 54,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-03",
     "stage": "Knockout Stage",
@@ -2970,7 +2916,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 56,
+    "refnum": 55,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-04",
     "stage": "Knockout Stage",
@@ -3024,7 +2970,7 @@
     "team2_MVP": 4
   },
   {
-    "refnum": 57,
+    "refnum": 56,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-04",
     "stage": "Knockout Stage",
@@ -3078,7 +3024,7 @@
     "team2_MVP": 4
   },
   {
-    "refnum": 58,
+    "refnum": 57,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-04",
     "stage": "Knockout Stage",
@@ -3132,7 +3078,7 @@
     "team2_MVP": 2
   },
   {
-    "refnum": 59,
+    "refnum": 58,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-04",
     "stage": "Knockout Stage",
@@ -3186,7 +3132,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 60,
+    "refnum": 59,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-04",
     "stage": "Knockout Stage",
@@ -3240,7 +3186,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 61,
+    "refnum": 60,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-04",
     "stage": "Knockout Stage",
@@ -3294,7 +3240,7 @@
     "team2_MVP": 4
   },
   {
-    "refnum": 62,
+    "refnum": 61,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-04",
     "stage": "Knockout Stage",
@@ -3348,7 +3294,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 63,
+    "refnum": 62,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-04",
     "stage": "Knockout Stage",
@@ -3402,7 +3348,7 @@
     "team2_MVP": 5
   },
   {
-    "refnum": 64,
+    "refnum": 63,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-09",
     "stage": "Knockout Stage",
@@ -3456,7 +3402,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 65,
+    "refnum": 64,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-09",
     "stage": "Knockout Stage",
@@ -3510,7 +3456,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 66,
+    "refnum": 65,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-09",
     "stage": "Knockout Stage",
@@ -3564,7 +3510,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 67,
+    "refnum": 66,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-09",
     "stage": "Knockout Stage",
@@ -3618,7 +3564,7 @@
     "team2_MVP": 2
   },
   {
-    "refnum": 68,
+    "refnum": 67,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-09",
     "stage": "Knockout Stage",
@@ -3672,7 +3618,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 69,
+    "refnum": 68,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-09",
     "stage": "Knockout Stage",
@@ -3726,7 +3672,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 70,
+    "refnum": 69,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-09",
     "stage": "Knockout Stage",
@@ -3780,7 +3726,7 @@
     "team2_MVP": 4
   },
   {
-    "refnum": 71,
+    "refnum": 70,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-09",
     "stage": "Knockout Stage",
@@ -3834,7 +3780,7 @@
     "team2_MVP": 5
   },
   {
-    "refnum": 72,
+    "refnum": 71,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-10",
     "stage": "Knockout Stage",
@@ -3888,7 +3834,7 @@
     "team2_MVP": 2
   },
   {
-    "refnum": 73,
+    "refnum": 72,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-10",
     "stage": "Knockout Stage",
@@ -3942,7 +3888,7 @@
     "team2_MVP": 2
   },
   {
-    "refnum": 74,
+    "refnum": 73,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-10",
     "stage": "Knockout Stage",
@@ -3996,7 +3942,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 75,
+    "refnum": 74,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-10",
     "stage": "Knockout Stage",
@@ -4050,7 +3996,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 76,
+    "refnum": 75,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-10",
     "stage": "Knockout Stage",
@@ -4104,7 +4050,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 77,
+    "refnum": 76,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-10",
     "stage": "Knockout Stage",
@@ -4158,7 +4104,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 78,
+    "refnum": 77,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-11",
     "stage": "Knockout Stage",
@@ -4212,7 +4158,7 @@
     "team2_MVP": 3
   },
   {
-    "refnum": 79,
+    "refnum": 78,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-11",
     "stage": "Knockout Stage",
@@ -4266,7 +4212,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 80,
+    "refnum": 79,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-11",
     "stage": "Knockout Stage",
@@ -4320,7 +4266,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 81,
+    "refnum": 80,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-11",
     "stage": "Knockout Stage",
@@ -4374,7 +4320,7 @@
     "team2_MVP": 1
   },
   {
-    "refnum": 82,
+    "refnum": 81,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-11",
     "stage": "Knockout Stage",
@@ -4428,7 +4374,7 @@
     "team2_MVP": 3
   },
   {
-    "refnum": 83,
+    "refnum": 82,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-11",
     "stage": "Knockout Stage",
@@ -4482,7 +4428,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 84,
+    "refnum": 83,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-11",
     "stage": "Knockout Stage",
@@ -4536,7 +4482,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 85,
+    "refnum": 84,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-16",
     "stage": "Knockout Stage",
@@ -4590,7 +4536,7 @@
     "team2_MVP": 2
   },
   {
-    "refnum": 86,
+    "refnum": 85,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-16",
     "stage": "Knockout Stage",
@@ -4644,7 +4590,7 @@
     "team2_MVP": 2
   },
   {
-    "refnum": 87,
+    "refnum": 86,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-16",
     "stage": "Knockout Stage",
@@ -4698,7 +4644,7 @@
     "team2_MVP": 4
   },
   {
-    "refnum": 88,
+    "refnum": 87,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-16",
     "stage": "Knockout Stage",
@@ -4752,7 +4698,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 89,
+    "refnum": 88,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-16",
     "stage": "Knockout Stage",
@@ -4806,7 +4752,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 90,
+    "refnum": 89,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-16",
     "stage": "Knockout Stage",
@@ -4860,7 +4806,7 @@
     "team2_MVP": 0
   },
   {
-    "refnum": 91,
+    "refnum": 90,
     "tournament": "MKL Spring 2025 - Regular Season",
     "date": "2025-05-16",
     "stage": "Knockout Stage",
@@ -4912,5 +4858,329 @@
     "team2_kda5": "1/4/5",
     "team1_MVP": 2,
     "team2_MVP": 0
+  },
+  {
+    "refnum": 91,
+    "tournament": "MKL Spring 2025 - Regular Season",
+    "date": "2025-05-17",
+    "stage": "Knockout Stage",
+    "format": "BO3",
+    "game": 1,
+    "matchup": "SE vs AG",
+    "team1_score": 7,
+    "team2_score": 20,
+    "winner": "AG Global",
+    "team1_name": "Soul Esports",
+    "team2_name": "AG Global",
+    "team1_hero1": "Liu Bang",
+    "team1_hero2": "Menki",
+    "team1_hero3": "Yuhuan",
+    "team1_hero4": "Arli",
+    "team1_hero5": "Dyadia",
+    "team2_hero1": "Biron",
+    "team2_hero2": "Jing",
+    "team2_hero3": "Yixing",
+    "team2_hero4": "Loong",
+    "team2_hero5": "Mozi",
+    "team1_ban1": "Pei",
+    "team1_ban2": "Luna",
+    "team1_ban3": "Di Renjie",
+    "team1_ban4": "Lady Sun",
+    "team2_ban1": "Charlotte",
+    "team2_ban2": "Mayene",
+    "team2_ban3": "Dharma",
+    "team2_ban4": "Mai Shiranui",
+    "team1_player1": "Frost",
+    "team1_player2": "Gui",
+    "team1_player3": "Ricky",
+    "team1_player4": "JK",
+    "team1_player5": "JunYong",
+    "team2_player1": "Saber",
+    "team2_player2": "JD",
+    "team2_player3": "pHy",
+    "team2_player4": "YuLong",
+    "team2_player5": "DaoHennn",
+    "team1_kda1": "1/6/5",
+    "team1_kda2": "1/1/4",
+    "team1_kda3": "3/3/3",
+    "team1_kda4": "0/6/4",
+    "team1_kda5": "2/4/4",
+    "team2_kda1": "4/3/14",
+    "team2_kda2": "6/1/9",
+    "team2_kda3": "1/1/16",
+    "team2_kda4": "5/1/9",
+    "team2_kda5": "4/1/9",
+    "team1_MVP": 0,
+    "team2_MVP": 3
+  },
+  {
+    "refnum": 92,
+    "tournament": "MKL Spring 2025 - Regular Season",
+    "date": "2025-05-17",
+    "stage": "Knockout Stage",
+    "format": "BO3",
+    "game": 2,
+    "matchup": "SE vs AG",
+    "team1_score": 4,
+    "team2_score": 17,
+    "winner": "AG Global",
+    "team1_name": "Soul Esports",
+    "team2_name": "AG Global",
+    "team1_hero1": "Dharma",
+    "team1_hero2": "Jing",
+    "team1_hero3": "Lady Zhen",
+    "team1_hero4": "Lady Sun",
+    "team1_hero5": "Lian Po",
+    "team2_hero1": "Charlotte",
+    "team2_hero2": "Augran",
+    "team2_hero3": "Mai Shiranui",
+    "team2_hero4": "Marco Polo",
+    "team2_hero5": "Zhang Fei",
+    "team1_ban1": "Pei",
+    "team1_ban2": "Arli",
+    "team1_ban3": "Di Renjie",
+    "team1_ban4": "Consort Yu",
+    "team2_ban1": "Yixing",
+    "team2_ban2": "Agudo",
+    "team2_ban3": "Luna",
+    "team2_ban4": "Biron",
+    "team1_player1": "Frost",
+    "team1_player2": "Gui",
+    "team1_player3": "Ricky",
+    "team1_player4": "JK",
+    "team1_player5": "JunYong",
+    "team2_player1": "Saber",
+    "team2_player2": "JD",
+    "team2_player3": "pHy",
+    "team2_player4": "YuLong",
+    "team2_player5": "DaoHennn",
+    "team1_kda1": "0/3/2",
+    "team1_kda2": "2/2/1",
+    "team1_kda3": "1/5/2",
+    "team1_kda4": "0/4/3",
+    "team1_kda5": "1/3/2",
+    "team2_kda1": "0/0/13",
+    "team2_kda2": "6/1/4",
+    "team2_kda3": "4/1/7",
+    "team2_kda4": "5/1/4",
+    "team2_kda5": "2/1/4",
+    "team1_MVP": 0,
+    "team2_MVP": 1
+  },
+  {
+    "refnum": 93,
+    "tournament": "MKL Spring 2025 - Regular Season",
+    "date": "2025-05-17",
+    "stage": "Knockout Stage",
+    "format": "BO3",
+    "game": 1,
+    "matchup": "BSE vs DTE",
+    "team1_score": 24,
+    "team2_score": 18,
+    "winner": "Black Shrew Esport",
+    "team1_name": "Black Shrew Esport",
+    "team2_name": "DTE Gaming",
+    "team1_hero1": "Charlotte",
+    "team1_hero2": "Agudo",
+    "team1_hero3": "Gan & Mo",
+    "team1_hero4": "Arli",
+    "team1_hero5": "Liang",
+    "team2_hero1": "Mayene",
+    "team2_hero2": "Menki",
+    "team2_hero3": "Mai Shiranui",
+    "team2_hero4": "Shouyue",
+    "team2_hero5": "Dyadia",
+    "team1_ban1": "Pei",
+    "team1_ban2": "Dharma",
+    "team1_ban3": "Di Renjie",
+    "team1_ban4": "Chano",
+    "team2_ban1": "Yuhuan",
+    "team2_ban2": "Yixing",
+    "team2_ban3": "Dolia",
+    "team2_ban4": "Luna",
+    "team1_player1": "Siang",
+    "team1_player2": "MusangKing",
+    "team1_player3": "ZhiHong",
+    "team1_player4": "JR",
+    "team1_player5": "DIAN",
+    "team2_player1": "Hao",
+    "team2_player2": "cece",
+    "team2_player3": "bb",
+    "team2_player4": "zunzun",
+    "team2_player5": "cm",
+    "team1_kda1": "5/2/13",
+    "team1_kda2": "3/2/19",
+    "team1_kda3": "7/5/12",
+    "team1_kda4": "9/4/12",
+    "team1_kda5": "0/5/20",
+    "team2_kda1": "2/6/14",
+    "team2_kda2": "7/3/7",
+    "team2_kda3": "2/9/6",
+    "team2_kda4": "2/2/13",
+    "team2_kda5": "5/4/4",
+    "team1_MVP": 3,
+    "team2_MVP": 0
+  },
+  {
+    "refnum": 94,
+    "tournament": "MKL Spring 2025 - Regular Season",
+    "date": "2025-05-17",
+    "stage": "Knockout Stage",
+    "format": "BO3",
+    "game": 2,
+    "matchup": "BSE vs DTE",
+    "team1_score": 7,
+    "team2_score": 6,
+    "winner": "Black Shrew Esport",
+    "team1_name": "Black Shrew Esport",
+    "team2_name": "DTE Gaming",
+    "team1_hero1": "Mi Yue",
+    "team1_hero2": "Pei",
+    "team1_hero3": "Nuwa",
+    "team1_hero4": "Shouyue",
+    "team1_hero5": "Zhang Fei",
+    "team2_hero1": "Allain",
+    "team2_hero2": "Yuhuan",
+    "team2_hero3": "Yixing",
+    "team2_hero4": "Loong",
+    "team2_hero5": "Dolia",
+    "team1_ban1": "Dun",
+    "team1_ban2": "Nezha",
+    "team1_ban3": "Dharma",
+    "team1_ban4": "Marco Polo",
+    "team2_ban1": "Luna",
+    "team2_ban2": "Mai Shiranui",
+    "team2_ban3": "Biron",
+    "team2_ban4": "Mayene",
+    "team1_player1": "Siang",
+    "team1_player2": "MusangKing",
+    "team1_player3": "ZhiHong",
+    "team1_player4": "JR",
+    "team1_player5": "DIAN",
+    "team2_player1": "Hao",
+    "team2_player2": "cece",
+    "team2_player3": "bb",
+    "team2_player4": "zunzun",
+    "team2_player5": "cm",
+    "team1_kda1": "0/2/1",
+    "team1_kda2": "3/0/2",
+    "team1_kda3": "2/1/4",
+    "team1_kda4": "2/2/3",
+    "team1_kda5": "0/1/4",
+    "team2_kda1": "0/1/5",
+    "team2_kda2": "5/3/1",
+    "team2_kda3": "0/1/3",
+    "team2_kda4": "0/1/4",
+    "team2_kda5": "1/1/1",
+    "team1_MVP": 3,
+    "team2_MVP": 0
+  },
+  {
+    "refnum": 95,
+    "tournament": "MKL Spring 2025 - Regular Season",
+    "date": "2025-05-17",
+    "stage": "Knockout Stage",
+    "format": "BO3",
+    "game": 1,
+    "matchup": "TDK vs TS",
+    "team1_score": 12,
+    "team2_score": 20,
+    "winner": "Team Secret",
+    "team1_name": "TODAK",
+    "team2_name": "Team Secret",
+    "team1_hero1": "Xiang Yu",
+    "team1_hero2": "Yuhuan",
+    "team1_hero3": "Mai Shiranui",
+    "team1_hero4": "Consort Yu",
+    "team1_hero5": "Zhang Fei",
+    "team2_hero1": "Mayene",
+    "team2_hero2": "Dian Wei",
+    "team2_hero3": "Yixing",
+    "team2_hero4": "Loong",
+    "team2_hero5": "Dyadia",
+    "team1_ban1": "Lu Bu",
+    "team1_ban2": "Biron",
+    "team1_ban3": "Luna",
+    "team1_ban4": "Arli",
+    "team2_ban1": "Dharma",
+    "team2_ban2": "Pei",
+    "team2_ban3": "Charlotte",
+    "team2_ban4": "Menki",
+    "team1_player1": "YuHao",
+    "team1_player2": "CCS",
+    "team1_player3": "Stay",
+    "team1_player4": "Anda",
+    "team1_player5": "HuaHua",
+    "team2_player1": "Xuann",
+    "team2_player2": "GuXing",
+    "team2_player3": "Shisan",
+    "team2_player4": "Son",
+    "team2_player5": "Nuonuo",
+    "team1_kda1": "2/3/8",
+    "team1_kda2": "1/4/6",
+    "team1_kda3": "2/5/7",
+    "team1_kda4": "2/2/7",
+    "team1_kda5": "5/6/0",
+    "team2_kda1": "3/2/7",
+    "team2_kda2": "3/3/10",
+    "team2_kda3": "4/2/11",
+    "team2_kda4": "7/3/8",
+    "team2_kda5": "3/2/15",
+    "team1_MVP": 0,
+    "team2_MVP": 3
+  },
+  {
+    "refnum": 96,
+    "tournament": "MKL Spring 2025 - Regular Season",
+    "date": "2025-05-17",
+    "stage": "Knockout Stage",
+    "format": "BO3",
+    "game": 2,
+    "matchup": "TDK vs TS",
+    "team1_score": 16,
+    "team2_score": 10,
+    "winner": "Team Secret",
+    "team1_name": "TODAK",
+    "team2_name": "Team Secret",
+    "team1_hero1": "Dharma",
+    "team1_hero2": "Menki",
+    "team1_hero3": "Yixing",
+    "team1_hero4": "Marco Polo",
+    "team1_hero5": "Sun Bin",
+    "team2_hero1": "Sun Ce",
+    "team2_hero2": "Luna",
+    "team2_hero3": "Shi",
+    "team2_hero4": "Di Renjie",
+    "team2_hero5": "Zhang Fei",
+    "team1_ban1": "Guan Yu",
+    "team1_ban2": "Biron",
+    "team1_ban3": "Arli",
+    "team1_ban4": "Mai Shiranui",
+    "team2_ban1": "Dyadia",
+    "team2_ban2": "Pei",
+    "team2_ban3": "Yaria",
+    "team2_ban4": "Mozi",
+    "team1_player1": "YuHao",
+    "team1_player2": "CCS",
+    "team1_player3": "Stay",
+    "team1_player4": "Anda",
+    "team1_player5": "HuaHua",
+    "team2_player1": "Xuann",
+    "team2_player2": "GuXing",
+    "team2_player3": "Shisan",
+    "team2_player4": "Son",
+    "team2_player5": "Nuonuo",
+    "team1_kda1": "2/2/11",
+    "team1_kda2": "3/5/7",
+    "team1_kda3": "5/1/10",
+    "team1_kda4": "4/0/9",
+    "team1_kda5": "2/2/12",
+    "team2_kda1": "3/3/3",
+    "team2_kda2": "4/6/2",
+    "team2_kda3": "1/2/6",
+    "team2_kda4": "1/2/3",
+    "team2_kda5": "1/3/7",
+    "team1_MVP": 0,
+    "team2_MVP": 4
   }
 ]
