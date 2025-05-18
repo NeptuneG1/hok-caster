@@ -480,12 +480,24 @@
             cell.innerText = '—';
           } else {
             const head = `<strong>${hero.Hero}</strong> (${hero.PrimaryRole})<br><br>`;
-            const content = statKeys.map((k, idx) => {
-              const label = statLabels[idx];
-              const val = hero[k] ?? 0;
-              return `<div><strong>${label}:</strong> ${val}</div>`;
-            }).join('');
-            cell.innerHTML = head + content;
+            const stats = statKeys.map((k, idx) => {
+            const label = statLabels[idx];
+            const val = hero[k] ?? 0;
+            return `<div><strong>${label}:</strong> ${val}</div>`;
+          }).join('');
+          
+          const intro = hero['Shoutcaster Intro'] || '—';
+          const ban = hero['Ban Reason'] || '—';
+          const pick = hero['Pick Reason'] || '—';
+          
+          const reasons = `
+            <br><div style="color:#ffcd91;"><strong>Shoutcaster Intro:</strong><br>${intro}</div>
+            <div style="color:#ff6a6a;"><strong>Ban Reason:</strong><br>${ban}</div>
+            <div style="color:#66cdaa;"><strong>Pick Reason:</strong><br>${pick}</div>
+          `;
+          
+          cell.innerHTML = head + stats + reasons;
+
           }
           row.appendChild(cell);
         });
