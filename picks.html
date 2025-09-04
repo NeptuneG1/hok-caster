@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Honor of Kings — Draft (Skills Columns)</title>
+  <title>Honor of Kings — Draft (10 Skill Columns)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
@@ -11,7 +11,7 @@
       --panel-2: #2a2a2a;
       --border: #444;
       --accent: #ff7733;
-      --muted: #ccc;
+      --muted: #9da3ae;
       --text: #f0f0f0;
     }
     * { box-sizing: border-box; }
@@ -34,11 +34,11 @@
     }
     .container {
       padding: 20px;
-      max-width: 1200px;
+      max-width: 1300px;
       margin: 0 auto;
     }
 
-    /* Draft picks */
+    /* Draft picks (no bans) */
     .draft-wrapper {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -54,7 +54,7 @@
     .team-title {
       font-weight: 700;
       margin: 0 0 12px 0;
-      color: var(--muted);
+      color: #e5e5e5;
       letter-spacing: 0.4px;
     }
     .hero-section {
@@ -84,8 +84,8 @@
       min-height: 16px;
     }
 
-    /* Skills table */
-    .table-wrap {
+    /* Skills board: 10 fixed columns */
+    .board-wrap {
       overflow-x: auto;
       background: var(--panel-2);
       border: 1px solid var(--border);
@@ -94,34 +94,47 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.88rem;
-      min-width: 780px;
+      min-width: 1200px; /* ensure room for 10 columns */
     }
     thead th {
       background: #1f1f1f;
       border-bottom: 1px solid var(--border);
       padding: 10px;
       text-align: left;
+      font-size: 13px;
     }
-    tbody td, tbody th {
+    tbody td {
       border-top: 1px solid var(--border);
       padding: 10px;
       vertical-align: top;
     }
-    tbody th {
-      width: 140px;
-      color: var(--muted);
+    .col-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      color: #e5e5e5;
+    }
+    .slot-tag {
+      font-size: 11px;
       font-weight: 600;
+      padding: 2px 6px;
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      color: var(--accent);
+      white-space: nowrap;
     }
     .cell-hero {
+      margin-top: 6px;
       font-weight: 700;
-      margin-bottom: 6px;
     }
+    .muted { color: var(--muted); }
+
     .skill {
       display: flex;
       gap: 10px;
       align-items: flex-start;
-      margin-bottom: 8px;
+      margin: 8px 0;
       line-height: 1.3;
     }
     .skill img {
@@ -134,9 +147,6 @@
       font-style: normal;
       color: #ffcd91;
       font-size: 12px;
-    }
-    .muted {
-      color: #9da3ae;
     }
 
     /* Modal */
@@ -255,11 +265,11 @@
 </head>
 <body>
   <header>
-    <h1>Honor of Kings — Draft (Skills Columns)</h1>
+    <h1>Honor of Kings — Draft (10 Skill Columns)</h1>
   </header>
 
   <div class="container">
-    <!-- Draft Picks (no bans, no sidebar) -->
+    <!-- Picks (5 per team) -->
     <div class="draft-wrapper">
       <section class="team-column">
         <h2 class="team-title">Team 1</h2>
@@ -272,17 +282,15 @@
       </section>
     </div>
 
-    <!-- Skills Comparison Table -->
-    <div class="table-wrap">
+    <!-- Fixed 10-column skills board -->
+    <div class="board-wrap">
       <table>
         <thead>
-          <tr>
-            <th>Slot</th>
-            <th>Team 1 — Skills</th>
-            <th>Team 2 — Skills</th>
-          </tr>
+          <tr id="boardHead"></tr>
         </thead>
-        <tbody id="skillsBody"></tbody>
+        <tbody>
+          <tr id="boardRow"></tr>
+        </tbody>
       </table>
     </div>
   </div>
@@ -322,7 +330,8 @@
       renderDraft();
       populateFilterOptions();
       bindModalButtons();
-      updateSkillsTable(); // initial empty state
+      buildBoardHeader();   // fixed 10 columns
+      updateBoard();        // initial state
     })();
 
     async function loadHeroes() {
@@ -330,7 +339,7 @@
       heroData = await res.json();
     }
 
-    // ----- Draft UI (5 picks per team, no bans) -----
+    // ----- Draft UI (5 picks per team) -----
     function renderDraft() {
       const t1 = document.getElementById('team1');
       const t2 = document.getElementById('team2');
@@ -387,7 +396,7 @@
       currentSlot.dataset.hero = '';
       card.querySelector('.hero-name').textContent = '';
       closeModal();
-      updateSkillsTable();
+      updateBoard();
     }
 
     function populateFilterOptions() {
@@ -454,10 +463,27 @@
       currentSlot.dataset.hero = hero.Hero;
       card.querySelector('.hero-name').textContent = hero.Hero;
       closeModal();
-      updateSkillsTable();
+      updateBoard();
     }
 
-    // ----- Skills columns -----
+    // ----- Skills rendering (10 columns fixed order) -----
+    function buildBoardHeader() {
+      const headRow = document.getElementById('boardHead');
+      headRow.innerHTML = '';
+
+      // Columns: Team1 P1..P5, Team2 P1..P5
+      const labels = [
+        'T1-P1','T1-P2','T1-P3','T1-P4','T1-P5',
+        'T2-P1','T2-P2','T2-P3','T2-P4','T2-P5'
+      ];
+
+      for (const tag of labels) {
+        const th = document.createElement('th');
+        th.innerHTML = `<div class="col-head"><span class="slot-tag">${tag}</span></div>`;
+        headRow.appendChild(th);
+      }
+    }
+
     function renderSkills(hero) {
       let html = '';
       for (let i = 1; i <= 5; i++) {
@@ -481,50 +507,39 @@
       return html || `<div class="muted">No skills available.</div>`;
     }
 
-    function updateSkillsTable() {
-      const tbody = document.getElementById('skillsBody');
-      tbody.innerHTML = '';
+    function updateBoard() {
+      const row = document.getElementById('boardRow');
+      row.innerHTML = '';
 
-      const t1Imgs = Array.from(document.querySelectorAll('#team1 .hero-image'));
-      const t2Imgs = Array.from(document.querySelectorAll('#team2 .hero-image'));
       const heroMap = Object.fromEntries(heroData.map(h => [h.Hero, h]));
 
-      const maxRows = Math.max(t1Imgs.length, t2Imgs.length);
-      for (let i = 0; i < maxRows; i++) {
-        const row = document.createElement('tr');
+      const picksOrder = [
+        ...Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero || ''),
+        ...Array.from(document.querySelectorAll('#team2 .hero-image')).map(img => img.dataset.hero || '')
+      ];
 
-        // Slot label
-        const th = document.createElement('th');
-        th.scope = 'row';
-        th.textContent = `Pick ${i + 1}`;
-        row.appendChild(th);
+      for (let c = 0; c < 10; c++) {
+        const td = document.createElement('td');
+        const heroName = picksOrder[c];
+        const hero = heroMap[heroName];
 
-        // Team 1 cell
-        const t1Cell = document.createElement('td');
-        const h1 = heroMap[t1Imgs[i]?.dataset.hero || ''];
-        t1Cell.innerHTML = h1
-          ? `<div class="cell-hero">${escapeHtml(h1.Hero)}</div>${renderSkills(h1)}`
-          : `<span class="muted">—</span>`;
-        row.appendChild(t1Cell);
+        if (hero) {
+          td.innerHTML = `
+            <div class="cell-hero">${escapeHtml(hero.Hero)}</div>
+            ${renderSkills(hero)}
+          `;
+        } else {
+          td.innerHTML = `<div class="muted">Empty slot</div>`;
+        }
 
-        // Team 2 cell
-        const t2Cell = document.createElement('td');
-        const h2 = heroMap[t2Imgs[i]?.dataset.hero || ''];
-        t2Cell.innerHTML = h2
-          ? `<div class="cell-hero">${escapeHtml(h2.Hero)}</div>${renderSkills(h2)}`
-          : `<span class="muted">—</span>`;
-        row.appendChild(t2Cell);
-
-        tbody.appendChild(row);
+        row.appendChild(td);
       }
     }
 
-    // Update table whenever a pick changes (cheap polling for simplicity)
-    setInterval(() => {
-      updateSkillsTable();
-    }, 900);
+    // Polling to keep board synced in case of quick changes
+    setInterval(updateBoard, 900);
 
-    // ----- Small helpers -----
+    // ----- Helpers -----
     function escapeHtml(str) {
       return String(str ?? '')
         .replaceAll('&', '&amp;')
@@ -533,10 +548,7 @@
         .replaceAll('"', '&quot;')
         .replaceAll("'", '&#39;');
     }
-    function escapeAttr(str) {
-      // Attributes-safe (same as escapeHtml for this context)
-      return escapeHtml(str);
-    }
+    function escapeAttr(str) { return escapeHtml(str); }
   </script>
 </body>
 </html>
