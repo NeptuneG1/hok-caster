@@ -403,9 +403,9 @@
       const timing = hero['Timing'] || '—';
       strategyBox.innerHTML = `
         <strong>${hero.Hero}</strong><br><br>
-        <strong>Shoutcaster Intro:</strong><br>${intro.replace(/\n/g, '<br>')}<br><br>
         <strong>Specialty:</strong><br>${specialty.replace(/\n/g, '<br>')}<br><br>
         <strong>Timing:</strong><br>${timing.replace(/\n/g, '<br>')}<br><br>
+        <strong>Shoutcaster Intro:</strong><br>${intro.replace(/\n/g, '<br>')}<br><br>
         <strong>Ban Reason:</strong><br>${ban.replace(/\n/g, '<br>')}<br><br>
         <strong>Pick Reason:</strong><br>${pick.replace(/\n/g, '<br>')}
       `;
@@ -493,8 +493,6 @@
           const intro = hero['Shoutcaster Intro'] || '—';
           const ban = hero['Ban Reason'] || '—';
           const pick = hero['Pick Reason'] || '—';
-          const specialty = hero['Specialty'] || '—';
-          const timing = hero['Timing'] || '—';
         
           
           const reasons = `
