@@ -127,28 +127,27 @@
     .cell-hero {
       margin-top: 6px;
       font-weight: 700;
-      font-size: 11px;
     }
-    .muted { color: var(--muted); font-size: 9px; }
+    .muted { color: var(--muted); }
 
     .skill {
       display: flex;
-      gap: 6px;
+      gap: 10px;
       align-items: flex-start;
-      margin: 6px 0;
-      line-height: 1.2;
-      font-size: 8px; /* ↓ reduced font size */
+      margin: 8px 0;
+      line-height: 1.3;
+      font-size: 8px;
     }
     .skill img {
-      width: 22px;
-      height: 22px;
+      width: 28px;
+      height: 28px;
       border-radius: 4px;
       flex-shrink: 0;
     }
     .skill em {
       font-style: normal;
       color: #ffcd91;
-      font-size: 8px; /* ↓ reduced font size */
+      font-size: 8px;
     }
 
     /* Modal */
@@ -255,10 +254,302 @@
       font-size: 11px;
       letter-spacing: 0.7px;
     }
+
+    @media (max-width: 900px) {
+      .hero-section { grid-template-columns: repeat(5, minmax(70px, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .hero-section { grid-template-columns: repeat(5, minmax(56px, 1fr)); }
+      .team-title { font-size: 13px; }
+    }
   </style>
 </head>
 <body>
-  <!-- same HTML & JS structure from previous version -->
-  <!-- ... keep everything else identical ... -->
+  <header>
+    <h1>Honor of Kings — Draft (10 Skill Columns)</h1>
+  </header>
+
+  <div class="container">
+    <!-- Picks (5 per team) -->
+    <div class="draft-wrapper">
+      <section class="team-column">
+        <h2 class="team-title">Team 1</h2>
+        <div class="hero-section" id="team1"></div>
+      </section>
+
+      <section class="team-column">
+        <h2 class="team-title">Team 2</h2>
+        <div class="hero-section" id="team2"></div>
+      </section>
+    </div>
+
+    <!-- Fixed 10-column skills board -->
+    <div class="board-wrap">
+      <table>
+        <thead>
+          <tr id="boardHead"></tr>
+        </thead>
+        <tbody>
+          <tr id="boardRow"></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="heroModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">Select a Hero</div>
+        <div class="modal-actions">
+          <button class="btn" id="clearBtn">Clear Slot</button>
+          <button class="btn" id="closeBtn">Close</button>
+        </div>
+      </div>
+      <div class="filters">
+        <select id="laneFilter">
+          <option value="">All Lanes</option>
+        </select>
+        <select id="roleFilter">
+          <option value="">All Roles</option>
+        </select>
+        <input id="searchInput" placeholder="Search hero..." />
+      </div>
+      <div class="hero-grid" id="heroGrid"></div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "https://raw.githubusercontent.com/NeptuneG1/hok-caster/main/data.json";
+
+    let heroData = [];
+    let currentSlot = null;
+
+    // ----- Boot -----
+    (async function init() {
+      await loadHeroes();
+      renderDraft();
+      populateFilterOptions();
+      bindModalButtons();
+      buildBoardHeader();   // fixed 10 columns
+      updateBoard();        // initial state
+    })();
+
+    async function loadHeroes() {
+      const res = await fetch(API_URL);
+      heroData = await res.json();
+    }
+
+    // ----- Draft UI (5 picks per team) -----
+    function renderDraft() {
+      const t1 = document.getElementById('team1');
+      const t2 = document.getElementById('team2');
+      for (let i = 0; i < 5; i++) {
+        t1.appendChild(createPickSlot('team1', i));
+        t2.appendChild(createPickSlot('team2', i));
+      }
+    }
+
+    function createPickSlot(teamId, index) {
+      const slot = document.createElement('div');
+      slot.className = 'hero-card';
+
+      const img = document.createElement('img');
+      img.src = 'https://i.imgur.com/kkUX3a3.jpeg';
+      img.alt = 'Empty';
+      img.className = 'hero-image';
+      img.dataset.hero = '';
+      img.dataset.team = teamId;
+      img.dataset.index = index;
+      img.addEventListener('click', () => { currentSlot = img; openModal(); });
+
+      const name = document.createElement('div');
+      name.className = 'hero-name';
+      name.textContent = '';
+
+      slot.appendChild(img);
+      slot.appendChild(name);
+      return slot;
+    }
+
+    // ----- Modal logic -----
+    function bindModalButtons() {
+      document.getElementById('closeBtn').addEventListener('click', closeModal);
+      document.getElementById('clearBtn').addEventListener('click', clearCurrentSlot);
+      document.getElementById('laneFilter').addEventListener('change', populateModal);
+      document.getElementById('roleFilter').addEventListener('change', populateModal);
+      document.getElementById('searchInput').addEventListener('input', populateModal);
+    }
+
+    function openModal() {
+      document.getElementById("heroModal").style.display = "block";
+      populateModal();
+    }
+    function closeModal() {
+      document.getElementById("heroModal").style.display = "none";
+      currentSlot = null;
+    }
+    function clearCurrentSlot() {
+      if (!currentSlot) return;
+      const card = currentSlot.closest('.hero-card');
+      currentSlot.src = 'https://i.imgur.com/kkUX3a3.jpeg';
+      currentSlot.alt = 'Empty';
+      currentSlot.dataset.hero = '';
+      card.querySelector('.hero-name').textContent = '';
+      closeModal();
+      updateBoard();
+    }
+
+    function populateFilterOptions() {
+      const lanes = new Set(), roles = new Set();
+      heroData.forEach(h => {
+        if (h.Lane) lanes.add(h.Lane);
+        if (h.PrimaryRole) roles.add(h.PrimaryRole);
+      });
+      const laneSelect = document.getElementById('laneFilter');
+      const roleSelect = document.getElementById('roleFilter');
+      lanes.forEach(l => laneSelect.innerHTML += `<option value="${escapeHtml(l)}">${escapeHtml(l)}</option>`);
+      roles.forEach(r => roleSelect.innerHTML += `<option value="${escapeHtml(r)}">${escapeHtml(r)}</option>`);
+    }
+
+    function populateModal() {
+      const lane = document.getElementById('laneFilter').value.trim();
+      const role = document.getElementById('roleFilter').value.trim();
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+
+      const used = Array.from(document.querySelectorAll('.hero-image'))
+        .map(i => i.dataset.hero).filter(Boolean);
+
+      const grid = document.getElementById('heroGrid');
+      grid.innerHTML = '';
+
+      for (const hero of heroData) {
+        if (lane && hero.Lane !== lane) continue;
+        if (role && hero.PrimaryRole !== role) continue;
+        if (q && !String(hero.Hero || '').toLowerCase().includes(q)) continue;
+
+        const item = document.createElement('div');
+        item.className = 'hero-grid-item';
+
+        const img = document.createElement('img');
+        img.src = hero.ImageURL;
+        img.alt = hero.Hero;
+
+        const name = document.createElement('div');
+        name.className = 'hname';
+        name.textContent = hero.Hero;
+
+        const isUsed = used.includes(hero.Hero);
+        if (isUsed) {
+          img.classList.add('disabled');
+          const overlay = document.createElement('div');
+          overlay.className = 'used-overlay';
+          overlay.textContent = 'USED';
+          item.appendChild(overlay);
+        } else {
+          img.addEventListener('click', () => selectHero(hero));
+        }
+
+        item.appendChild(img);
+        item.appendChild(name);
+        grid.appendChild(item);
+      }
+    }
+
+    function selectHero(hero) {
+      if (!currentSlot) return;
+      const card = currentSlot.closest('.hero-card');
+      currentSlot.src = hero.ImageURL;
+      currentSlot.alt = hero.Hero;
+      currentSlot.dataset.hero = hero.Hero;
+      card.querySelector('.hero-name').textContent = hero.Hero;
+      closeModal();
+      updateBoard();
+    }
+
+    // ----- Skills rendering (10 columns fixed order) -----
+    function buildBoardHeader() {
+      const headRow = document.getElementById('boardHead');
+      headRow.innerHTML = '';
+
+      // Columns: Team1 P1..P5, Team2 P1..P5
+      const labels = [
+        'T1-P1','T1-P2','T1-P3','T1-P4','T1-P5',
+        'T2-P1','T2-P2','T2-P3','T2-P4','T2-P5'
+      ];
+
+      for (const tag of labels) {
+        const th = document.createElement('th');
+        th.innerHTML = `<div class="col-head"><span class="slot-tag">${tag}</span></div>`;
+        headRow.appendChild(th);
+      }
+    }
+
+    function renderSkills(hero) {
+      let html = '';
+      for (let i = 1; i <= 5; i++) {
+        const name = hero[`SkillName${i}`];
+        const desc = hero[`SkillDesc${i}`];
+        const icon = hero[`SkillURL${i}`] || 'https://i.imgur.com/default-skill.png';
+        const type = hero[`SkillType${i}`] || 'Unknown';
+        if (name) {
+          html += `
+            <div class="skill">
+              <img src="${escapeAttr(icon)}" alt="${escapeAttr(name)}" />
+              <span>
+                <div><strong>${escapeHtml(name)}</strong></div>
+                <div><em>${escapeHtml(type)}</em></div>
+                <div>${desc ? escapeHtml(desc).replace(/\n/g, '<br>') : 'No description'}</div>
+              </span>
+            </div>
+          `;
+        }
+      }
+      return html || `<div class="muted">No skills available.</div>`;
+    }
+
+    function updateBoard() {
+      const row = document.getElementById('boardRow');
+      row.innerHTML = '';
+
+      const heroMap = Object.fromEntries(heroData.map(h => [h.Hero, h]));
+
+      const picksOrder = [
+        ...Array.from(document.querySelectorAll('#team1 .hero-image')).map(img => img.dataset.hero || ''),
+        ...Array.from(document.querySelectorAll('#team2 .hero-image')).map(img => img.dataset.hero || '')
+      ];
+
+      for (let c = 0; c < 10; c++) {
+        const td = document.createElement('td');
+        const heroName = picksOrder[c];
+        const hero = heroMap[heroName];
+
+        if (hero) {
+          td.innerHTML = `
+            <div class="cell-hero">${escapeHtml(hero.Hero)}</div>
+            ${renderSkills(hero)}
+          `;
+        } else {
+          td.innerHTML = `<div class="muted">Empty slot</div>`;
+        }
+
+        row.appendChild(td);
+      }
+    }
+
+    // Polling to keep board synced in case of quick changes
+    setInterval(updateBoard, 900);
+
+    // ----- Helpers -----
+    function escapeHtml(str) {
+      return String(str ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+    function escapeAttr(str) { return escapeHtml(str); }
+  </script>
 </body>
 </html>
