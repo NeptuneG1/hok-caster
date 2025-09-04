@@ -401,10 +401,21 @@
       const pick = hero['Pick Reason'] || 'No pick reason.';
       const specialty = hero['Specialty'] || '—';
       const timing = hero['Timing'] || '—';
+      const skill1 = hero['SkillName1'] || '—';
+      const skill2 = hero['SkillName2'] || '—';
+      const skill3 = hero['SkillName3'] || '—';
+      const skill4 = hero['SkillName4'] || '—';
+      const skill5 = hero['SkillName5'] || '—';
+      
       strategyBox.innerHTML = `
         <strong>${hero.Hero}</strong><br><br>
         <strong>Specialty:</strong>${specialty.replace(/\n/g, '<br>')}<br><br>
-        <strong>Timing:</strong>${timing.replace(/\n/g, '<br>')}<br><br>
+        <strong>Passive:</strong>${SkillName1.replace(/\n/g, '<br>')}<br><br>
+        <strong>Skill1:</strong>${SkillName2.replace(/\n/g, '<br>')}<br><br>
+        <strong>Skill2:</strong>${SkillName3.replace(/\n/g, '<br>')}<br><br>
+        <strong>Skill3:</strong>${SkillName4.replace(/\n/g, '<br>')}<br><br>
+        <strong>Skill4:</strong>${SkillName5.replace(/\n/g, '<br>')}<br><br>
+        
         <strong>Shoutcaster Intro:</strong><br>${intro.replace(/\n/g, '<br>')}<br><br>
         <strong>Ban Reason:</strong><br>${ban.replace(/\n/g, '<br>')}<br><br>
         <strong>Pick Reason:</strong><br>${pick.replace(/\n/g, '<br>')}
