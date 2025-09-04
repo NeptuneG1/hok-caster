@@ -399,9 +399,13 @@
       const intro = hero['Shoutcaster Intro'] || 'No intro available.';
       const ban = hero['Ban Reason'] || 'No ban reason.';
       const pick = hero['Pick Reason'] || 'No pick reason.';
+      const specialty = hero['Specialty'] || '—';
+      const timing = hero['Timing'] || '—';
       strategyBox.innerHTML = `
         <strong>${hero.Hero}</strong><br><br>
         <strong>Shoutcaster Intro:</strong><br>${intro.replace(/\n/g, '<br>')}<br><br>
+        <strong>Specialty:</strong><br>${specialty.replace(/\n/g, '<br>')}<br><br>
+        <strong>Timing:</strong><br>${timing.replace(/\n/g, '<br>')}<br><br>
         <strong>Ban Reason:</strong><br>${ban.replace(/\n/g, '<br>')}<br><br>
         <strong>Pick Reason:</strong><br>${pick.replace(/\n/g, '<br>')}
       `;
@@ -495,8 +499,6 @@
           
           const reasons = `
             <br><div style="color:#ffcd91;"><strong>Shoutcaster Intro:</strong><br>${intro}</div>
-            <div style="color:#ff6a6a;"><strong>Specialty:</strong><br>${specialty}</div>
-            <div style="color:#ff6a6a;"><strong>Timing:</strong><br>${timing}</div>
             <div style="color:#ff6a6a;"><strong>Ban Reason:</strong><br>${ban}</div>
             <div style="color:#66cdaa;"><strong>Pick Reason:</strong><br>${pick}</div>
           `;
