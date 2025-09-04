@@ -489,9 +489,14 @@
           const intro = hero['Shoutcaster Intro'] || '—';
           const ban = hero['Ban Reason'] || '—';
           const pick = hero['Pick Reason'] || '—';
+          const specialty = hero['Specialty'] || '—';
+          const timing = hero['Timing'] || '—';
+        
           
           const reasons = `
             <br><div style="color:#ffcd91;"><strong>Shoutcaster Intro:</strong><br>${intro}</div>
+            <div style="color:#ff6a6a;"><strong>Specialty:</strong><br>${specialty}</div>
+            <div style="color:#ff6a6a;"><strong>Timing:</strong><br>${timing}</div>
             <div style="color:#ff6a6a;"><strong>Ban Reason:</strong><br>${ban}</div>
             <div style="color:#66cdaa;"><strong>Pick Reason:</strong><br>${pick}</div>
           `;
